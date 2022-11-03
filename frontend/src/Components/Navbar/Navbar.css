@@ -1,0 +1,25 @@
+.navigation{
+    display: none;
+}
+.close-icon{
+    width: 30px;
+}
+.menu{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px;
+}
+
+
+@media screen and (min-width: 780px) {
+    .navigation{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .logout{
+        cursor: pointer;
+    }
+}
+

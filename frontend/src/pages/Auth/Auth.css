@@ -1,0 +1,33 @@
+.form-wrapper{
+    display: flex;
+    justify-content: center;
+}
+.form-content{
+    text-align: left;
+    width:80%;
+}
+.form-content input{
+    width:100%;
+}
+.submit-button{
+    width: 100%;
+}
+.validator{
+    color: var(--error-text)
+}
+.input-wrapper{
+    display: flex;
+    align-items: center;
+}
+.eye-wrapper{
+   
+    margin-left: -30px;
+}
+.error{
+    padding:10px;
+    color:  var(--error-text);
+    background:  var(--error-back);
+}
+.link{
+    cursor: pointer;
+}
