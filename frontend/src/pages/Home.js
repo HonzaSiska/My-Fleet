@@ -1,11 +1,40 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useVehiclesContext } from "../hooks/useVehiclesContext"
+import { useAuthContext } from "../hooks/useAuthContext"
+import VehiclesDetails from '../Components/Vehicles/VehiclesDetails'
 
 function Home() {
+
+  const {vehicles, dispatch} = useVehiclesContext()
+  const {user} = useAuthContext()
+
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      const response = await fetch('/api/vehicle', {
+        headers: {'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json'},
+        method: 'POST',  
+      })
+      const json = await response.json()
+      console.log('vehicles',json)
+     
+      if (json.success) {
+        dispatch({type: 'SET_VEHICLES', payload: json.vehicles})
+      }
+    }
+
+    if (user) {
+      fetchVehicles()
+    }
+    
+  }, [dispatch, user])
+
   return (
     <div>
       <h2>Dashboard</h2>
-      <div>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quod minima earum, omnis quos sunt! Esse illum numquam, porro suscipit iusto eligendi debitis vel at commodi sed a voluptate aperiam!</p>
+      <div className='vehicles'>
+        { vehicles && vehicles.map(vehicle => (
+          <VehiclesDetails key={vehicle._id} vehicle={vehicle}/>
+        ))}
       </div>
     </div>
   )

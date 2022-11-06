@@ -1,5 +1,6 @@
 import { createContext, useReducer } from 'react'
 
+
 export const VehiclesContext = createContext()
 
 export const vehiclesReducer = (state, action) => {
@@ -10,7 +11,7 @@ export const vehiclesReducer = (state, action) => {
       }
     case 'CREATE_VEHICLE':
       return {
-        vehicles: [action.payload, ...state.workouts]
+        vehicles: [action.payload, ...state.vehicles]
       }
     case 'DELETE_VEHICLE':
       return {

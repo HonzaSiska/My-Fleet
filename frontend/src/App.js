@@ -10,6 +10,7 @@ import Signup from './pages/Auth/Signup'
 import Reset from './pages/Auth/Reset'
 import Navbar from './Components/Navbar/Navbar';
 import ChangePassword from './pages/Auth/ChangePassword';
+import NewVehicle from './pages/NewVehicle';
 
 
 function App() {
@@ -57,6 +58,9 @@ function App() {
             <Route 
               path="/change-password/:token" 
               element={<ChangePassword/> } 
+            />
+            <Route path="/new-vehicle" 
+              element={ user ? <NewVehicle/> : <Navigate to='/'/>}
             />
           </Routes>
         </div>

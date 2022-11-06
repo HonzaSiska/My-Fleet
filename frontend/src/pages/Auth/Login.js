@@ -92,7 +92,13 @@ function Login() {
                 </div>
                 
                 
-                <button className='submit-button' type='submit'>Submit</button>
+                <button className='submit-button' type='submit' disabled=
+                { 
+                    (validator.email=== false ||
+                    validator.password=== false ) ? true : false
+                }
+                
+                >Submit</button>
             </form>
         </div>
     </div>

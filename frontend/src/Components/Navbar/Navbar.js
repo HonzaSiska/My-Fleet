@@ -18,9 +18,11 @@ function Navbar() {
             <>
                 <NavLink to='/signup'>Signup</NavLink>
                 <NavLink to='/login'>Login</NavLink>
+                
             </>
             )
         }
+        <NavLink to='/new-vehicle'>New Vehicle</NavLink>
         
         {user &&<span className='logout' onClick={()=>{logout()}}>Logout</span>}
         </nav>
@@ -49,6 +51,7 @@ function Navbar() {
               <div>
                 <NavLink to='/login'>Login</NavLink>
               </div> 
+              
                 
             </div>
             )
@@ -61,6 +64,9 @@ function Navbar() {
           <div>
             <NavLink to='/'>Home</NavLink>
           </div>
+          <div>
+              <NavLink to='/new-vehicle'>New Vehicle</NavLink>
+            </div> 
         </nav>
 
     </header>

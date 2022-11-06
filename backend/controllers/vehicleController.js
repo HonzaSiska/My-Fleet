@@ -1,7 +1,15 @@
 const Vehicle = require('../models/vehicleModel')
+const mongoose = require('mongoose')
 
 const getVehicles = async( req, res ) => {
-    
+    const user_id = req.user._id
+
+    try {
+        const vehicles = await Vehicle.find({user_id}).sort({make: 1})
+        res.status(200).json({success: true, vehicles})
+    } catch (error) {
+        res.status(400).json({ success: false, error: error.message})
+    }
 }
 
 const createVehicle = async( req, res ) => {
@@ -10,7 +18,7 @@ const createVehicle = async( req, res ) => {
         const vehicle = await Vehicle.create({... req.body})
         res.status(200).json({success: true})
     } catch (error) {
-        res.status(400).json({ error: error.message})
+        res.status(400).json({ success: false, error: error.message})
     }
     
 }

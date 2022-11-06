@@ -188,7 +188,15 @@ function Signup() {
                         <span>* passwords don't match</span>
                     </div>
                 )}
-                <button className='submit-button' type='submit'>Submit</button>
+                <button className='submit-button' type='submit'  disabled=
+                { 
+                    (validator.displayName === false ||
+                    validator.email=== false ||
+                    validator.password=== false ||
+                    !PASSWORDS_MATCH) ? true : false
+                }
+
+                >Submit</button>
                 <div className='link'><Link to='/reset'>Forgot password?</Link></div>
             </form>
            
