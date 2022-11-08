@@ -16,12 +16,11 @@ const vehicleSchema = new Schema({
     required: true
   },
   purchaseMilage: {
-    type: String,
+    type: Number,
     required: true
   },
   saleMilage: {
-    type: String,
-    required: true
+    type: Number
   },
   price: {
     type: Number,
