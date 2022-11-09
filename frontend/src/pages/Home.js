@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import { useVehiclesContext } from "../hooks/useVehiclesContext"
 import { useAuthContext } from "../hooks/useAuthContext"
 import VehiclesDetails from '../Components/Vehicles/VehiclesDetails'
+// import './Home.css'
+// import '../App.css'
+// import './Auth/Auth.css'
 
 function Home() {
 
@@ -30,7 +33,10 @@ function Home() {
 
   return (
     <div>
-      <h2>Dashboard</h2>
+      <div className='title'>
+          <h2>Dashboard</h2>
+      </div>
+      
       <div className='vehicles'>
         { vehicles && vehicles.map(vehicle => (
           <VehiclesDetails key={vehicle._id} vehicle={vehicle}/>

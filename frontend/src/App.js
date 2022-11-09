@@ -11,6 +11,7 @@ import Reset from './pages/Auth/Reset'
 import Navbar from './Components/Navbar/Navbar';
 import ChangePassword from './pages/Auth/ChangePassword';
 import NewVehicle from './pages/NewVehicle';
+import Sidebar from './Components/Sidebar/Sidebar';
 
 
 function App() {
@@ -36,34 +37,40 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>    
-        <Navbar/>    
-        <div className="pages">
-          <Routes>
-            <Route 
-              path="/" 
-              element={<Home /> } 
-            />
-            <Route 
-              path="/login" 
-              element={!user ? <Login /> : <Navigate to='/'/>} 
-            />
-            <Route 
-              path="/signup" 
-              element={!user ? <Signup /> : <Navigate to='/'/>  } 
-            />
-            <Route 
-              path="/reset" 
-              element={!user ? <Reset/> : <Navigate to='/'/>  } 
-            />
-            <Route 
-              path="/change-password/:token" 
-              element={<ChangePassword/> } 
-            />
-            <Route path="/new-vehicle" 
-              element={ user ? <NewVehicle/> : <Navigate to='/'/>}
-            />
-          </Routes>
+        <Navbar/>   
+        <div className='content'>
+          <div className='side-bar'>
+            <Sidebar/>
+          </div> 
+          <div className="pages">
+            <Routes>
+              <Route 
+                path="/" 
+                element={<Home /> } 
+              />
+              <Route 
+                path="/login" 
+                element={!user ? <Login /> : <Navigate to='/'/>} 
+              />
+              <Route 
+                path="/signup" 
+                element={!user ? <Signup /> : <Navigate to='/'/>  } 
+              />
+              <Route 
+                path="/reset" 
+                element={!user ? <Reset/> : <Navigate to='/'/>  } 
+              />
+              <Route 
+                path="/change-password/:token" 
+                element={<ChangePassword/> } 
+              />
+              <Route path="/new-vehicle" 
+                element={ user ? <NewVehicle/> : <Navigate to='/'/>}
+              />
+            </Routes>
+          </div>
         </div>
+        
       </BrowserRouter>
     </div>
   );

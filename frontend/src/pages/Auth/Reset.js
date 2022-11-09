@@ -42,7 +42,7 @@ function Reset() {
 
   return (
     <div>
-        <div className='form-title'>
+        <div className='title'>
             <h2>Enter Your Email</h2>
         </div>
         <div className='form-wrapper'>

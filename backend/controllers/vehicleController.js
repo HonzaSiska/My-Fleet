@@ -14,14 +14,9 @@ const getVehicles = async( req, res ) => {
 }
 
 const createVehicle = async( req, res ) => {
-    console.log('user', req.user._id)
     const newVehicle = req.body
-      newVehicle.user_id = req.user._id
-    //  newVehicle.price = Number(req.price)
-    //  newVehicle.year = Number(req.year)
-    //  newVehicle.purchaseMilage = Number(req.purchaseMilage)
-
-    console.log(newVehicle)
+    newVehicle.user_id = req.user._id
+  
     try {
         const vehicle = await Vehicle.create(newVehicle)
         res.status(200).json({success: true})

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useVehiclesContext } from '../hooks/useVehiclesContext'
+import { useNavigate } from 'react-router-dom'
 
 import './Auth/Auth.css'
 
@@ -12,7 +13,7 @@ function NewVehicle() {
     const [ price, setPrice ] = useState('')
     const [ purchaseMilage, setPurchaseMilage ] = useState('')
     const [ error, setError ] = useState(null)
-
+    
     const { dispatch } = useVehiclesContext()
     const { user } = useAuthContext()
     
@@ -23,6 +24,8 @@ function NewVehicle() {
         purchaseMilage: false,
         price: false,
     })
+
+    const navigate = useNavigate();
     
     const YEARS = []
     
@@ -57,18 +60,21 @@ function NewVehicle() {
          const json = await response.json()
          console.log('rsesponse',json)
 
-          if (!response.success) {
+          if (!json.success) {
             setError(json.error)
           }
-          if (response.success) {
+          if (json.success) {
             setMake('')
             setModel('')
             setYear('')
             setPrice('')
             setPurchaseMilage('')
-            setError(null)
+            setError('')
             
             dispatch({type: 'CREATE_VEHICLE', payload: json})
+
+            navigate('/')
+            
           }
        
         
@@ -127,7 +133,7 @@ function NewVehicle() {
 
   return (
     <div>
-        <div className='form-title'>
+        <div className='title'>
             <h2>New Vehicle</h2>
         </div>
         <div className='form-wrapper'>

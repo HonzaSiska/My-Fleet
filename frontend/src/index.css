@@ -16,6 +16,8 @@ code {
   --main-background: #1e90ff;
   --error-text: red;
   --error-back: rgb(246, 196, 196);
+  --dark-theme: rgb(23, 55, 88);
+  --secondary-theme :rgb(208, 220, 232);
 
 }
 html {

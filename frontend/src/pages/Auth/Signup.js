@@ -102,7 +102,7 @@ function Signup() {
   return (
     <div>
         
-        <div className='form-title'>
+        <div className='title'>
             <h2>Signup</h2>
         </div>
         <div className='form-wrapper'>
