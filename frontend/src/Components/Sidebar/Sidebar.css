@@ -1,11 +1,42 @@
 .navigation{
     display: none;
 }
+a{
+    text-decoration: none;
+    
+}
+/* a:visited{
+    color: Var(--main-background-theme);
+} */
+.logout{
+    color: Var(--main-background-theme); 
+    width: 100%;
+}
+.user{
+    color: var(--main-background-theme); 
+    background-color: black;
+    width: 100%;
+}
+a:visited
+{
+ color:inherit;
+}
+.active{
+    background-color: var(--main-background-theme);
+    color: var(--dark-theme);
+}
+.inactive{
+    background-color: var(--dark-theme);
+    color: var(--main-background-theme);
+}
+
+
+
+
 
 @media screen and (min-width: 650px) {
     .navigation{
         display: block;
-        
     }
     .logout{
         cursor: pointer;
@@ -13,4 +44,9 @@
     .close-icon{
         display: none;
     }
+    .alink{
+        display: block;
+        width: 100%;
+    }
+   
 }

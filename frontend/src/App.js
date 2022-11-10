@@ -44,10 +44,7 @@ function App() {
           </div> 
           <div className="pages">
             <Routes>
-              <Route 
-                path="/" 
-                element={<Home /> } 
-              />
+              
               <Route 
                 path="/login" 
                 element={!user ? <Login /> : <Navigate to='/'/>} 
@@ -64,9 +61,13 @@ function App() {
                 path="/change-password/:token" 
                 element={<ChangePassword/> } 
               />
-              <Route path="/new-vehicle" 
+              <Route 
+                path="/new-vehicle" 
                 element={ user ? <NewVehicle/> : <Navigate to='/'/>}
               />
+              <Route 
+                path="/" 
+                element={<Home /> }               />
             </Routes>
           </div>
         </div>

@@ -1,11 +1,7 @@
 .App {
-  
+  min-height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
 
 
@@ -30,7 +26,7 @@
   
 }
 .side-bar{
-  background-color: var(--secondary-theme);
+  background-color: var(--dark-theme);
   height: 0;
 }
 .title{
@@ -42,10 +38,22 @@
   .content{
     display: grid;
     grid-template-columns: 1fr 4fr;
+
+    height: calc(100vh - 100px);
+    
+    
   }
   .side-bar{
-    min-height: 100vh;
-    background-color: var(--secondary-theme);
+    height: 100%;
+   
+    overflow: auto;
   }
-  
+  .pages{
+    
+    height: 100%;
+    overflow: auto;
+    background-color: var(--main-background-theme);
+    
+  }
+
 }

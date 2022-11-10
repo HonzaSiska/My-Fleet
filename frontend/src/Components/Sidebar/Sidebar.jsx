@@ -16,33 +16,28 @@ function Sidebar() {
             <img className='close-icon' src={CloseIcon} alt='close-icon'/>
           </div>
           <div>
-            <span>{user && user.email}</span>
+            <p className='user'> {user && user.email}</p>
           </div>
           
         
             { !user && 
                 <div>
                 
-                <div>
-                    <NavLink to='/signup'>Signup</NavLink>
-                </div>
-                <div>
-                    <NavLink to='/login'>Login</NavLink>
-                </div> 
-                
-                    
+               
+                <NavLink className='alink' to='/signup' end>Signup</NavLink>
+                <NavLink className='alink' to='/login' end>Login</NavLink>
+                  
                 </div>  
             }
         
             {user && 
             <div>
-                <span className='logout' onClick={()=>{logout()}}>Logout</span>
-                <div>
-                <NavLink to='/'>Home</NavLink>
-            </div>
-            <div>
-                <NavLink to='/new-vehicle'>New Vehicle</NavLink>
-            </div> 
+                <div className='alink'>
+                    <span className='logout' onClick={()=>{logout()}}>Logout</span>
+                </div>
+                <NavLink className='alink' to='/' end>Home</NavLink>
+                <NavLink className='alink' to='/new-vehicle'>New Vehicle</NavLink>
+              
             </div>}
             
         </nav>

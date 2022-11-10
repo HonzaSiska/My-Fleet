@@ -6,7 +6,9 @@ function VehiclesDetails({ vehicle }) {
 
   return (
     <div className='vehicle'>
-        <h4>{`${make} ${model} ${year}`}</h4>
+        <span>{`${make} `}</span>
+        <span>{`${model} `}</span>
+        <span>{`${year}`}</span>
     </div>
   )
 }
