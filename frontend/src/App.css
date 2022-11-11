@@ -21,35 +21,31 @@
 }
 
 .content{
-  display: grid;
-  grid-template-columns: 1fr;
+  display: block;
+  /* grid-template-columns: 1fr; */
   
 }
 .side-bar{
   background-color: var(--dark-theme);
-  height: 0;
+  /* height: 0; */
 }
 .title{
   text-align: center;
   color: var(--dark-theme);
 }
 
+
 @media screen and (min-width: 650px) {
   .content{
     display: grid;
     grid-template-columns: 1fr 4fr;
-
     height: calc(100vh - 100px);
-    
-    
   }
   .side-bar{
     height: 100%;
-   
     overflow: auto;
   }
   .pages{
-    
     height: 100%;
     overflow: auto;
     background-color: var(--main-background-theme);

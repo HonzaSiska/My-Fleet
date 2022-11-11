@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext';
 import './App.css';
 import { useEffect } from 'react';
+import { useVehiclesContext } from './hooks/useVehiclesContext';
 
 // pages & components
 import Home from './pages/Home'
@@ -17,6 +18,7 @@ import Sidebar from './Components/Sidebar/Sidebar';
 function App() {
 
   const { user,lang, dispatch } = useAuthContext()
+  const { dispatch: vehicleDispatch, isOpenMenu } = useVehiclesContext()
 
   useEffect(() => {
 

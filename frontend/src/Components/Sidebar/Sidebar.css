@@ -1,34 +1,36 @@
 .navigation{
     display: none;
 }
-a{
+
+.navigation a{
     text-decoration: none;
+    padding-left: 10px;
+    color: var(--main-background-theme);
     
 }
-/* a:visited{
-    color: Var(--main-background-theme);
-} */
+
+
+
 .logout{
-    color: Var(--main-background-theme); 
+    color: var(--main-background-theme); 
     width: 100%;
+    padding: 0 0 0 10px;
 }
+
 .user{
     color: var(--main-background-theme); 
-    background-color: black;
+    font-weight: bold;
     width: 100%;
+    padding:0;
+    margin: 20px 0 20px 0;
+    padding-left: 10px;
 }
-a:visited
-{
- color:inherit;
-}
-.active{
+
+a.active{
     background-color: var(--main-background-theme);
     color: var(--dark-theme);
 }
-.inactive{
-    background-color: var(--dark-theme);
-    color: var(--main-background-theme);
-}
+
 
 
 
@@ -40,10 +42,9 @@ a:visited
     }
     .logout{
         cursor: pointer;
+       
     }
-    .close-icon{
-        display: none;
-    }
+    
     .alink{
         display: block;
         width: 100%;

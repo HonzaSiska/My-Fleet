@@ -17,6 +17,14 @@ export const vehiclesReducer = (state, action) => {
       return {
         vehicles: state.vehicles.filter((w) => w._id !== action.payload._id)
       }
+    case 'OPEN_MENU':
+    return {
+      isOpenMenu : true
+    }
+    case 'CLOSE_MENU':
+    return {
+      isOpenMenu : false
+    }
     default:
       return state
   }
@@ -24,7 +32,8 @@ export const vehiclesReducer = (state, action) => {
 
 export const VehiclesContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(vehiclesReducer, {
-    vehicles: null
+    vehicles: null,
+    isOpenMenu: false
   })
 
   return (

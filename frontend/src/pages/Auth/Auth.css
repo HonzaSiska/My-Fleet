@@ -13,7 +13,7 @@
     width: 100%;
 }
 .validator{
-    color: var(--error-text)
+    color: var(--secondary-theme)
 }
 .input-wrapper{
     display: flex;
