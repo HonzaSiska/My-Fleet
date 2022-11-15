@@ -19,10 +19,12 @@ export const vehiclesReducer = (state, action) => {
       }
     case 'OPEN_MENU':
     return {
+      vehicles: state.vehicles,
       isOpenMenu : true
     }
     case 'CLOSE_MENU':
     return {
+      vehicles: state.vehicles,
       isOpenMenu : false
     }
     default:

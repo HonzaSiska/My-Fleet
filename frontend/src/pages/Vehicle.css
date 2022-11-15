@@ -1,0 +1,21 @@
+.edit-icon{
+    cursor: pointer;
+    padding: 3px;
+    box-sizing: border-box;
+}
+.close-edit-icon{
+    width: 30px;
+    padding: 3px;
+    box-sizing: border-box;
+}
+.edit-icon:hover{
+    border: 1px solid  var(--dark-theme) ;
+    border-radius: 5px;
+    cursor: pointer;
+  
+}
+.close-edit-icon:hover{
+    border: 1px solid  var(--dark-theme) ;
+    border-radius: 5px;
+    cursor: pointer;
+}

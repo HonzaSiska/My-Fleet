@@ -13,6 +13,7 @@ import Navbar from './Components/Navbar/Navbar';
 import ChangePassword from './pages/Auth/ChangePassword';
 import NewVehicle from './pages/NewVehicle';
 import Sidebar from './Components/Sidebar/Sidebar';
+import Vehicle from './pages/Vehicle';
 
 
 function App() {
@@ -66,6 +67,10 @@ function App() {
               <Route 
                 path="/new-vehicle" 
                 element={ user ? <NewVehicle/> : <Navigate to='/'/>}
+              />
+              <Route 
+                path="/vehicle/:id" 
+                element={ user ? <Vehicle/> : <Navigate to='/'/>}
               />
               <Route 
                 path="/" 

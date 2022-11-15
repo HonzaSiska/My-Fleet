@@ -6,7 +6,9 @@ const {
     getVehicles,
     createVehicle,
     deleteVehicle,
-    updateVehicle } = require('../controllers/vehicleController')
+    updateVehicle,
+    getVehicle
+} = require('../controllers/vehicleController')
 
 
 const router = express.Router()
@@ -14,18 +16,18 @@ const router = express.Router()
 // require auth for all workout routes
 router.use(requireAuth)
 
-// login route
+
 router.post('/create', createVehicle)
 
-// signup route
-router.post('/update', updateVehicle)
+
+router.post('/update/:id', updateVehicle)
 
 
+router.post('/:id', getVehicle)
 
-// Forgot-password
 router.post('/', getVehicles)
 
-// reset
+
 router.get('/delete', deleteVehicle)
 
 

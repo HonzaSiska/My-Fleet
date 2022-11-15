@@ -12,25 +12,26 @@ function Navbar() {
   const { user } = useAuthContext()
   const { logout } = useLogout()
   const { dispatch, isOpenMenu } = useVehiclesContext()
-
+  
   return (
     <header>
+    {isOpenMenu}
         <div className='menu'>
           <img onClick={()=>dispatch({type: 'OPEN_MENU'})} className='menu-icon' src={MenuIcon} alt='menu-icon'/>
-          <span>MyFleet</span>
+          <span className='logo'>My<sub>Fleet</sub></span>
         </div>
 
-        <nav className='navigation-mobile close-menu'>
+        <nav className={isOpenMenu ? 'navigation-mobile open-menu' : 'navigation-mobile close-menu'}>
           <div className='close-icon-wrapper'>
-            <img className='close-icon'  src={CloseIcon} alt='close-icon'/>
+            <img onClick={()=>dispatch({type: 'CLOSE_MENU'})} className='close-icon'  src={CloseIcon} alt='close-icon'/>
           </div>
           <div>
             <p className='user'> {user && user.email}</p>
           </div>
             { !user && 
                 <div>
-                  <NavLink className='alink' to='/signup' end>Signup</NavLink>
-                  <NavLink className='alink' to='/login' end>Login</NavLink>
+                  <NavLink onClick={()=>dispatch({type: 'CLOSE_MENU'})} className='alink' to='/signup' end>Signup</NavLink>
+                  <NavLink onClick={()=>dispatch({type: 'CLOSE_MENU'})} className='alink' to='/login' end>Login</NavLink>
                 </div>  
             }
             {user && 
@@ -38,8 +39,8 @@ function Navbar() {
                 <div className='alink logout-wrapper'>
                     <span className='logout' onClick={()=>{logout()}}>Logout</span>
                 </div>
-                <NavLink className='alink ' to='/' end>Home</NavLink>
-                <NavLink className='alink' to='/new-vehicle'>New Vehicle</NavLink>
+                <NavLink onClick={()=>dispatch({type: 'CLOSE_MENU'})} className='alink ' to='/' end>Home</NavLink>
+                <NavLink  onClick={()=>dispatch({type: 'CLOSE_MENU'})} className='alink' to='/new-vehicle'>New Vehicle</NavLink>
             </div>}
             
         </nav>

@@ -31,3 +31,18 @@ input[type=password]::-ms-reveal,
 input[type=password]::-ms-clear {
   display: none;
 }
+
+input[type=text]:focus {
+  background-color: var(--secondary-theme);
+}
+
+input, select{
+  border-radius: 0;
+  border: 1px solid var(--secondary-theme)
+}
+.submit-button{
+  color: var(--main-background-theme);
+  background-color: var(--dark-theme);
+  border: 1px solid var(--secondary-theme);
+  border-radius: 2px;
+}

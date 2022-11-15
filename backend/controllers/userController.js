@@ -17,8 +17,6 @@ const loginUser = async (req, res) => {
     // create a token
     const token = createToken(user._id, user.role)
 
-    console.log(token)
-
     res.status(200).json({email, token})
   } catch (error) {
     res.status(400).json({error: error.message})
@@ -81,7 +79,6 @@ const changePassword = async (req, res) => {
     return res.redirect(`http://localhost:3000/change-password/${newToken}`)
 
   } catch (error) {
-    console.log(error.message)
     res.json({success: false, message: error.message})
   }
  

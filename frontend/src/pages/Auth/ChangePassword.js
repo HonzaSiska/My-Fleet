@@ -67,8 +67,8 @@ function ChangePassword() {
   return (
     <div>
         
-        <div className='form-title'>
-            <h2>Change Password</h2>
+        <div className='title'>
+          <h2>Password Change</h2>
         </div>
         <div className='form-wrapper'>
             <form onSubmit={handleSubmit} className='form-content'>
