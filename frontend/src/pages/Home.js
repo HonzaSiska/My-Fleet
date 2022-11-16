@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useVehiclesContext } from "../hooks/useVehiclesContext"
 import { useAuthContext } from "../hooks/useAuthContext"
 import VehiclesDetails from '../Components/Vehicles/VehiclesDetails'
-// import './Home.css'
+ import './Home.css'
 // import '../App.css'
 // import './Auth/Auth.css'
 

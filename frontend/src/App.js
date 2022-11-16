@@ -9,12 +9,14 @@ import Home from './pages/Home'
 import Login from './pages/Auth/Login'
 import Signup from './pages/Auth/Signup'
 import Reset from './pages/Auth/Reset'
-import Navbar from './Components/Navbar/Navbar';
-import ChangePassword from './pages/Auth/ChangePassword';
-import NewVehicle from './pages/NewVehicle';
-import Sidebar from './Components/Sidebar/Sidebar';
-import Vehicle from './pages/Vehicle';
-
+import Navbar from './Components/Navbar/Navbar'
+import ChangePassword from './pages/Auth/ChangePassword'
+import NewVehicle from './pages/NewVehicle'
+import Sidebar from './Components/Sidebar/Sidebar'
+import Vehicle from './pages/Vehicle'
+import Trips from './Components/VehicleNestedRoutes/Trips'
+import Fuel from './Components/VehicleNestedRoutes/Fuel'
+import Maintenance from './Components/VehicleNestedRoutes/Maintenance'
 
 function App() {
 
@@ -71,7 +73,11 @@ function App() {
               <Route 
                 path="/vehicle/:id" 
                 element={ user ? <Vehicle/> : <Navigate to='/'/>}
-              />
+              >
+                <Route path='trips' element={<Trips/> } />
+                <Route path='fuel' element={<Fuel/> } />
+                <Route path='maintenance' element={<Maintenance/> } />
+              </Route>
               <Route 
                 path="/" 
                 element={<Home /> }               />

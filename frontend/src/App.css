@@ -33,7 +33,27 @@
   text-align: center;
   color: var(--dark-theme);
 }
-
+.nested-routes-wrapper{
+  margin-top: 35px;
+  display: flex;
+  align-items: center;
+  background: var(--secondary-theme);
+}
+.sub-link{
+  padding: 5px;
+  border: 1px solid var(--dark-theme);
+  color: var(--dark-theme);
+  text-decoration: none;
+  background: var(--secondary-theme);
+  border-bottom: 1px solid var(--main-background-theme);
+  border-top: none;
+  border-left: none;
+}
+ .nested-menu-active{
+  background: var(--main-background-theme);
+  border-bottom: none;
+  border-top: 1px solid var(--secondary-theme);
+}
 
 @media screen and (min-width: 650px) {
   .content{

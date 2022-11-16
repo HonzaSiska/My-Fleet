@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useVehiclesContext } from '../hooks/useVehiclesContext'
 import { useAuthContext } from '../hooks/useAuthContext'
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom"
 import './Vehicle.css'
 
 //assets
@@ -22,6 +22,7 @@ const Vehicle = () => {
     const [purchaseMilage, setPurchaseMilage] = useState('')
     const [error, setError] = useState(null)
     const [isEdit, setIsEdit] = useState(false)
+    const [ isActive, setIsActive ]  = useState(false)
 
     const { dispatch } = useVehiclesContext()
     const { user } = useAuthContext()
@@ -42,6 +43,15 @@ const Vehicle = () => {
         YEARS.push(i)
     }
 
+    const handleIsActive = (e) => {
+        const links = document.querySelectorAll('.sub-link')
+        links.forEach(link=> {
+            console.log(link)
+            link.classList.remove('nested-menu-active')
+            
+        })
+        e.target.classList.add('nested-menu-active')
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -335,6 +345,16 @@ const Vehicle = () => {
                         )
                     }
                 </form>
+
+                <nav className='nested-routes-wrapper'>
+                    <Link className='sub-link' to='trips' onClick={handleIsActive}>Trips</Link>
+                    <Link className='sub-link' to='fuel' onClick={handleIsActive}>Fuel</Link>
+                    <Link className='sub-link' to='Maintenance' onClick={handleIsActive}>Maintenance</Link>
+                </nav>
+
+                <div className='outlet'>
+                    <Outlet/>
+                </div>
 
             </div>
         </div>
