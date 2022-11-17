@@ -30,6 +30,7 @@
     background-color: var(--dark-theme);
     min-height: 100vh;
     min-width: 100%;
+    z-index: 20000;
     /* opacity: 0; */
 }
 

@@ -12,7 +12,7 @@ function VehiclesDetails({ vehicle }) {
         <span>{`${make} `}</span>
         <span>{`${model} `}</span>
         <span>{`${year}`}</span>
-        <NavLink  onClick={()=>dispatch({type: 'CLOSE_MENU'})} className='alink' to={`/vehicle/${_id}`}>details</NavLink>
+        <NavLink  onClick={()=>dispatch({type: 'CLOSE_MENU'})} className='alink' to={`/vehicle/${_id}/trips/all`}>details</NavLink>
     </div>
   )
 }

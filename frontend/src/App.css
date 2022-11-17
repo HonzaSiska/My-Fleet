@@ -27,6 +27,7 @@
 }
 .side-bar{
   background-color: var(--dark-theme);
+  
   /* height: 0; */
 }
 .title{
@@ -34,10 +35,11 @@
   color: var(--dark-theme);
 }
 .nested-routes-wrapper{
-  margin-top: 35px;
   display: flex;
   align-items: center;
   background: var(--secondary-theme);
+  padding: 0 30px;
+  margin-top: 30px;
 }
 .sub-link{
   padding: 5px;
@@ -53,7 +55,37 @@
   background: var(--main-background-theme);
   border-bottom: none;
   border-top: 1px solid var(--secondary-theme);
+ 
 }
+
+.nested-subroutes-wrapper{
+  display: flex;
+  align-items: center;
+
+}
+.tab{
+  margin-right: 15px;
+  text-decoration: none;
+  color:var(--dark-theme);
+  text-align: center;
+  border-bottom: 3px solid var(--main-background-theme);
+  opacity: 0.6;
+}
+.tab:visited{
+  color:var(--dark-theme);
+}
+.tab-active{
+  border-bottom: 3px solid var(--dark-theme);
+  box-sizing: border-box;
+  opacity: 1;
+  
+}
+.outlet{
+  width: 80%;
+  margin: 5px auto;
+}
+
+
 
 @media screen and (min-width: 650px) {
   .content{
@@ -70,6 +102,12 @@
     overflow: auto;
     background-color: var(--main-background-theme);
     
+  }
+  .nested-routes-wrapper{
+    width: 80%;
+    margin: 30px auto;
+    padding-left: 0;
+    border-left: 1px solid var(--dark-theme);
   }
 
 }

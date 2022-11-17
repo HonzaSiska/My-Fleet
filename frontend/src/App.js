@@ -17,6 +17,9 @@ import Vehicle from './pages/Vehicle'
 import Trips from './Components/VehicleNestedRoutes/Trips'
 import Fuel from './Components/VehicleNestedRoutes/Fuel'
 import Maintenance from './Components/VehicleNestedRoutes/Maintenance'
+import { NewTrip } from './Components/VehicleNestedRoutes/NewTrip';
+import { AllTrips } from './Components/VehicleNestedRoutes/AllTrips';
+import { TripsStats } from './Components/VehicleNestedRoutes/TripsStats';
 
 function App() {
 
@@ -70,14 +73,21 @@ function App() {
                 path="/new-vehicle" 
                 element={ user ? <NewVehicle/> : <Navigate to='/'/>}
               />
+
               <Route 
                 path="/vehicle/:id" 
                 element={ user ? <Vehicle/> : <Navigate to='/'/>}
               >
-                <Route path='trips' element={<Trips/> } />
-                <Route path='fuel' element={<Fuel/> } />
-                <Route path='maintenance' element={<Maintenance/> } />
+                  <Route path='trips' element={<Trips/> } >
+                      <Route path='new' element={<NewTrip/> } />
+                      <Route path='all' element={<AllTrips/> } />
+                      <Route path='stats' element={<TripsStats/> } />
+                  </Route>
+
+                  <Route path='fuel' element={<Fuel/> } />
+                  <Route path='maintenance' element={<Maintenance/> } />
               </Route>
+
               <Route 
                 path="/" 
                 element={<Home /> }               />
