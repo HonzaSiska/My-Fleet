@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams, Outlet, Link } from 'react-router-dom'
-import './VehicleNestedRoutes.css'
+
 
 function Trips() {
 

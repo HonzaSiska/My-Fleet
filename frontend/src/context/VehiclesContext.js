@@ -5,7 +5,7 @@ export const VehiclesContext = createContext()
 
 export const vehiclesReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_VEHICLES': 
+    case 'SET_VEHICLES':
       return {
         vehicles: action.payload
       }
@@ -17,16 +17,24 @@ export const vehiclesReducer = (state, action) => {
       return {
         vehicles: state.vehicles.filter((w) => w._id !== action.payload._id)
       }
+    case 'CREATE_TRIP':
+      return {
+        vehicles: action.payload, ...state.trips
+      }
+    case 'SET_TRIPS':
+      return {
+        trips: action.payload
+      }
     case 'OPEN_MENU':
-    return {
-      vehicles: state.vehicles,
-      isOpenMenu : true
-    }
+      return {
+        vehicles: state.vehicles,
+        isOpenMenu: true
+      }
     case 'CLOSE_MENU':
-    return {
-      vehicles: state.vehicles,
-      isOpenMenu : false
-    }
+      return {
+        vehicles: state.vehicles,
+        isOpenMenu: false
+      }
     default:
       return state
   }
@@ -35,12 +43,13 @@ export const vehiclesReducer = (state, action) => {
 export const VehiclesContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(vehiclesReducer, {
     vehicles: null,
+    trips: null,
     isOpenMenu: false
   })
 
   return (
-    <VehiclesContext.Provider value={{...state, dispatch}}>
-      { children }
+    <VehiclesContext.Provider value={{ ...state, dispatch }}>
+      {children}
     </VehiclesContext.Provider>
   )
 }

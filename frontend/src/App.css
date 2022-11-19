@@ -55,13 +55,14 @@
   background: var(--main-background-theme);
   border-bottom: none;
   border-top: 1px solid var(--secondary-theme);
- 
+  font-weight: bold;
 }
 
 .nested-subroutes-wrapper{
   display: flex;
   align-items: center;
-
+  margin-bottom: 30px;
+  font-size: 12px;
 }
 .tab{
   margin-right: 15px;
@@ -69,7 +70,7 @@
   color:var(--dark-theme);
   text-align: center;
   border-bottom: 3px solid var(--main-background-theme);
-  opacity: 0.6;
+ 
 }
 .tab:visited{
   color:var(--dark-theme);
@@ -77,8 +78,7 @@
 .tab-active{
   border-bottom: 3px solid var(--dark-theme);
   box-sizing: border-box;
-  opacity: 1;
-  
+  font-weight: bold;
 }
 .outlet{
   width: 80%;
@@ -104,10 +104,12 @@
     
   }
   .nested-routes-wrapper{
-    width: 80%;
-    margin: 30px auto;
+    width: 100%;
+    margin: 20px auto;
     padding-left: 0;
     border-left: 1px solid var(--dark-theme);
   }
-
+  .nested-subroutes-wrapper{
+    font-size: 13px;
+  }
 }
