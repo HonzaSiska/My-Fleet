@@ -78,11 +78,14 @@
 .tab-active{
   border-bottom: 3px solid var(--dark-theme);
   box-sizing: border-box;
-  font-weight: bold;
 }
 .outlet{
   width: 80%;
   margin: 5px auto;
+}
+.trips{
+  height: 250px;
+  overflow-x: hidden;
 }
 
 

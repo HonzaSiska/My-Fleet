@@ -4,10 +4,17 @@ const mongoose = require('mongoose')
 const getTrips = async( req, res ) => {
     const user_id = req.user._id
     const vehicleId = req.params.id
+    const limit = 5
+    const skip = req.query.page * limit
 
     try {
-        const trips = await Trip.find({user_id, vehicle_id: vehicleId}).sort({date: 1})
-        res.status(200).json({success: true, trips})
+        const count = await Trip.find({user_id, vehicle_id: vehicleId}).count()
+        const fetchedTrips = await Trip.find({user_id, vehicle_id: vehicleId}).skip(skip).limit(limit).sort({date: -1})
+        const trips =  fetchedTrips.map(trip => {
+            return { ...trip._doc, date: `${trip._doc.date.getDate()}-${trip._doc.date.getMonth()}-${trip._doc.date.getFullYear()}`}
+        })
+        console.log('trips', trips)
+        res.status(200).json({success: true, trips, count})
     } catch (error) {
         res.status(400).json({ success: false, error: error.message})
     }
