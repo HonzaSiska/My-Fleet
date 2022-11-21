@@ -9,12 +9,11 @@ function VehiclesDetails({ vehicle }) {
 
   return (
     <div className='vehicle'>
-        <span>{`${make} `}</span>
+        <span >{`${make} `}</span>
         <span>{`${model} `}</span>
         <span>{`${year}`}</span>
         <NavLink  onClick={()=>dispatch({type: 'CLOSE_MENU'})} className='alink' to={`/vehicle/${_id}/trips/all`}>details</NavLink>
     </div>
   )
 }
-
 export default VehiclesDetails

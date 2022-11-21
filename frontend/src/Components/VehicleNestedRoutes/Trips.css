@@ -1,4 +1,17 @@
 .trips{
-    width: 80%;
+    width: 100%;
     margin: auto;
+}
+.card-block-bottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.card-block-bottom img{
+    margin-right: 10px;
+}
+.card-block-bottom img:hover{
+    cursor:pointer;
+    border: 1px solid var(--dark-theme);
+    border-radius: 5px;
 }

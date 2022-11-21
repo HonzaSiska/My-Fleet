@@ -11,8 +11,12 @@ const getTrips = async( req, res ) => {
         const count = await Trip.find({user_id, vehicle_id: vehicleId}).count()
         const fetchedTrips = await Trip.find({user_id, vehicle_id: vehicleId}).skip(skip).limit(limit).sort({date: -1})
         const trips =  fetchedTrips.map(trip => {
-            return { ...trip._doc, date: `${trip._doc.date.getDate()}-${trip._doc.date.getMonth()}-${trip._doc.date.getFullYear()}`}
-        })
+            return { 
+                ...trip._doc, 
+                date: `${trip._doc.date.getDate()}-${trip._doc.date.getMonth()}-${trip._doc.date.getFullYear()}`,
+                distance: trip._doc.finish - trip._doc.start
+            }
+    })
         console.log('trips', trips)
         res.status(200).json({success: true, trips, count})
     } catch (error) {
@@ -36,7 +40,8 @@ const createTrip = async( req, res ) => {
     const trip = req.body
     try {
         const newTrip = await Trip.create(trip)
-        res.status(200).json({success: true})
+       
+        res.status(200).json({success: true, trip: newTrip})
     } catch (error) {
         res.status(400).json({ success: false, error: error.message})
     }

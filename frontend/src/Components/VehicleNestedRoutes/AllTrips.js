@@ -6,6 +6,7 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 import { useVehiclesContext } from '../../hooks/useVehiclesContext'
 import Card from '../Card/Card'
 import Pagination from '../Pagination/Pagination'
+import EditIcon from '../../assets/edit.svg'
 
 import './Trips.css'
 export const AllTrips = () => {
@@ -29,7 +30,8 @@ export const AllTrips = () => {
             
             if (json.success) {
                 setResults(json.count)
-
+                
+                console.log('json', json.trips)
                 // calculate records left
                 const left = results - ((page +1) * 5 )
                 setRecordsLeft(left)
@@ -50,8 +52,15 @@ export const AllTrips = () => {
             <div className='trips'>
                 {trips && (
                     trips.map(trip => <Card key={trip._id}>
-                        <span className='card-title'>{trip.from} - {trip.to}</span>
-                        <span>{trip.date}</span>
+                        <div>
+                            <span className='card-title'>{trip.from} - {trip.to}</span>
+                            <span>{trip.date}</span>
+                        </div>
+                        <div className='card-block-bottom'>
+                            <span>{`${trip.distance} ${trip.units}`}</span>
+                            <img src={EditIcon} alt='edit'/>
+                        </div>
+                        
                     </Card>)
                 )}
             </div>

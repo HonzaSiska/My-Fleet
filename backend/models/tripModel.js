@@ -33,7 +33,15 @@ const tripSchema = new Schema({
   vehicle_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Vehicle"
-  }
-}, { timestamps: true })
+  },
+  
+}, 
+{ toJson:{virtuals: true} },
+{ timestamps: true })
+
+tripSchema.virtual('distance').get(function(){
+  console.log('distance', this.finish - this.start)
+  return this.finish - this.start
+})
 
 module.exports = mongoose.model('Trip', tripSchema)
