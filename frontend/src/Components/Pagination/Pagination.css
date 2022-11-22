@@ -1,7 +1,21 @@
 .pagination{
-    margin-top: 10px;
+    margin-top: 5px;
 }
 .pagination button{
     border: 1px solid var(--secondary-theme);
     color: var(--dark-theme);
+}
+.page-numbers{
+    margin-top: 5px;
+}
+.page-numbers button{
+    border: 1px solid var(--secondary-theme);
+    cursor: pointer;
+}
+.page-counter span{
+    color: var(--dark-theme);
+    font-size: small;
+}
+.page-counter{
+    margin-top: 10px;
 }

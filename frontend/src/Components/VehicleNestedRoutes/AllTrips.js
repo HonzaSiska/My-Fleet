@@ -70,6 +70,7 @@ export const AllTrips = () => {
                 page={page}
                 recordsLeft={recordsLeft}
                 resultsPerPage={resultsPerPage}
+                extended={true}
             />
         </div>
     )
