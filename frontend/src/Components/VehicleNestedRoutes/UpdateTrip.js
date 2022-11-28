@@ -1,23 +1,24 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
 // import { useVehiclesContext } from '../../hooks/useVehiclesContext'
 
 
-export const NewTrip = () => {
+export const UpdateTrip = () => {
 
+    const {tripId} = useParams()
     const {id} = useParams()
 
     const [ date, setDate ] = useState('')
     const [ from, setFrom ] = useState('')
     const [ to, setTo ] = useState('')
-    const [ units, setUnits] = useState('km')
-    const [ start, setStart ] = useState('')
-    const [ finish, setFinish ] = useState('')
+    const [ units, setUnits] = useState('')
+    const [ start, setStart ] = useState(0)
+    const [ finish, setFinish ] = useState(0)
     const [ error, setError ] = useState(null)
-    const [ isChecked, setIsChecked ] = useState(false)
-    console.log('params', id)
-    // const { dispatch } = useVehiclesContext()
+    const [ completed, setCompleted ] = useState(false)
+
     const { user } = useAuthContext()
     
     const [ validator, setValidator ] = useState({
@@ -31,6 +32,59 @@ export const NewTrip = () => {
 
     const navigate = useNavigate()
 
+    //  remove tab highlights
+    const links = document.querySelectorAll('.tab')
+    links.forEach(link=> {
+        console.log(link)
+        link.classList.remove('tab-active')
+        
+    })
+
+    
+    useEffect(() => {
+
+
+        const fetchTrip = async () => {
+            const response = await fetch(`/api/trip/${tripId}`, {
+                headers: { 'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json' },
+                method: 'POST',
+            })
+            const json = await response.json()
+            if (json.success) {
+                const {trip} = json
+
+                const newDate = new Date(trip.date)
+        
+                const day = newDate.getDate()
+                const month = newDate.getMonth() + 1
+                const year = newDate.getFullYear()
+
+                const convertedDate = `${year}-${month}-${day}`
+
+                setDate(convertedDate)
+                setFrom(trip.from)
+                setTo(trip.to)
+                setUnits(trip.units)
+                setStart(trip.start)
+                setFinish(trip.finish)
+                setError('')
+
+               
+                //set all validfators to true to et rid of validation messages
+                for (let key in validator) {
+                    validator[key] = true
+                }
+
+                console.log('valid', validator)
+            }
+        }
+
+        if (user) {
+            fetchTrip()
+        }
+
+    }, [user])
+
     const handleSubmit = async(e)=> {
         e.preventDefault()
         console.log(validator)
@@ -43,9 +97,9 @@ export const NewTrip = () => {
 
         ){ return }
 
-        const trip = {vehicle_id: id,from, to, date, start, finish, completed: isChecked}
+        const trip = {_id: tripId,from, to, date, start, finish}
            
-        const response = await fetch('/api/trip/create', {
+        const response = await fetch('/api/trip/update', {
             method: 'POST',
             body: JSON.stringify(trip),
             headers: {
@@ -66,16 +120,8 @@ export const NewTrip = () => {
             setTo('')
             setStart('')
             setFinish('')
-            setError('New trip was added')
-            setTimeout(() => {
-                setError('')
-            }, 2000);
-            
-            // dispatch({type: 'CREATE_TRIP', payload: json})
 
-            // navigate(`/vehicle/${id}/trips/all`)
-            
-            
+            navigate(`/vehicle/${id}/trips/all`)
           }
        
         
@@ -136,6 +182,7 @@ export const NewTrip = () => {
   return (
     <div>
         <div className='form-wrapper'>
+            <h3 className='title'>{from} - {to}</h3>
             <form onSubmit={handleSubmit} className='form-content'>
                 {error && 
                     (
@@ -213,12 +260,7 @@ export const NewTrip = () => {
                 <div className='validator'>
                     <span>{(!validator.finish) && <span>{`* Required, must be a number`}</span>}</span>
                 </div>
-                <div className='input-wrapper checkbox-wrapper'>
-                    <label style={{color: isChecked ? 'green' : 'red'}}>{isChecked ? 'Completed': 'Mark as completed'}</label>
-                    <input type='checkbox' className='checkbox' onChange={()=> setIsChecked(!isChecked)} value={isChecked}/>
-                    
-                    
-                </div>
+                
                 
                 <button className='submit-button' type='submit' disabled=
                 { 

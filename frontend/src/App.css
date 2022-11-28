@@ -87,6 +87,9 @@
   height: 250px;
   overflow-x: hidden;
 }
+.left-border-thick{
+  border-left: 4px solid var(--secondary-theme);
+}
 
 
 

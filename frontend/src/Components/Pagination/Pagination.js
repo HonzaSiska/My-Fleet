@@ -45,7 +45,7 @@ const Pagination = ({recordsLeft, page,  results, setPage, resultsPerPage, exten
                     <div className='page-numbers'>
                         {
                             pagesArray.map(currentPage => (
-                                <button className='' style={
+                                <button key={currentPage} className='' style={
                                     {
                                         fontWeight: page + 1 === currentPage &&  'bold', 
                                         background: page + 1 === currentPage &&  'white',

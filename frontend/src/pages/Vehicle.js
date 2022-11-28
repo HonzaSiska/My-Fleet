@@ -22,7 +22,7 @@ const Vehicle = () => {
     const [purchaseMilage, setPurchaseMilage] = useState('')
     const [error, setError] = useState(null)
     const [isEdit, setIsEdit] = useState(false)
-    const [ isActive, setIsActive ]  = useState(false)
+    const [isActive, setIsActive] = useState(false)
 
     const { dispatch } = useVehiclesContext()
     const { user } = useAuthContext()
@@ -45,10 +45,10 @@ const Vehicle = () => {
 
     const handleIsActive = (e) => {
         const links = document.querySelectorAll('.sub-link')
-        links.forEach(link=> {
+        links.forEach(link => {
             console.log(link)
             link.classList.remove('nested-menu-active')
-            
+
         })
         e.target.classList.add('nested-menu-active')
     }
@@ -65,7 +65,7 @@ const Vehicle = () => {
 
         ) { return }
 
-        const updatedVehicle = {  make, model, year, purchaseMilage, price }
+        const updatedVehicle = { make, model, year, purchaseMilage, price }
 
         console.log('updated veh', updatedVehicle)
 
@@ -79,6 +79,7 @@ const Vehicle = () => {
         })
 
         const json = await response.json()
+
         console.log('rsesponse', json)
 
         if (!json.success) {
@@ -86,21 +87,21 @@ const Vehicle = () => {
         }
         if (json.success) {
             setVehicle(json.vehicle)
-                setMake(json.vehicle.make)
-                setModel(json.vehicle.model)
-                setYear(json.vehicle.year)
-                setPrice(json.vehicle.price)
-                setPurchaseMilage(json.vehicle.purchaseMilage)
-                setError('')
-                setIsEdit(false)
+            setMake(json.vehicle.make)
+            setModel(json.vehicle.model)
+            setYear(json.vehicle.year)
+            setPrice(json.vehicle.price)
+            setPurchaseMilage(json.vehicle.purchaseMilage)
+            setError('')
+            setIsEdit(false)
 
-                //set all validfators to true to et rid of validation messages
-                for (let key in validator) {
-                    validator[key] = true
-                }
+            //set all validfators to true to et rid of validation messages
+            for (let key in validator) {
+                validator[key] = true
+            }
 
 
-                dispatch({ type: 'UPDATE_VEHICLE', payload: json.vehicle })
+            dispatch({ type: 'UPDATE_VEHICLE', payload: json.vehicle })
 
         }
     }
@@ -211,7 +212,7 @@ const Vehicle = () => {
                             </div>
                         )
                     }
-                    
+
 
                     {
                         isEdit && (
@@ -354,7 +355,7 @@ const Vehicle = () => {
                 </nav>
 
                 <div className='outlet'>
-                    <Outlet/>
+                    <Outlet />
                 </div>
 
             </div>

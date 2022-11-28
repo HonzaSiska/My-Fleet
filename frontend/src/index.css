@@ -39,6 +39,7 @@ input[type=text]:focus {
 
 input, select{
   border-radius: 0;
+  padding: 5px;
   border: 1px solid var(--secondary-theme)
 }
 .submit-button{
@@ -46,4 +47,7 @@ input, select{
   background-color: var(--dark-theme);
   border: 1px solid var(--secondary-theme);
   border-radius: 2px;
+}
+.bold{
+  font-weight: bold;
 }

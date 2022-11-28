@@ -3,6 +3,7 @@ import { useVehiclesContext } from "../hooks/useVehiclesContext"
 import { useAuthContext } from "../hooks/useAuthContext"
 import VehiclesDetails from '../Components/Vehicles/VehiclesDetails'
  import './Home.css'
+import Card from '../Components/Card/Card'
 // import '../App.css'
 // import './Auth/Auth.css'
 
@@ -39,7 +40,7 @@ function Home() {
       
       <div className='vehicles'>
         { vehicles && vehicles.map(vehicle => (
-          <VehiclesDetails key={vehicle._id} vehicle={vehicle}/>
+          <Card key={vehicle._id}><VehiclesDetails  vehicle={vehicle}/></Card>
         ))}
       </div>
     </div>

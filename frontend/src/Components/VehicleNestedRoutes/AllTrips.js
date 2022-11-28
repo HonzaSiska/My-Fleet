@@ -1,12 +1,13 @@
 
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useVehiclesContext } from '../../hooks/useVehiclesContext'
 import Card from '../Card/Card'
 import Pagination from '../Pagination/Pagination'
 import EditIcon from '../../assets/edit.svg'
+
 
 import './Trips.css'
 export const AllTrips = () => {
@@ -51,14 +52,16 @@ export const AllTrips = () => {
         <div className='trips-wrapper'>
             <div className='trips'>
                 {trips && (
-                    trips.map(trip => <Card key={trip._id}>
+                    trips.map((trip) => <Card key={trip._id}>
                         <div>
-                            <span className='card-title'>{trip.from} - {trip.to}</span>
+                            <span className='card-title bold '>{trip.from} - {trip.to}</span>
                             <span>{trip.date}</span>
                         </div>
                         <div className='card-block-bottom'>
                             <span>{`${trip.distance} ${trip.units}`}</span>
-                            <img src={EditIcon} alt='edit'/>
+                            <span style={{color: trip.completed ? 'green' : 'red'}}>{trip.completed ? 'closed' : 'still open'}</span>
+                            <NavLink  onClick={()=>dispatch({type: 'CLOSE_MENU'})}  to={`/vehicle/${id}/trips/update/${trip._id}`}><img src={EditIcon} alt='edit'/></NavLink>
+                            
                         </div>
                         
                     </Card>)

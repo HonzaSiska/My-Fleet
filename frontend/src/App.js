@@ -20,6 +20,9 @@ import Maintenance from './Components/VehicleNestedRoutes/Maintenance'
 import { NewTrip } from './Components/VehicleNestedRoutes/NewTrip';
 import { AllTrips } from './Components/VehicleNestedRoutes/AllTrips';
 import { TripsStats } from './Components/VehicleNestedRoutes/TripsStats';
+import { UpdateTrip } from './Components/VehicleNestedRoutes/UpdateTrip';
+
+
 
 function App() {
 
@@ -82,6 +85,7 @@ function App() {
                       <Route path='new' element={<NewTrip/> } />
                       <Route path='all' element={<AllTrips/> } />
                       <Route path='stats' element={<TripsStats/> } />
+                      <Route path='update/:tripId' element={<UpdateTrip/>} />
                   </Route>
 
                   <Route path='fuel' element={<Fuel/> } />

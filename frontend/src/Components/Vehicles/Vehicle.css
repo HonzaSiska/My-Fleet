@@ -1,3 +1,24 @@
 .vehicle{
-    border: 1px solid rgb(245, 245, 246);
+    /* border: 1px solid rgb(245, 245, 246); */
+    padding-left: 10px;
+}
+
+.details-btn{
+    border: 1px solid var(--dark-theme);
+    background: var(--dark-theme);
+    border-radius: 2px;
+    padding: 0 5px 3px;   
+    color: var(--main-background-theme);
+}
+.details-link {
+    margin-top: 10px;
+    
+}
+.details-link a{
+    text-decoration: none;
+    color: var(---main-background-theme);
+    
+}
+.details-link a:visited{
+    color: var(--main-background-theme);
 }

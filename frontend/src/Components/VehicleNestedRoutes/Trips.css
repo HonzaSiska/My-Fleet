@@ -1,6 +1,7 @@
 .trips{
     width: 100%;
     margin: auto;
+    border: 1px solid rgb(237, 236, 236);
 }
 .card-block-bottom{
     display: flex;
@@ -14,4 +15,7 @@
     cursor:pointer;
     border: 1px solid var(--dark-theme);
     border-radius: 5px;
+}
+.checkbox-wrapper{
+    width: 50%;
 }
