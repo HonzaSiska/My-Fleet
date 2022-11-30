@@ -42,6 +42,7 @@ input, select{
   padding: 5px;
   border: 1px solid var(--secondary-theme)
 }
+
 .submit-button{
   color: var(--main-background-theme);
   background-color: var(--dark-theme);

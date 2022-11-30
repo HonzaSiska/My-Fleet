@@ -1,71 +1,89 @@
 const Trip = require('../models/tripModel')
 const mongoose = require('mongoose')
 
-const getTrips = async( req, res ) => {
+const getTrips = async (req, res) => {
     const user_id = req.user._id
     const vehicleId = req.params.id
     const limit = 5
     const skip = req.query.page * limit
 
     try {
-        const count = await Trip.find({user_id, vehicle_id: vehicleId}).count()
-        const fetchedTrips = await Trip.find({user_id, vehicle_id: vehicleId}).skip(skip).limit(limit).sort({date: -1})
-        const trips =  fetchedTrips.map(trip => {
-            return { 
-                ...trip._doc, 
-                date: `${trip._doc.date.getDate()}-${trip._doc.date.getMonth()}-${trip._doc.date.getFullYear()}`,
-                distance: trip._doc.finish - trip._doc.start
+        const count = await Trip.find({ user_id, vehicle_id: vehicleId }).count()
+        const fetchedTrips = await Trip.find({ user_id, vehicle_id: vehicleId }).skip(skip).limit(limit).sort({ completed: 1, date: -1, })
+        const trips = fetchedTrips.map(trip => {
+            return {
+                ...trip._doc,
+                date: `${trip._doc.date.getDate()}-${trip._doc.date.getMonth()}-${trip._doc.date.getFullYear()}`
+                //distance: trip._doc.finish - trip._doc.start
             }
-    })
+        })
         console.log('trips', trips)
-        res.status(200).json({success: true, trips, count})
+        res.status(200).json({ success: true, trips, count })
     } catch (error) {
-        res.status(400).json({ success: false, error: error.message})
+        res.status(400).json({ success: false, error: error.message })
     }
 }
-// const getVehicle= async( req, res ) => {
-//     const user_id = req.user._id
-//     const vehicleId = req.params.id
-    
+const getTrip = async (req, res) => {
+    const tripId = req.params.id
+    try {
+        const trip = await Trip.findOne({ _id: tripId })
+        res.status(200).json({ success: true, trip })
+    } catch (error) {
+        res.status(400).json({ success: false, error: error.message })
+    }
+}
 
-//     try {
-//         const vehicle = await Vehicle.findOne({_id: vehicleId})
-//         res.status(200).json({success: true, vehicle})
-//     } catch (error) {
-//         res.status(400).json({ success: false, error: error.message})
-//     }
-// }
- 
-const createTrip = async( req, res ) => {
+const createTrip = async (req, res) => {
     const trip = req.body
+    trip.distance = trip.finish - trip.start
     try {
         const newTrip = await Trip.create(trip)
-       
-        res.status(200).json({success: true, trip: newTrip})
+
+        res.status(200).json({ success: true, trip: newTrip })
     } catch (error) {
-        res.status(400).json({ success: false, error: error.message})
+        res.status(400).json({ success: false, error: error.message })
     }
-    
+
+}
+
+const getStats = async (req, res) => {
+    const { id } = req.params
+
+    try {
+        const data = await Trip.aggregate(
+            [       
+                {
+                 $group: {
+                   _id: id,
+                   "sum": { $sum: "$distance"},
+                   "count" : { $sum: 1},
+                }
+             }
+        ])
+        res.json({ success: true, stats: data })
+    } catch (error) {
+        res.json({ success: false, error:'Could not fetch data' })
+    }
 }
 
 // const deleteVehicle = async( req, res ) => {
 
 // }
 
-// const updateVehicle = async( req, res ) => {
-//     const vehicle = req.body
-//     const vehicleId = req.params.id
-    
+const updateTrip = async (req, res) => {
+    const trip = req.body
+    trip.distance = trip.finish - trip.start
+    console.log('total milage', trip.totalMilage)
+    const tripId = req.body._id
 
-//     try {
-//         const updatedVehicle = await Vehicle.findOneAndUpdate({_id: vehicleId },{...vehicle}, {new: true})
-        
-//         console.log('updatedVehicle', updatedVehicle)
-//         res.status(200).json({success: true, vehicle: updatedVehicle})
-//     } catch (error) {
-//         res.status(400).json({ success: false, error: error.message})
-//     }
-// }
+    try {
+        const updatedTrip = await Trip.findOneAndUpdate({ _id: tripId }, { ...trip }, { new: true })
+        console.log('trip uipdated', updatedTrip)
+        res.status(200).json({ success: true, trip: updatedTrip })
+    } catch (error) {
+        res.status(400).json({ success: false, error: error.message })
+    }
+}
 
 /////////////////////////////////////////////////////////////////
 
@@ -87,5 +105,8 @@ const createTrip = async( req, res ) => {
 
 module.exports = {
     createTrip,
-    getTrips
+    getTrips,
+    getTrip,
+    updateTrip,
+    getStats
 }

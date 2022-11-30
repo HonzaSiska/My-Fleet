@@ -4,7 +4,10 @@ const requireAuth = require('../middleware/requireAuth')
 // controller functions
 const { 
     createTrip,
-    getTrips
+    getTrips,
+    getTrip,
+    updateTrip,
+    getStats
 } = require('../controllers/tripController')
 
 
@@ -17,12 +20,14 @@ router.use(requireAuth)
 router.post('/create', createTrip)
 
 
-// router.post('/update/:id', updateVehicle)
+router.post('/update', updateTrip)
 
 
-// router.post('/:id', getVehicle)
+router.post('/:id', getTrip)
 
 router.post('/all/:id', getTrips)
+
+router.post('/stats/:id', getStats)
 
 
 // router.get('/delete', deleteVehicle)

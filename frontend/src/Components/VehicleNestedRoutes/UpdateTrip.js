@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
+
 // import { useVehiclesContext } from '../../hooks/useVehiclesContext'
 
 
@@ -18,6 +19,7 @@ export const UpdateTrip = () => {
     const [ finish, setFinish ] = useState(0)
     const [ error, setError ] = useState(null)
     const [ completed, setCompleted ] = useState(false)
+    const [ isChecked, setIsChecked ] = useState(false)
 
     const { user } = useAuthContext()
     
@@ -67,6 +69,7 @@ export const UpdateTrip = () => {
                 setUnits(trip.units)
                 setStart(trip.start)
                 setFinish(trip.finish)
+                setIsChecked(trip.completed)
                 setError('')
 
                
@@ -97,7 +100,7 @@ export const UpdateTrip = () => {
 
         ){ return }
 
-        const trip = {_id: tripId,from, to, date, start, finish}
+        const trip = {_id: tripId,from, to, date, start, finish, completed: isChecked}
            
         const response = await fetch('/api/trip/update', {
             method: 'POST',
@@ -261,7 +264,12 @@ export const UpdateTrip = () => {
                     <span>{(!validator.finish) && <span>{`* Required, must be a number`}</span>}</span>
                 </div>
                 
-                
+                <div className='input-wrapper checkbox-wrapper'>
+                    <label style={{color: isChecked ? 'green' : 'red'}}>{isChecked ? 'Completed': 'Mark as completed'}</label>
+                    <input type='checkbox' className='checkbox' onChange={()=> setIsChecked(!isChecked)} value={isChecked}/>
+                    
+                    
+                </div>
                 <button className='submit-button' type='submit' disabled=
                 { 
                     (validator.from=== false ||

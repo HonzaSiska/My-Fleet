@@ -7,6 +7,7 @@ import { useVehiclesContext } from '../../hooks/useVehiclesContext'
 import Card from '../Card/Card'
 import Pagination from '../Pagination/Pagination'
 import EditIcon from '../../assets/edit.svg'
+import CheckedIcon from '../../assets/checked.svg'
 
 
 import './Trips.css'
@@ -59,7 +60,12 @@ export const AllTrips = () => {
                         </div>
                         <div className='card-block-bottom'>
                             <span>{`${trip.distance} ${trip.units}`}</span>
-                            <span style={{color: trip.completed ? 'green' : 'red'}}>{trip.completed ? 'closed' : 'still open'}</span>
+                            {
+                                trip.completed 
+                                ? <img src={CheckedIcon} alt={ CheckedIcon }/>
+                                : <span style={{color: 'red' }}>still open </span>
+                            }
+                            
                             <NavLink  onClick={()=>dispatch({type: 'CLOSE_MENU'})}  to={`/vehicle/${id}/trips/update/${trip._id}`}><img src={EditIcon} alt='edit'/></NavLink>
                             
                         </div>
