@@ -48,13 +48,13 @@ const createTrip = async (req, res) => {
 
 const getStats = async (req, res) => {
     const { id } = req.params
-
+    console.log('veh id', id)
     try {
         const data = await Trip.aggregate(
-            [       
+            [   
                 {
                  $group: {
-                   _id: id,
+                    _id: '$vehicle_id',
                    "sum": { $sum: "$distance"},
                    "count" : { $sum: 1},
                 }
@@ -62,13 +62,21 @@ const getStats = async (req, res) => {
         ])
         res.json({ success: true, stats: data })
     } catch (error) {
-        res.json({ success: false, error:'Could not fetch data' })
+        res.json({ success: false, error:error })
     }
 }
 
-// const deleteVehicle = async( req, res ) => {
+const deleteTrip = async( req, res ) => {
+    const {id} = req.params
+    console.log('id', id)
 
-// }
+    try {
+        await Trip.deleteOne({_id: id})
+        res.json({success: true })
+    } catch (error) {
+        res.json({success: false, error })
+    }
+}
 
 const updateTrip = async (req, res) => {
     const trip = req.body
@@ -108,5 +116,6 @@ module.exports = {
     getTrips,
     getTrip,
     updateTrip,
-    getStats
+    getStats,
+    deleteTrip
 }

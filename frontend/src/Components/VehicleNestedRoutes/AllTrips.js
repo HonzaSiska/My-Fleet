@@ -1,7 +1,7 @@
 
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useVehiclesContext } from '../../hooks/useVehiclesContext'
 import Card from '../Card/Card'
@@ -23,8 +23,30 @@ export const AllTrips = () => {
     const { dispatch, trips } = useVehiclesContext()
     const { id } = useParams()
     const [ toBeDeleted , setToBeDeleted ] = useState('')
+    const [ error, setError ] = useState('')
+
+    const navigate = useNavigate()
 
     const resultsPerPage = 5
+
+    const fetchTrips = async () => {
+        const response = await fetch(`/api/trip/all/${id}?page=${page}`, {
+            headers: { 'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json' },
+            method: 'POST',
+        })
+        const json = await response.json()
+        
+        if (json.success) {
+            setResults(json.count)
+            
+            console.log('json', json.trips)
+            // calculate records left
+            const left = results - ((page +1) * 5 )
+            setRecordsLeft(left)
+
+            dispatch({ type: 'SET_TRIPS', payload: json.trips })
+        }
+    }
 
     const openModal = (_trip_id) => {
         setModalIsOpen(!modalIsOpen)
@@ -32,26 +54,30 @@ export const AllTrips = () => {
 
     }
 
-    useEffect(() => {
-        const fetchTrips = async () => {
-            const response = await fetch(`/api/trip/all/${id}?page=${page}`, {
+    const handleDelete = (tripId) => {
+        
+        const deleteTrip = async () => {
+            const response = await fetch(`/api/trip/delete/${tripId}`, {
                 headers: { 'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json' },
                 method: 'POST',
             })
             const json = await response.json()
-            
             if (json.success) {
-                setResults(json.count)
-                
-                console.log('json', json.trips)
-                // calculate records left
-                const left = results - ((page +1) * 5 )
-                setRecordsLeft(left)
-
-                dispatch({ type: 'SET_TRIPS', payload: json.trips })
+                setModalIsOpen(!modalIsOpen)
+                // navigate(`/vehicle/${id}/trips/all`)
+                fetchTrips()
+            }else{
+                setError(json.error)
             }
+            
         }
 
+        if (user) {
+            deleteTrip()
+        }
+    }
+
+    useEffect(() => {
         if (user) {
             fetchTrips()
         }
@@ -61,6 +87,7 @@ export const AllTrips = () => {
   
     return (
         <div className='trips-wrapper'>
+            { error && <div className='error'>{error}</div> }
             <div className='trips'>
                 {trips && (
                     trips.map((trip) => <Card key={trip._id}>
@@ -91,7 +118,7 @@ export const AllTrips = () => {
                                 <img onClick={()=>setModalIsOpen(!modalIsOpen)} src={CloseIcon} className='close-icon-light'/>
                             </div>
                             <div className='modal-bottom-section'>
-                                <button onClick={()=>alert(toBeDeleted)} className='confirm-btn'>Confirm</button>
+                                <button onClick={()=>handleDelete(toBeDeleted)} className='confirm-btn'>Confirm</button>
                             </div>
                         </div>
                     </Modal>

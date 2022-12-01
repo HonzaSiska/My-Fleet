@@ -21,10 +21,14 @@ export const TripsStats = () => {
       
       
       if (json.success) {
+
+        // filter data grouped by vehicle id
+        const filteredData = json.stats.filter(item => item._id == id)[0]
+
         setData(prev => ({
           ...prev, 
-          sum: json.stats[0].sum, 
-          count: json.stats[0].count
+          sum: filteredData.sum, 
+          count: filteredData.count
         }))
 
         console.log('tyrip stats', json.stats)
