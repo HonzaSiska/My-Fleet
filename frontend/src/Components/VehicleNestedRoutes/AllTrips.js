@@ -8,19 +8,29 @@ import Card from '../Card/Card'
 import Pagination from '../Pagination/Pagination'
 import EditIcon from '../../assets/edit.svg'
 import CheckedIcon from '../../assets/checked.svg'
+import CloseIcon from '../../assets/close-icon.svg'
 
 
 import './Trips.css'
+import Modal from '../modal/Modal'
 export const AllTrips = () => {
 
     const [ page, setPage ] = useState(0)
     const [ results, setResults ] = useState(0)
     const [ recordsLeft, setRecordsLeft ] = useState(0)
+    const [ modalIsOpen, setModalIsOpen ] = useState(false)
     const { user } = useAuthContext()
     const { dispatch, trips } = useVehiclesContext()
     const { id } = useParams()
+    const [ toBeDeleted , setToBeDeleted ] = useState('')
 
     const resultsPerPage = 5
+
+    const openModal = (_trip_id) => {
+        setModalIsOpen(!modalIsOpen)
+        setToBeDeleted(_trip_id)
+
+    }
 
     useEffect(() => {
         const fetchTrips = async () => {
@@ -67,11 +77,26 @@ export const AllTrips = () => {
                             }
                             
                             <NavLink  onClick={()=>dispatch({type: 'CLOSE_MENU'})}  to={`/vehicle/${id}/trips/update/${trip._id}`}><img src={EditIcon} alt='edit'/></NavLink>
-                            
+                            <img onClick={()=>openModal(trip._id)} className='close-icon-dark' src={CloseIcon} alt='close-icon'/>
                         </div>
                         
                     </Card>)
                 )}
+                
+                {
+                    modalIsOpen && 
+                    <Modal>
+                        <div>
+                            <div className='modal-top-section'>
+                                <img onClick={()=>setModalIsOpen(!modalIsOpen)} src={CloseIcon} className='close-icon-light'/>
+                            </div>
+                            <div className='modal-bottom-section'>
+                                <button onClick={()=>alert(toBeDeleted)} className='confirm-btn'>Confirm</button>
+                            </div>
+                        </div>
+                    </Modal>
+                }
+                
             </div>
             <Pagination 
                 setPage={setPage}

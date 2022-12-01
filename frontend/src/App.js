@@ -94,7 +94,7 @@ function App() {
 
               <Route 
                 path="/" 
-                element={<Home /> }               />
+                element={<Home /> }  />
             </Routes>
           </div>
         </div>

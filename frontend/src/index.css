@@ -20,6 +20,8 @@ code {
   --secondary-theme: #D1C9BE;
   --dark-theme: #909090;
   --main-background-theme: #f9f9f8;
+  --modal-dark-back:rgb(49, 93, 195, 0.7);
+  --modal-light-back: rgb(49, 93, 195, 0.7)
 
 }
 html {

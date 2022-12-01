@@ -90,6 +90,15 @@
 .left-border-thick{
   border-left: 4px solid var(--secondary-theme);
 }
+.close-icon-dark{
+  width:25px;
+  background-color: var(--dark-theme);
+  padding:4px;
+}
+.close-icon-light{
+  width:25px;
+  padding:4px;
+}
 
 
 
