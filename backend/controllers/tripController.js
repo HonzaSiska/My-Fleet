@@ -2,8 +2,11 @@ const Trip = require('../models/tripModel')
 const mongoose = require('mongoose')
 
 const getTrips = async (req, res) => {
+    
     const user_id = req.user._id
     const vehicleId = req.params.id
+
+    console.log('vehicleId', vehicleId)
     const limit = 5
     const skip = req.query.page * limit
 
@@ -13,7 +16,8 @@ const getTrips = async (req, res) => {
         const trips = fetchedTrips.map(trip => {
             return {
                 ...trip._doc,
-                date: `${trip._doc.date.getDate()}-${trip._doc.date.getMonth()}-${trip._doc.date.getFullYear()}`
+                // date: '23-33-45'
+                  date: trip._doc.departure ? `${trip._doc.departure.getDate()}-${trip._doc.departure.getMonth()}-${trip._doc.departure.getFullYear()}` : ''
                 //distance: trip._doc.finish - trip._doc.start
             }
         })
@@ -35,7 +39,16 @@ const getTrip = async (req, res) => {
 
 const createTrip = async (req, res) => {
     const trip = req.body
-    trip.distance = trip.finish - trip.start
+
+    if(trip.finish > trip.start || (trip.finish<0 || trip.start<0)) res.json({success: false, message: 'Incorrect values !! '} )
+
+    if(trip.finish   && trip.start ){
+        trip.distance = trip.finish - trip.start
+    }
+    if(trip.departure && trip.arrival){
+        trip.duration = trip.arrival - trip.departure
+    }
+    
     try {
         const newTrip = await Trip.create(trip)
 

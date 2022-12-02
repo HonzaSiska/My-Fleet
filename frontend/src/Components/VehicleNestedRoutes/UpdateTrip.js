@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { formatDateTime } from '../../utils/utils'
 
 // import { useVehiclesContext } from '../../hooks/useVehiclesContext'
 
@@ -11,7 +12,8 @@ export const UpdateTrip = () => {
     const {tripId} = useParams()
     const {id} = useParams()
 
-    const [ date, setDate ] = useState('')
+    const [ departure, setDeparture ] = useState('')
+    const [ arrival, setArrival ] = useState('')
     const [ from, setFrom ] = useState('')
     const [ to, setTo ] = useState('')
     const [ units, setUnits] = useState('')
@@ -26,7 +28,8 @@ export const UpdateTrip = () => {
     const [ validator, setValidator ] = useState({
         from: false,
         to: false,
-        date: false,
+        departure: false,
+        arrival: false,
         start: false,
         finish: false,
         units: true
@@ -55,30 +58,25 @@ export const UpdateTrip = () => {
             if (json.success) {
                 const {trip} = json
 
-                const newDate = new Date(trip.date)
-        
-                const day = newDate.getDate()
-                const month = newDate.getMonth() + 1
-                const year = newDate.getFullYear()
+                const newDeparture = new Date(trip.departure)
+                const newArrival = new Date(trip.arrival)
+                
 
-                const convertedDate = `${year}-${month}-${day}`
-
-                setDate(convertedDate)
-                setFrom(trip.from)
-                setTo(trip.to)
-                setUnits(trip.units)
-                setStart(trip.start)
-                setFinish(trip.finish)
-                setIsChecked(trip.completed)
+                departure && setDeparture(formatDateTime(newDeparture))
+                arrival && setDeparture(formatDateTime(newArrival))
+                trip && setFrom(trip.from)
+                to && setTo(trip.to)
+                units && setUnits(trip.units)
+                start && setStart(trip.start)
+                finish && setFinish(trip.finish)
+                completed && setIsChecked(trip.completed)
                 setError('')
 
                
                 //set all validfators to true to et rid of validation messages
-                for (let key in validator) {
-                    validator[key] = true
-                }
-
-                console.log('valid', validator)
+                // for (let key in validator) {
+                //     validator[key] = true
+                // }
             }
         }
 
@@ -91,6 +89,23 @@ export const UpdateTrip = () => {
     const handleSubmit = async(e)=> {
         e.preventDefault()
         console.log(validator)
+
+        if( 
+            isChecked && (
+                validator.from === false ||
+                validator.to === false ||
+                validator.departure === false ||
+                validator.arrival === false ||
+                validator.start=== false ||
+                validator.finish === false
+            )
+        ){
+            setError('Fill out all fields to mark as complete')
+            setTimeout(()=>{
+                setError('')
+            }, 2000)
+            return
+        }
         if(
             validator.from=== false ||
             validator.to=== false ||
@@ -100,7 +115,7 @@ export const UpdateTrip = () => {
 
         ){ return }
 
-        const trip = {_id: tripId,from, to, date, start, finish, completed: isChecked}
+        const trip = {_id: tripId,from, to, departure, arrival, start, finish, completed: isChecked}
            
         const response = await fetch('/api/trip/update', {
             method: 'POST',
@@ -118,7 +133,8 @@ export const UpdateTrip = () => {
             setError(json.error)
           }
           if (json.success) {
-            setDate('')
+            setDeparture('')
+            setArrival('')
             setFrom('')
             setTo('')
             setStart('')
@@ -131,15 +147,15 @@ export const UpdateTrip = () => {
 
     }
 
-    const handleDateChange = (value) => {
-       setDate(value)
-       setValidator(prev => ({...prev, date:true}))
-    //    if(value.length  > 0){
-    //     setValidator(prev => ({...prev, make:true}))
-    //    }else{
-    //     setValidator(prev => ({...prev, make:false}))
-    //    }
-    }
+    const handleDepartureChange = (value) => {
+        setDeparture(value)
+        setValidator(prev => ({...prev, departure:true}))
+     }
+     const handleArrivalChange = (value) => {
+         setArrival(value)
+         setValidator(prev => ({...prev, arrival:true}))
+      
+      }
     const handleFromChange = (value) => {
         setFrom(value)
  
@@ -194,16 +210,26 @@ export const UpdateTrip = () => {
                         </div>
                     )
                 }
-                <label>Date</label>
+                <label>Departure Time & Date</label>
                 <br/>
                 <input 
-                    type='date'
-                    onChange={((e)=> {handleDateChange(e.target.value)})}
-                    value={date}
+                    type='datetime-local'
+                    onChange={((e)=> {handleDepartureChange(e.target.value)})}
+                    value={departure}
                 />
-                <div className='validator'>
+                {/* <div className='validator'>
+                    <span>{(!validator.departure ) && <span>{`* Required`}</span>}</span>
+                </div> */}
+                <label>Arrival Time & Date</label>
+                <br/>
+                <input 
+                    type='datetime-local'
+                    onChange={((e)=> {handleArrivalChange(e.target.value)})}
+                    value={arrival}
+                />
+                {/* <div className='validator'>
                     <span>{(!validator.date ) && <span>{`* Required`}</span>}</span>
-                </div>
+                </div> */}
                 <label>From</label>
                 <br/>
                 <input 

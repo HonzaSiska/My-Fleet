@@ -3,9 +3,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const tripSchema = new Schema({
-  date: {
+  departure: {
     type: Date,
-    required: true
+  },
+  arrival: {
+    type: Date,
   },
   from: {
     type: String,
@@ -17,7 +19,6 @@ const tripSchema = new Schema({
   },
   units: {
     type: String,
-    required: true,
     default: 'km'
   },
   start: {
@@ -36,6 +37,9 @@ const tripSchema = new Schema({
   },
   distance: {
     type : Number
+  },
+  duration: {
+    type: Number
   }
   
 }, 

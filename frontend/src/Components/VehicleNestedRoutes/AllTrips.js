@@ -93,10 +93,10 @@ export const AllTrips = () => {
                     trips.map((trip) => <Card key={trip._id}>
                         <div>
                             <span className='card-title bold '>{trip.from} - {trip.to}</span>
-                            <span>{trip.date}</span>
+                            { trip.date && <span>{trip.date}</span>}
                         </div>
                         <div className='card-block-bottom'>
-                            <span>{`${trip.distance} ${trip.units}`}</span>
+                            {trip.distanse && <span>{`${trip.distance} ${trip.units}`}</span>}
                             {
                                 trip.completed 
                                 ? <img src={CheckedIcon} alt={ CheckedIcon }/>

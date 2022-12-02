@@ -8,7 +8,8 @@ export const NewTrip = () => {
 
     const {id} = useParams()
 
-    const [ date, setDate ] = useState('')
+    const [ departure, setDeparture ] = useState('')
+    const [ arrival, setArrival ] = useState('')
     const [ from, setFrom ] = useState('')
     const [ to, setTo ] = useState('')
     const [ units, setUnits] = useState('km')
@@ -16,17 +17,18 @@ export const NewTrip = () => {
     const [ finish, setFinish ] = useState('')
     const [ error, setError ] = useState(null)
     const [ isChecked, setIsChecked ] = useState(false)
-    console.log('params', id)
     // const { dispatch } = useVehiclesContext()
     const { user } = useAuthContext()
     
     const [ validator, setValidator ] = useState({
         from: false,
         to: false,
-        date: false,
+        departure: false,
+        arrival: false,
         start: false,
-        finish: false,
-        units: true
+        finish: true,
+        units: true,
+    
     })
 
     const navigate = useNavigate()
@@ -34,16 +36,35 @@ export const NewTrip = () => {
     const handleSubmit = async(e)=> {
         e.preventDefault()
         console.log(validator)
+
+        if( 
+            isChecked && (
+                validator.from === false ||
+                validator.to === false ||
+                validator.departure === false ||
+                validator.arrival === false ||
+                validator.start=== false ||
+                validator.finish === false
+            )
+        ){
+            setError('Fill out all fields to mark as complete')
+            setTimeout(()=>{
+                setError('')
+            }, 2000)
+            return
+        }
+
         if(
             validator.from=== false ||
-            validator.to=== false ||
-            validator.date=== false ||
-            validator.start=== false ||
-            validator.finish === false
+            validator.to=== false 
+            // validator.departure=== false ||
+            // validator.arrival=== false ||
+            // validator.start=== false ||
+            // validator.finish === false
 
         ){ return }
 
-        const trip = {vehicle_id: id,from, to, date, start, finish, completed: isChecked}
+        const trip = {vehicle_id: id,from, to, departure ,arrival , start, finish, completed: isChecked}
            
         const response = await fetch('/api/trip/create', {
             method: 'POST',
@@ -61,7 +82,8 @@ export const NewTrip = () => {
             setError(json.error)
           }
           if (json.success) {
-            setDate('')
+            setDeparture('')
+            setArrival('')
             setFrom('')
             setTo('')
             setStart('')
@@ -82,15 +104,20 @@ export const NewTrip = () => {
 
     }
 
-    const handleDateChange = (value) => {
-       setDate(value)
-       setValidator(prev => ({...prev, date:true}))
+    const handleDepartureChange = (value) => {
+       setDeparture(value)
+       setValidator(prev => ({...prev, departure:true}))
     //    if(value.length  > 0){
     //     setValidator(prev => ({...prev, make:true}))
     //    }else{
     //     setValidator(prev => ({...prev, make:false}))
     //    }
     }
+    const handleArrivalChange = (value) => {
+        setArrival(value)
+        setValidator(prev => ({...prev, arrival:true}))
+     
+     }
     const handleFromChange = (value) => {
         setFrom(value)
  
@@ -119,16 +146,16 @@ export const NewTrip = () => {
  
         if(value && !isNaN(value)){
          setValidator(prev => ({...prev, start:true}))
-        }else{
-         setValidator(prev => ({...prev, start:false}))
-        }
+        }if(value && isNaN(value)){
+        setValidator(prev => ({...prev, start:false}))
+       }
     }
     const handleFinishChange = (value) => {
         setFinish(value)
  
         if(value && !isNaN(value)){
          setValidator(prev => ({...prev, finish:true}))
-        }else{
+        }if(value && isNaN(value)){
          setValidator(prev => ({...prev, finish:false}))
         }
     }
@@ -144,16 +171,26 @@ export const NewTrip = () => {
                         </div>
                     )
                 }
-                <label>Date</label>
+                <label>Departure Time & Date</label>
                 <br/>
                 <input 
-                    type='date'
-                    onChange={((e)=> {handleDateChange(e.target.value)})}
-                    value={date}
+                    type='datetime-local'
+                    onChange={((e)=> {handleDepartureChange(e.target.value)})}
+                    value={departure}
                 />
-                <div className='validator'>
+                {/* <div className='validator'>
+                    <span>{(!validator.departure ) && <span>{`* Required`}</span>}</span>
+                </div> */}
+                <label>Arrival Time & Date</label>
+                <br/>
+                <input 
+                    type='datetime-local'
+                    onChange={((e)=> {handleArrivalChange(e.target.value)})}
+                    value={arrival}
+                />
+                {/* <div className='validator'>
                     <span>{(!validator.date ) && <span>{`* Required`}</span>}</span>
-                </div>
+                </div> */}
                 <label>From</label>
                 <br/>
                 <input 
@@ -198,9 +235,9 @@ export const NewTrip = () => {
                         value={start}
                     />
                 </div>
-                <div className='validator'>
+                {/* <div className='validator'>
                     <span>{(!validator.start ) && <span>{`* Required, must be a number`}</span>}</span>
-                </div>
+                </div> */}
                 <label>Odometer Finish</label>
                 <br/>
                 <div className='input-wrapper'>
@@ -222,11 +259,13 @@ export const NewTrip = () => {
                 
                 <button className='submit-button' type='submit' disabled=
                 { 
-                    (validator.from=== false ||
-                    validator.to=== false ||
-                    validator.units=== false ||
-                    validator.start=== false ||
-                    validator.finish === false) ? true : false
+                    (
+                        validator.from=== false ||
+                        validator.to=== false 
+                        // validator.units=== false ||
+                        // validator.start=== false ||
+                        // validator.finish === false
+                    ) ? true : false
                 }
                 >Submit</button>
             </form>
