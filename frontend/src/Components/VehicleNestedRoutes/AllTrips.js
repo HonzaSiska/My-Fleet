@@ -9,10 +9,11 @@ import Pagination from '../Pagination/Pagination'
 import EditIcon from '../../assets/edit.svg'
 import CheckedIcon from '../../assets/checked.svg'
 import CloseIcon from '../../assets/close-icon.svg'
-
-
 import './Trips.css'
 import Modal from '../modal/Modal'
+import { parseMillisecondsIntoReadableTime } from '../../utils/utils'
+
+
 export const AllTrips = () => {
 
     const [ page, setPage ] = useState(0)
@@ -44,7 +45,14 @@ export const AllTrips = () => {
             const left = results - ((page +1) * 5 )
             setRecordsLeft(left)
 
-            dispatch({ type: 'SET_TRIPS', payload: json.trips })
+            const updatedTrip = json.trips.map(trip => {
+                
+                return {...trip, duration : parseMillisecondsIntoReadableTime(trip.duration)}
+                
+            })
+
+            console.log('updated trips', updatedTrip)
+            dispatch({ type: 'SET_TRIPS', payload: updatedTrip })
         }
     }
 
@@ -94,13 +102,18 @@ export const AllTrips = () => {
                         <div>
                             <span className='card-title bold '>{trip.from} - {trip.to}</span>
                             { trip.date && <span>{trip.date}</span>}
+                            
                         </div>
                         <div className='card-block-bottom'>
-                            {trip.distanse && <span>{`${trip.distance} ${trip.units}`}</span>}
+                            <div>
+                                <span className='distance'>{`${trip.distance} ${trip.units}`}</span>
+                                <span className='duration'>{' / ' +  trip.duration}</span>
+                            </div>
+                            
                             {
                                 trip.completed 
                                 ? <img src={CheckedIcon} alt={ CheckedIcon }/>
-                                : <span style={{color: 'red' }}>still open </span>
+                                : <span style={{color: 'red',fontSize:'11px' }}>still open </span>
                             }
                             
                             <NavLink  onClick={()=>dispatch({type: 'CLOSE_MENU'})}  to={`/vehicle/${id}/trips/update/${trip._id}`}><img src={EditIcon} alt='edit'/></NavLink>

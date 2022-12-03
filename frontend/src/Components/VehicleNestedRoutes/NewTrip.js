@@ -251,7 +251,7 @@ export const NewTrip = () => {
                     <span>{(!validator.finish) && <span>{`* Required, must be a number`}</span>}</span>
                 </div>
                 <div className='input-wrapper checkbox-wrapper'>
-                    <label style={{color: isChecked ? 'green' : 'red'}}>{isChecked ? 'Completed': 'Mark as completed'}</label>
+                    <label style={{fontSize:"11px",color: isChecked ? 'green' : 'red'}}>{isChecked ? 'Completed': 'Mark as completed'}</label>
                     <input type='checkbox' className='checkbox' onChange={()=> setIsChecked(!isChecked)} value={isChecked}/>
                     
                     

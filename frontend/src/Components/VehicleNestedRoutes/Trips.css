@@ -31,3 +31,7 @@
     font-size: larger;
     font-weight: bold;
 }
+.duration, .distance{
+    font-size: 11px;
+}
+

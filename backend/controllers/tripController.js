@@ -31,6 +31,7 @@ const getTrip = async (req, res) => {
     const tripId = req.params.id
     try {
         const trip = await Trip.findOne({ _id: tripId })
+        console.log('trip to update', trip)
         res.status(200).json({ success: true, trip })
     } catch (error) {
         res.status(400).json({ success: false, error: error.message })
@@ -40,14 +41,15 @@ const getTrip = async (req, res) => {
 const createTrip = async (req, res) => {
     const trip = req.body
 
-    if(trip.finish > trip.start || (trip.finish<0 || trip.start<0)) res.json({success: false, message: 'Incorrect values !! '} )
-
+    if(trip.finish < trip.start || (trip.finish<0 || trip.start<0))  return res.json({success: false, message: 'Incorrect values !! '} )
+   
     if(trip.finish   && trip.start ){
-        trip.distance = trip.finish - trip.start
+        trip.distance = parseInt(trip.finish) - parseInt(trip.start)
     }
     if(trip.departure && trip.arrival){
-        trip.duration = trip.arrival - trip.departure
+        trip.duration = new Date(trip.arrival).getTime() - new Date(trip.departure).getTime()
     }
+
     
     try {
         const newTrip = await Trip.create(trip)
@@ -93,8 +95,12 @@ const deleteTrip = async( req, res ) => {
 
 const updateTrip = async (req, res) => {
     const trip = req.body
-    trip.distance = trip.finish - trip.start
-    console.log('total milage', trip.totalMilage)
+    if(trip.finish   && trip.start ){
+        trip.distance = parseInt(trip.finish) - parseInt(trip.start)
+    }
+    if(trip.departure && trip.arrival){
+        trip.duration = new Date(trip.arrival).getTime() - new Date(trip.departure).getTime()
+    }
     const tripId = req.body._id
 
     try {

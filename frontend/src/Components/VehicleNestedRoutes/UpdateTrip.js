@@ -56,27 +56,41 @@ export const UpdateTrip = () => {
             })
             const json = await response.json()
             if (json.success) {
-                const {trip} = json
 
+                const {trip} = json
+                
+                console.log('received trip', trip)
                 const newDeparture = new Date(trip.departure)
                 const newArrival = new Date(trip.arrival)
-                
 
-                departure && setDeparture(formatDateTime(newDeparture))
-                arrival && setDeparture(formatDateTime(newArrival))
-                trip && setFrom(trip.from)
-                to && setTo(trip.to)
-                units && setUnits(trip.units)
-                start && setStart(trip.start)
-                finish && setFinish(trip.finish)
-                completed && setIsChecked(trip.completed)
+                trip.departure && setDeparture(formatDateTime(newDeparture))
+                trip.arrival && setArrival(formatDateTime(newArrival))
+                trip.from && setFrom(trip.from)
+                trip.to && setTo(trip.to)
+                trip.units && setUnits(trip.units)
+                trip.start && setStart(trip.start)
+                trip.finish && setFinish(trip.finish)
+                setIsChecked(trip.completed)
                 setError('')
 
                
                 //set all validfators to true to et rid of validation messages
                 // for (let key in validator) {
+                //     console.log([key])
                 //     validator[key] = true
                 // }
+                trip.departure && setValidator(validator.departure = true)
+                trip.arrival && setValidator(validator.arrival = true)
+                trip.from && setValidator(validator.from = true)
+                trip.to && setValidator(validator.to = true)
+                trip.units && setValidator(validator.units = true)
+                trip.start && setValidator(validator.start = true)
+                trip.finish && setValidator(validator.finish = true)
+                trip.completed && setValidator(validator.completed = true)
+
+                console.log('validator after fetch', validator)
+               
+
             }
         }
 
@@ -202,6 +216,7 @@ export const UpdateTrip = () => {
     <div>
         <div className='form-wrapper'>
             <h3 className='title'>{from} - {to}</h3>
+            {/* <h4>{completed ? 'completed true':'completed false'}</h4> */}
             <form onSubmit={handleSubmit} className='form-content'>
                 {error && 
                     (
@@ -291,7 +306,7 @@ export const UpdateTrip = () => {
                 </div>
                 
                 <div className='input-wrapper checkbox-wrapper'>
-                    <label style={{color: isChecked ? 'green' : 'red'}}>{isChecked ? 'Completed': 'Mark as completed'}</label>
+                    <label style={{fontSize:"11px" ,color: isChecked ? 'green' : 'red'}}>{isChecked ? 'Completed': 'Mark as completed'}</label>
                     <input type='checkbox' className='checkbox' onChange={()=> setIsChecked(!isChecked)} value={isChecked}/>
                     
                     
@@ -299,10 +314,8 @@ export const UpdateTrip = () => {
                 <button className='submit-button' type='submit' disabled=
                 { 
                     (validator.from=== false ||
-                    validator.to=== false ||
-                    validator.units=== false ||
-                    validator.start=== false ||
-                    validator.finish === false) ? true : false
+                    validator.to=== false  ? true : false
+                    )
                 }
                 >Submit</button>
             </form>

@@ -36,10 +36,12 @@ const tripSchema = new Schema({
     ref: "Vehicle"
   },
   distance: {
-    type : Number
+    type : Number,
+    default:0
   },
   duration: {
-    type: Number
+    type: Number,
+    default: 0
   }
   
 }, 
