@@ -1,14 +1,15 @@
 
 import { useState, useEffect } from 'react'
-import { useVehiclesContext } from '../hooks/useVehiclesContext'
+// import { useVehiclesContext } from '../hooks/useVehiclesContext'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom"
+
 import './Vehicle.css'
 
 //assets
 import EditIcon from '../assets/edit.svg'
 import CloseIcon from '../assets/close-icon-dark.svg'
-
+import Modal from '../Components/modal/Modal'
 
 
 const Vehicle = () => {
@@ -23,10 +24,13 @@ const Vehicle = () => {
     const [error, setError] = useState(null)
     const [isEdit, setIsEdit] = useState(false)
     const [isActive, setIsActive] = useState(false)
+    const [ toBeDeleted , setToBeDeleted ] = useState('')
+    const [ modalIsOpen, setModalIsOpen ] = useState(false)
 
-    const { dispatch } = useVehiclesContext()
+    // const { dispatch, vehicles, car} = useVehiclesContext()
     const { user } = useAuthContext()
-
+    const  navigate  = useNavigate()
+    
     const [validator, setValidator] = useState({
         make: false,
         model: false,
@@ -41,6 +45,12 @@ const Vehicle = () => {
 
     for (let i = 2022; i > 1899; i--) {
         YEARS.push(i)
+    }
+
+    const openModal = (_trip_id) => {
+        setModalIsOpen(!modalIsOpen)
+        setToBeDeleted(id)
+
     }
 
     const handleIsActive = (e) => {
@@ -101,7 +111,7 @@ const Vehicle = () => {
             }
 
 
-            dispatch({ type: 'UPDATE_VEHICLE', payload: json.vehicle })
+            // dispatch({ type: 'SET_CAR', payload: json.vehicle })
 
         }
     }
@@ -153,10 +163,30 @@ const Vehicle = () => {
         }
     }
 
+    const handleDelete = (vehicleId) => {
+        const deleteTrip = async () => {
+            const response = await fetch(`/api/vehicle/delete/${vehicleId}`, {
+                headers: { 'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json' },
+                method: 'POST',
+            })
+            const json = await response.json()
+            if (json.success) {
+                setModalIsOpen(!modalIsOpen)
+                navigate(`/`)
+                
+            }else{
+                setError(json.error)
+            }
+            
+        }
+
+        if (user) {
+            deleteTrip()
+        }
+    }
+
 
     useEffect(() => {
-
-
         const fetchVehicle = async () => {
             const response = await fetch(`/api/vehicle/${id}`, {
                 headers: { 'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json' },
@@ -164,7 +194,6 @@ const Vehicle = () => {
             })
 
             const json = await response.json()
-
 
             if (json.success) {
 
@@ -181,6 +210,11 @@ const Vehicle = () => {
                 }
 
                 console.log('valid', validator)
+
+                // console.log('test', json.vehicle)
+             
+                // dispatch({ type: 'SET_CAR', payload: json.vehicle })
+
             }
         }
 
@@ -188,7 +222,7 @@ const Vehicle = () => {
             fetchVehicle()
         }
 
-    }, [user])
+    }, [])
 
 
     return (
@@ -327,21 +361,26 @@ const Vehicle = () => {
 
                     {
                         !isEdit && (
-                            <div>
+                            <div  className='vehicle-info-content'>
                                 <div>
-                                    <span>Make: <span>{make}</span> </span>
+                                    <div>
+                                        <span>Make: <span>{make}</span> </span>
+                                    </div>
+                                    <div>
+                                        <span>Model: <span>{model}</span> </span>
+                                    </div>
+                                    <div>
+                                        <span>Year: <span>{year}</span> </span>
+                                    </div>
+                                    <div>
+                                        <span>Purchase Milage: <span>{purchaseMilage}</span> </span>
+                                    </div>
+                                    <div>
+                                        <span>Price: <span>{price}</span> </span>
+                                    </div>
                                 </div>
                                 <div>
-                                    <span>Model: <span>{model}</span> </span>
-                                </div>
-                                <div>
-                                    <span>Year: <span>{year}</span> </span>
-                                </div>
-                                <div>
-                                    <span>Purchase Milage: <span>{purchaseMilage}</span> </span>
-                                </div>
-                                <div>
-                                    <span>Price: <span>{price}</span> </span>
+                                    <button onClick={()=>openModal(id)} className='details-btn'>Delete</button>
                                 </div>
                             </div>
                         )
@@ -359,6 +398,19 @@ const Vehicle = () => {
                 </div>
 
             </div>
+            {
+                    modalIsOpen && 
+                    <Modal>
+                        <div>
+                            <div className='modal-top-section'>
+                                <img onClick={()=>setModalIsOpen(!modalIsOpen)} src={CloseIcon} className='close-icon-light'/>
+                            </div>
+                            <div className='modal-bottom-section'>
+                                <button onClick={()=>handleDelete(toBeDeleted)} className='confirm-btn'>Confirm</button>
+                            </div>
+                        </div>
+                    </Modal>
+                }
         </div>
     )
 }

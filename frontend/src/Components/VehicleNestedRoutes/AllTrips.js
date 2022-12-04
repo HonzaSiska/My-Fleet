@@ -26,7 +26,6 @@ export const AllTrips = () => {
     const [ toBeDeleted , setToBeDeleted ] = useState('')
     const [ error, setError ] = useState('')
 
-    const navigate = useNavigate()
 
     const resultsPerPage = 5
 
@@ -51,7 +50,6 @@ export const AllTrips = () => {
                 
             })
 
-            console.log('updated trips', updatedTrip)
             dispatch({ type: 'SET_TRIPS', payload: updatedTrip })
         }
     }
@@ -136,7 +134,6 @@ export const AllTrips = () => {
                         </div>
                     </Modal>
                 }
-                
             </div>
             <Pagination 
                 setPage={setPage}

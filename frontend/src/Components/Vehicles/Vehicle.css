@@ -7,7 +7,7 @@
     border: 1px solid var(--dark-theme);
     background: var(--dark-theme);
     border-radius: 2px;
-    padding: 0 5px 3px;   
+    padding: 3px 5px 3px;   
     color: var(--main-background-theme);
 }
 .details-link {

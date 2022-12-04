@@ -1,4 +1,5 @@
 const Vehicle = require('../models/vehicleModel')
+const Trip = require('../models/tripModel')
 const mongoose = require('mongoose')
 
 const getVehicles = async( req, res ) => {
@@ -39,7 +40,20 @@ const createVehicle = async( req, res ) => {
 }
 
 const deleteVehicle = async( req, res ) => {
-
+    const { id } = req.params
+    console.log('delete vehicle', id)
+    try {
+        const deletedTrips = await Trip.deleteMany({ vehicle_id: id }).exec()
+        try {
+            const deletedVehicle = await Vehicle.deleteOne({_id:id}).exec()
+            res.status(200).json({success: true})
+        } catch (error) {
+            res.status(400).json({ success: false, error: error.message})
+        }
+        
+    } catch (error) {
+        res.status(400).json({ success: false, error: error.message})
+    }
 }
 
 const updateVehicle = async( req, res ) => {

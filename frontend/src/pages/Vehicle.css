@@ -19,3 +19,8 @@
     border-radius: 5px;
     cursor: pointer;
 }
+.vehicle-info-content{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}

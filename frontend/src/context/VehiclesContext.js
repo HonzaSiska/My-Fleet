@@ -13,6 +13,10 @@ export const vehiclesReducer = (state, action) => {
       return {
         vehicles: [action.payload, ...state.vehicles]
       }
+    case 'SET_CAR':
+      return {
+        car: action.payload
+      }
     case 'DELETE_VEHICLE':
       return {
         vehicles: state.vehicles.filter((w) => w._id !== action.payload._id)
@@ -44,6 +48,7 @@ export const VehiclesContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(vehiclesReducer, {
     vehicles: null,
     trips: null,
+    car: null,
     isOpenMenu: false
   })
 

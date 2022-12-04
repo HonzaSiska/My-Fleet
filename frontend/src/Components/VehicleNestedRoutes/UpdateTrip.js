@@ -54,12 +54,16 @@ export const UpdateTrip = () => {
                 headers: { 'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json' },
                 method: 'POST',
             })
+
             const json = await response.json()
+
             if (json.success) {
 
                 const {trip} = json
                 
                 console.log('received trip', trip)
+
+                // convert to date 
                 const newDeparture = new Date(trip.departure)
                 const newArrival = new Date(trip.arrival)
 
@@ -189,10 +193,12 @@ export const UpdateTrip = () => {
             setValidator(prev => ({...prev, to:false}))
            }
     }
+    
     const handleUnitsChange = (value) => {
         setUnits(value)
         setValidator(prev => ({...prev, units:true}))
     }
+
     const handleStartChange = (value) => {
         setStart(value)
  
@@ -202,6 +208,7 @@ export const UpdateTrip = () => {
          setValidator(prev => ({...prev, start:false}))
         }
     }
+
     const handleFinishChange = (value) => {
         setFinish(value)
  
@@ -214,9 +221,8 @@ export const UpdateTrip = () => {
      
   return (
     <div>
+        <h3 className='title'>{from} - {to}</h3>
         <div className='form-wrapper'>
-            <h3 className='title'>{from} - {to}</h3>
-            {/* <h4>{completed ? 'completed true':'completed false'}</h4> */}
             <form onSubmit={handleSubmit} className='form-content'>
                 {error && 
                     (

@@ -28,7 +28,7 @@ router.post('/:id', getVehicle)
 router.post('/', getVehicles)
 
 
-router.get('/delete', deleteVehicle)
+router.post('/delete/:id', deleteVehicle)
 
 
 

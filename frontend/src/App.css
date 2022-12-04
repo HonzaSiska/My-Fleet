@@ -37,7 +37,8 @@
 .nested-routes-wrapper{
   display: flex;
   align-items: center;
-  background: var(--secondary-theme);
+  /* background: var(--secondary-theme); */
+  background: lightgrey;
   padding: 0 30px;
   margin-top: 30px;
 }
@@ -46,8 +47,9 @@
   border: 1px solid var(--dark-theme);
   color: var(--dark-theme);
   text-decoration: none;
-  background: var(--secondary-theme);
-  border-bottom: 1px solid var(--main-background-theme);
+  /* background: var(--secondary-theme); */
+  background: lightgrey;
+  border-bottom: 1px solid lightgrey;
   border-top: none;
   border-left: none;
 }
@@ -91,14 +93,16 @@
   border-left: 4px solid var(--secondary-theme);
 }
 .close-icon-dark{
-  width:25px;
+  width:20px;
   background-color: var(--dark-theme);
   padding:4px;
+  border-radius: 3px;
 }
 .close-icon-light{
   width:25px;
   padding:4px;
 }
+
 
 
 

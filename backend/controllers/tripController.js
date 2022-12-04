@@ -6,22 +6,18 @@ const getTrips = async (req, res) => {
     const user_id = req.user._id
     const vehicleId = req.params.id
 
-    console.log('vehicleId', vehicleId)
     const limit = 5
     const skip = req.query.page * limit
 
     try {
         const count = await Trip.find({ user_id, vehicle_id: vehicleId }).count()
-        const fetchedTrips = await Trip.find({ user_id, vehicle_id: vehicleId }).skip(skip).limit(limit).sort({ completed: 1, date: -1, })
+        const fetchedTrips = await Trip.find({ user_id, vehicle_id: vehicleId }).skip(skip).limit(limit).sort({ completed: 1, departure: -1, })
         const trips = fetchedTrips.map(trip => {
             return {
                 ...trip._doc,
-                // date: '23-33-45'
                   date: trip._doc.departure ? `${trip._doc.departure.getDate()}-${trip._doc.departure.getMonth()}-${trip._doc.departure.getFullYear()}` : ''
-                //distance: trip._doc.finish - trip._doc.start
             }
         })
-        console.log('trips', trips)
         res.status(200).json({ success: true, trips, count })
     } catch (error) {
         res.status(400).json({ success: false, error: error.message })
@@ -31,7 +27,6 @@ const getTrip = async (req, res) => {
     const tripId = req.params.id
     try {
         const trip = await Trip.findOne({ _id: tripId })
-        console.log('trip to update', trip)
         res.status(200).json({ success: true, trip })
     } catch (error) {
         res.status(400).json({ success: false, error: error.message })
@@ -63,7 +58,6 @@ const createTrip = async (req, res) => {
 
 const getStats = async (req, res) => {
     const { id } = req.params
-    console.log('veh id', id)
     try {
         const data = await Trip.aggregate(
             [   
@@ -71,11 +65,17 @@ const getStats = async (req, res) => {
                  $group: {
                     _id: '$vehicle_id',
                    "sum": { $sum: "$distance"},
+                   "duration": {$sum: '$duration'},
                    "count" : { $sum: 1},
                 }
              }
         ])
+
+        data[0].averageTripDistance = data[0].sum / data[0].count
+
+        console.log('statst data',data)
         res.json({ success: true, stats: data })
+        
     } catch (error) {
         res.json({ success: false, error:error })
     }
@@ -83,7 +83,6 @@ const getStats = async (req, res) => {
 
 const deleteTrip = async( req, res ) => {
     const {id} = req.params
-    console.log('id', id)
 
     try {
         await Trip.deleteOne({_id: id})
@@ -105,7 +104,7 @@ const updateTrip = async (req, res) => {
 
     try {
         const updatedTrip = await Trip.findOneAndUpdate({ _id: tripId }, { ...trip }, { new: true })
-        console.log('trip uipdated', updatedTrip)
+     
         res.status(200).json({ success: true, trip: updatedTrip })
     } catch (error) {
         res.status(400).json({ success: false, error: error.message })

@@ -17,7 +17,6 @@ export const NewTrip = () => {
     const [ finish, setFinish ] = useState('')
     const [ error, setError ] = useState(null)
     const [ isChecked, setIsChecked ] = useState(false)
-    // const { dispatch } = useVehiclesContext()
     const { user } = useAuthContext()
     
     const [ validator, setValidator ] = useState({
@@ -30,6 +29,8 @@ export const NewTrip = () => {
         units: true,
     
     })
+
+    
 
     const navigate = useNavigate()
 
@@ -88,6 +89,7 @@ export const NewTrip = () => {
             setTo('')
             setStart('')
             setFinish('')
+            setIsChecked(false)
             setError('New trip was added')
             setTimeout(() => {
                 setError('')
@@ -235,9 +237,9 @@ export const NewTrip = () => {
                         value={start}
                     />
                 </div>
-                {/* <div className='validator'>
+                <div className='validator'>
                     <span>{(!validator.start ) && <span>{`* Required, must be a number`}</span>}</span>
-                </div> */}
+                </div>
                 <label>Odometer Finish</label>
                 <br/>
                 <div className='input-wrapper'>
@@ -261,11 +263,8 @@ export const NewTrip = () => {
                 { 
                     (
                         validator.from=== false ||
-                        validator.to=== false 
-                        // validator.units=== false ||
-                        // validator.start=== false ||
-                        // validator.finish === false
-                    ) ? true : false
+                        validator.to=== false ? true : false
+                    )
                 }
                 >Submit</button>
             </form>
