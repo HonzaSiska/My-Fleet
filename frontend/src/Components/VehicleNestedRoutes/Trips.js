@@ -21,6 +21,7 @@ function Trips() {
           <Link className='tab' to='new' onClick={handleIsActive}>New</Link>
           <Link className='tab  tab-active' to='all' onClick={handleIsActive}>All Trips</Link>
           <Link className='tab' to='stats' onClick={handleIsActive}>Stats</Link>
+          <Link className='tab' to='search' onClick={handleIsActive}>Search</Link>
       </nav>
       <div className='sub-outlet'>
           <Outlet/>

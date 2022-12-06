@@ -102,6 +102,17 @@
   width:25px;
   padding:4px;
 }
+.round-corners-large{
+  border-radius: 12px;
+}
+.date-search-form{
+  display: flex;
+  justify-content: space-between;
+}
+.lupa{
+  margin-left: 10px;
+  cursor: pointer;
+}
 
 
 
