@@ -46,6 +46,8 @@ input, select{
 }
 label{
   color: var(--dark-theme);
+  font-size: smaller;
+  ;
 }
 button:hover{
   cursor: pointer;

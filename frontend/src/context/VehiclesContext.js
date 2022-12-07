@@ -27,7 +27,7 @@ export const vehiclesReducer = (state, action) => {
       }
     case 'SET_TRIPS':
       return {
-        trips: action.payload
+        trips: action.payload, ...state.trips
       }
     case 'OPEN_MENU':
       return {
