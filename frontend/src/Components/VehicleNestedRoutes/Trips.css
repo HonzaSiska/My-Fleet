@@ -43,6 +43,12 @@
 .input-group label{
     margin-right: 10px;
 }
+.found-trip{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px dotted var(--secondary-theme);
+}
 
 
 @media screen and (min-width: 850px) {

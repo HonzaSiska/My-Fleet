@@ -106,12 +106,14 @@
   border-radius: 12px;
 }
 .date-search-form{
-  display: flex;
-  justify-content: space-between;
+  display: flex; 
 }
 .lupa{
   margin-left: 10px;
   cursor: pointer;
+}
+.validator{
+  font-size: small;
 }
 
 

@@ -6,37 +6,22 @@ import  SearchIcon   from '../../assets/lupa.svg'
 import { NavLink, useParams } from 'react-router-dom'
 import { parseMillisecondsIntoReadableTime } from '../../utils/utils'
 import EditIcon from '../../assets/edit.svg'
-
 import FoundTrips from './FoundTrips'
 
-const TripSearch = () => {
 
-  const [ canFetch, setCanFetch] = useState( false )
-//   const [ startDate, setStartDate ] = useState('')
-//   const [ endDate, setEndDate ] = useState('')
-  const [ keyword, setKeyword ] = useState('')
-  const [ page, setPage ] = useState(0)
-  const [ recordsLeft,  setRecordsLeft ] = useState(0)
-  const [ results, setResults ] = useState(0)
+export const DateSearch = () => {
+
+  const [ startDate, setStartDate ] = useState('')
+  const [ endDate, setEndDate ] = useState('')
   const [ foundTrips, setFoundTrips ] = useState([])
-
-
+  const [ results, setResults ] = useState(0)
   const { user } = useAuthContext()
   const {dispatch, trips } = useVehiclesContext()
   const { id } = useParams()
 
-
-
-  const handleKeywordSearch = (keyword) => {
-    !canFetch && setCanFetch(true)
-    setKeyword(keyword)
-  }
-
-
-
   const fetchTrips = async () => {
     
-    const response = await fetch(`/api/trip/search/${id}?page=${page}&keyword=${keyword}`, {
+    const response = await fetch(`/api/trip/dates/${id}?start=${startDate}&end=${endDate}`, {
         headers: { 'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json' },
         method: 'POST',
     })
@@ -54,18 +39,16 @@ const TripSearch = () => {
     }
 }
 
-  useEffect(() => {
-    if(user  &&  canFetch && keyword){
-        fetchTrips()
-    }
-  },[keyword])
 
-  return (
+
+  
+
+return (
     <div className='trips-wrapper'>
         <div className='search-forms'>
             {/* search by date */}
 
-            {/* <form className='date-search-form'>
+            <form className='date-search-form'>
                 <div>
                     <div className='input-group'>
                         <label>Start date</label>
@@ -84,21 +67,9 @@ const TripSearch = () => {
                         />
                     </div>
                 </div>
-                <img className='lupa' onClick={submitDateSearch} src={SearchIcon} alt='SearchIcon'/>
-            </form> */}
-
-            {/* search by keyword */}
-
-            <form className='trip-search-form'>
-                <div className='input-group'>
-                    <label>Search by place</label>
-                    <input 
-                        className='round-corners-large' 
-                        type='text'
-                        onChange={(e)=> handleKeywordSearch(e.target.value)}
-                    />
-                </div>    
+                <img className='lupa' onClick={fetchTrips} src={SearchIcon} alt='SearchIcon'/>
             </form>
+
         </div>
         {/* <div>
             { results > 0 ??<span>Found: <span className='bold'>{results}</span></span>}
@@ -108,6 +79,5 @@ const TripSearch = () => {
         </div>
     </div>
   )
-}
 
-export default TripSearch
+}
