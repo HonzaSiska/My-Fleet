@@ -9,7 +9,8 @@ const {
     updateTrip,
     getStats,
     deleteTrip,
-    search
+    search,
+    searchDate
 } = require('../controllers/tripController')
 
 
@@ -35,6 +36,8 @@ router.post('/stats/:id', getStats)
 router.post('/delete/:id', deleteTrip)
 
 router.post('/search/:id', search)
+
+router.post('/dates/:id', searchDate)
 
 
 

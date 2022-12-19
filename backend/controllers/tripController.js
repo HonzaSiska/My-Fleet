@@ -15,7 +15,7 @@ const getTrips = async (req, res) => {
         const trips = fetchedTrips.map(trip => {
             return {
                 ...trip._doc,
-                  date: trip._doc.departure ? `${trip._doc.departure.getDate()}-${trip._doc.departure.getMonth()}-${trip._doc.departure.getFullYear()}` : ''
+                  date: trip._doc.departure ? `${trip._doc.departure.getDate()}-${trip._doc.departure.getMonth() + 1}-${trip._doc.departure.getFullYear()}` : ''
             }
         })
         res.status(200).json({ success: true, trips, count })
@@ -161,8 +161,8 @@ const search = async(req,res) => {
         const trips = fetchedTrips.map(trip => {
             return {
                 ...trip._doc,
-                  date: trip._doc.departure ? `${trip._doc.departure.getDate()}-${trip._doc.departure.getMonth()}-${trip._doc.departure.getFullYear()}` : '',
-                  date2: trip._doc.departure ? `${trip._doc.arrival.getDate()}-${trip._doc.arrival.getMonth()}-${trip._doc.arrival.getFullYear()}` : ''
+                  date: trip._doc.departure ? `${trip._doc.departure.getDate()}-${trip._doc.departure.getMonth() + 1}-${trip._doc.departure.getFullYear()}` : '',
+                  date2: trip._doc.departure ? `${trip._doc.arrival.getDate()}-${trip._doc.arrival.getMonth()  + 1}-${trip._doc.arrival.getFullYear()}` : ''
             }
         })
         res.status(200).json({ success: true, trips, count })
@@ -170,8 +170,61 @@ const search = async(req,res) => {
         res.status(400).json({ success: false, error: error.message })
     }
 
-     
-   
+}
+
+const searchDate = async( req, res ) => {
+    const { 
+        start, 
+        end, 
+    }  = req.query 
+
+    const { id } = req.params
+
+    const startDate = new Date(start).toISOString()
+    const endDate = new Date(end).toISOString()
+
+    console.log('dates', startDate, endDate)
+
+    const user_id = req.user._id
+    const vehicleId = id
+    
+    try {
+        // const count = await Trip.find({ 
+           
+        //     $and:[
+        //         {user_id}, 
+        //         {vehicle_id: vehicleId} ,
+        //         {
+        //         $or: [
+        //             { from: { $regex: keyword }},
+        //             { to: { $regex: keyword }}
+        //         ]}
+               
+        //     ]
+            
+            
+            
+        // }).count()
+
+        const fetchedTrips = await Trip.find({
+            'departure' : {
+                $gte: start,
+                $lte: end
+            }
+        }).sort({ completed: 1, departure: -1, })
+        const trips = fetchedTrips.map(trip => {
+            return {
+                ...trip._doc,
+                  date: trip._doc.departure ? `${trip._doc.departure.getDate()}-${trip._doc.departure.getMonth() + 1}-${trip._doc.departure.getFullYear()}` : '',
+                  date2: trip._doc.departure ? `${trip._doc.arrival.getDate()}-${trip._doc.arrival.getMonth() + 1}-${trip._doc.arrival.getFullYear()}` : ''
+            }
+        })
+        res.status(200).json({ success: true, trips })
+       
+    } catch (error) {
+        res.status(400).json({ success: false, error: error.message })
+    }
+
 }
 /////////////////////////////////////////////////////////////////
 
@@ -198,5 +251,6 @@ module.exports = {
     updateTrip,
     getStats,
     deleteTrip,
-    search
+    search,
+    searchDate
 }

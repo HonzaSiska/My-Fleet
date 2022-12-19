@@ -28,6 +28,7 @@ export const DateSearch = () => {
     const json = await response.json()
     
     if (json.success) {
+        console.log( 'seatch by date', json)
         
         setResults(json.count)
 
