@@ -189,28 +189,14 @@ const searchDate = async( req, res ) => {
     const vehicleId = id
     
     try {
-        // const count = await Trip.find({ 
-           
-        //     $and:[
-        //         {user_id}, 
-        //         {vehicle_id: vehicleId} ,
-        //         {
-        //         $or: [
-        //             { from: { $regex: keyword }},
-        //             { to: { $regex: keyword }}
-        //         ]}
-               
-        //     ]
-            
-            
-            
-        // }).count()
-
+       
         const fetchedTrips = await Trip.find({
-            'departure' : {
+            $and:[
+            {'vehicle_id': vehicleId},
+            {'departure' : {
                 $gte: start,
                 $lte: end
-            }
+        }}]
         }).sort({ completed: 1, departure: -1, })
         const trips = fetchedTrips.map(trip => {
             return {

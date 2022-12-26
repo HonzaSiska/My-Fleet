@@ -27,3 +27,13 @@ export const  parseMillisecondsIntoReadableTime = (milliseconds) => {
     //h > 0 ?  h + 'h ' : '' + m > 0 ?  m + 'm ' : '' + s > 0 ?  s + 's' : ''
     return h + 'h ' + m + 'm ' + s + 's' ;
   }
+
+  export const handleIsActive = (e) => {
+    const links = document.querySelectorAll('.tab')
+    links.forEach(link=> {
+        console.log(link)
+        link.classList.remove('tab-active')
+        
+    })
+    e.target.classList.add('tab-active')
+}

@@ -15,7 +15,7 @@ import NewVehicle from './pages/NewVehicle'
 import Sidebar from './Components/Sidebar/Sidebar'
 import Vehicle from './pages/Vehicle'
 import Trips from './Components/VehicleNestedRoutes/Trips'
-import Fuel from './Components/VehicleNestedRoutes/Fuel'
+import Fuel from './Components/VehicleNestedRoutes/fuel/Fuel'
 import Maintenance from './Components/VehicleNestedRoutes/Maintenance'
 import { NewTrip } from './Components/VehicleNestedRoutes/NewTrip';
 import { AllTrips } from './Components/VehicleNestedRoutes/AllTrips';
@@ -23,6 +23,10 @@ import { TripsStats } from './Components/VehicleNestedRoutes/TripsStats';
 import { UpdateTrip } from './Components/VehicleNestedRoutes/UpdateTrip';
 import TripSearch from './Components/VehicleNestedRoutes/TripSearch';
 import { DateSearch } from './Components/VehicleNestedRoutes/DateSearch';
+import NewFuel from './Components/VehicleNestedRoutes/fuel/NewFuel';
+import AllFuels from './Components/VehicleNestedRoutes/fuel/AllFuels';
+
+
 
 
 
@@ -92,7 +96,10 @@ function App() {
                       <Route path='dates' element={<DateSearch/>} />
                   </Route>
 
-                  <Route path='fuel' element={<Fuel/> } />
+                  <Route path='fuel' element={<Fuel/> } >
+                    <Route path='new' element={<NewFuel/> } />
+                    <Route path='all' element={<AllFuels/>} />
+                  </Route>
                   <Route path='maintenance' element={<Maintenance/> } />
               </Route>
 

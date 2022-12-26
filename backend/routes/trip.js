@@ -16,7 +16,7 @@ const {
 
 const router = express.Router()
 
-// require auth for all workout routes
+// require auth for all trip routes
 router.use(requireAuth)
 
 
@@ -38,8 +38,6 @@ router.post('/delete/:id', deleteTrip)
 router.post('/search/:id', search)
 
 router.post('/dates/:id', searchDate)
-
-
 
 
 module.exports = router

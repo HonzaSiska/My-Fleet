@@ -21,7 +21,7 @@ const FoundTrips = ({trips, id}) => {
                     {
                         trip.completed 
                         ? <img src={CheckedIcon} alt={ CheckedIcon }/>
-                        : <span style={{color: 'red',fontSize:'11px' }}>still open </span>
+                        : <span style={{color: 'red', fontSize:'11px' }}>still open </span>
                     }
                     <NavLink  onClick={()=>dispatch({type: 'CLOSE_MENU'})}  to={`/vehicle/${id}/trips/update/${trip._id}`}><img src={EditIcon} alt='edit'/></NavLink>
                     

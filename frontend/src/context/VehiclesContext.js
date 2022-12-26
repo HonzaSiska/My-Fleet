@@ -29,6 +29,10 @@ export const vehiclesReducer = (state, action) => {
       return {
         trips: action.payload, ...state.trips
       }
+    case 'SET_FUELS':
+      return {
+        fuels: action.payload, ...state.fuels
+      }
     case 'OPEN_MENU':
       return {
         vehicles: state.vehicles,
@@ -48,6 +52,7 @@ export const VehiclesContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(vehiclesReducer, {
     vehicles: null,
     trips: null,
+    fuels: null,
     car: null,
     isOpenMenu: false
   })

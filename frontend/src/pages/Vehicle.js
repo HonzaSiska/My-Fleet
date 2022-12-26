@@ -389,7 +389,7 @@ const Vehicle = () => {
 
                 <nav className='nested-routes-wrapper'>
                     <Link className='sub-link nested-menu-active' to='trips/all' onClick={handleIsActive}>Trips</Link>
-                    <Link className='sub-link' to='fuel' onClick={handleIsActive}>Fuel</Link>
+                    <Link className='sub-link' to='fuel/all' onClick={handleIsActive}>Fuel</Link>
                     <Link className='sub-link' to='Maintenance' onClick={handleIsActive}>Maintenance</Link>
                 </nav>
 
