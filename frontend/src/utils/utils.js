@@ -7,6 +7,13 @@ export const formatDateTime = (datetime) => {
     const convertedDate = `${year}-${month}-${day} ${h}:${m}`
     return convertedDate
 }
+export const formatDate = (date) => {
+    const day = date.getDate() < 10 ? '0'+ date.getDate() : date.getDate()
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
+    const convertedDate = `${year}-${month}-${day}`
+    return convertedDate
+}
 
 export const  parseMillisecondsIntoReadableTime = (milliseconds) => {
     //Get hours from milliseconds

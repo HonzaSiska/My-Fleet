@@ -25,6 +25,7 @@ import TripSearch from './Components/VehicleNestedRoutes/TripSearch';
 import { DateSearch } from './Components/VehicleNestedRoutes/DateSearch';
 import NewFuel from './Components/VehicleNestedRoutes/fuel/NewFuel';
 import AllFuels from './Components/VehicleNestedRoutes/fuel/AllFuels';
+import UpdateFuel from './Components/VehicleNestedRoutes/fuel/UpdateFuel';
 
 
 
@@ -99,6 +100,7 @@ function App() {
                   <Route path='fuel' element={<Fuel/> } >
                     <Route path='new' element={<NewFuel/> } />
                     <Route path='all' element={<AllFuels/>} />
+                    <Route path='update/:fuelId' element={<UpdateFuel/>} />
                   </Route>
                   <Route path='maintenance' element={<Maintenance/> } />
               </Route>

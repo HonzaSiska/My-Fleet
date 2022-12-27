@@ -67,6 +67,8 @@ export const UpdateTrip = () => {
                 const newDeparture = new Date(trip.departure)
                 const newArrival = new Date(trip.arrival)
 
+                console.log( 'formatted departure date', newDeparture)
+
                 trip.departure && setDeparture(formatDateTime(newDeparture))
                 trip.arrival && setArrival(formatDateTime(newArrival))
                 trip.from && setFrom(trip.from)

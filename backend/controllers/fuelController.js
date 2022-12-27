@@ -23,6 +23,17 @@ const getFuels = async(req, res) => {
     }
 
 }
+
+const getFuel = async (req, res) => {
+    const fuelId = req.params.id
+    try {
+        const fuel = await Fuel.findOne({ _id: fuelId })
+        res.status(200).json({ success: true, fuel })
+    } catch (error) {
+        res.status(400).json({ success: false, error: error.message })
+    }
+}
+
 const createFuel = async(req, res) => {
     const fuel = req.body
 
@@ -42,8 +53,21 @@ const createFuel = async(req, res) => {
     }
 }
 
+const deleteFuel = async( req, res ) => {
+    const {id} = req.params
+
+    try {
+        await Fuel.deleteOne({_id: id})
+        res.json({success: true })
+    } catch (error) {
+        res.json({success: false, error })
+    }
+}
+
 
 module.exports = {
     createFuel,
-    getFuels
+    getFuels,
+    deleteFuel,
+    getFuel
 }
