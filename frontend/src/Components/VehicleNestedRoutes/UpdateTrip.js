@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { formatDateTime } from '../../utils/utils'
+import Loader from '../Loader/Loader'
 
 // import { useVehiclesContext } from '../../hooks/useVehiclesContext'
 
@@ -22,6 +23,7 @@ export const UpdateTrip = () => {
     const [ error, setError ] = useState(null)
     const [ completed, setCompleted ] = useState(false)
     const [ isChecked, setIsChecked ] = useState(false)
+    const [ isLoading, setIsLoading ] = useState(true)
 
     const { user } = useAuthContext()
     
@@ -67,7 +69,6 @@ export const UpdateTrip = () => {
                 const newDeparture = new Date(trip.departure)
                 const newArrival = new Date(trip.arrival)
 
-                console.log( 'formatted departure date', newDeparture)
 
                 trip.departure && setDeparture(formatDateTime(newDeparture))
                 trip.arrival && setArrival(formatDateTime(newArrival))
@@ -78,6 +79,7 @@ export const UpdateTrip = () => {
                 trip.finish && setFinish(trip.finish)
                 setIsChecked(trip.completed)
                 setError('')
+                setIsLoading(false)
 
                
                 //set all validfators to true to et rid of validation messages
@@ -136,6 +138,8 @@ export const UpdateTrip = () => {
         ){ return }
 
         const trip = {_id: tripId,from, to, departure, arrival, start, finish, completed: isChecked}
+
+        setIsLoading(true)
            
         const response = await fetch('/api/trip/update', {
             method: 'POST',
@@ -159,6 +163,7 @@ export const UpdateTrip = () => {
             setTo('')
             setStart('')
             setFinish('')
+            setIsLoading(false)
 
             navigate(`/vehicle/${id}/trips/all`)
           }
@@ -222,6 +227,9 @@ export const UpdateTrip = () => {
     }
      
   return (
+    isLoading ? 
+        <Loader/> 
+    : (    
     <div>
         <h3 className='title'>{from} - {to}</h3>
         <div className='form-wrapper'>
@@ -329,5 +337,6 @@ export const UpdateTrip = () => {
             </form>
         </div>
     </div>
+    )
   )
 }

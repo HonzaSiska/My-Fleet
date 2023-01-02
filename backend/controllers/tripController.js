@@ -24,6 +24,7 @@ const getTrips = async (req, res) => {
     }
 }
 const getTrip = async (req, res) => {
+   
     const tripId = req.params.id
     try {
         const trip = await Trip.findOne({ _id: tripId })
@@ -35,7 +36,7 @@ const getTrip = async (req, res) => {
 
 const createTrip = async (req, res) => {
     const trip = req.body
-
+ 
     if(trip.finish < trip.start || (trip.finish<0 || trip.start<0))  return res.json({success: false, message: 'Incorrect values !! '} )
    
     if(trip.finish   && trip.start ){
@@ -71,7 +72,7 @@ const getStats = async (req, res) => {
              }
         ])
 
-        data[0].averageTripDistance = data[0].sum / data[0].count
+        data[0].averageTripDistance = parseFloat((data[0].sum / data[0].count).toFixed(2))
 
         console.log('statst data',data)
         res.json({ success: true, stats: data })

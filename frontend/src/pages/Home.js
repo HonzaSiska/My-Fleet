@@ -2,18 +2,21 @@ import React, { useEffect } from 'react'
 import { useVehiclesContext } from "../hooks/useVehiclesContext"
 import { useAuthContext } from "../hooks/useAuthContext"
 import VehiclesDetails from '../Components/Vehicles/VehiclesDetails'
- import './Home.css'
+import './Home.css'
 import Card from '../Components/Card/Card'
-// import '../App.css'
-// import './Auth/Auth.css'
+import { useState } from 'react'
+import Loader from '../Components/Loader/Loader'
 
 function Home() {
 
   const {vehicles, dispatch} = useVehiclesContext()
   const {user} = useAuthContext()
+  const [ isLoading, setIsLoading ] = useState(false)
 
   useEffect(() => {
+
     const fetchVehicles = async () => {
+      setIsLoading(true)
       const response = await fetch('/api/vehicle', {
         headers: {'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json'},
         method: 'POST',  
@@ -23,6 +26,7 @@ function Home() {
      
       if (json.success) {
         dispatch({type: 'SET_VEHICLES', payload: json.vehicles})
+        setIsLoading(false)
       }
     }
 
@@ -37,12 +41,18 @@ function Home() {
       <div className='title'>
           <h2>Dashboard</h2>
       </div>
+      {
+        isLoading ?    
+          <Loader/> 
+        : (
+          <div className='vehicles'>
+            { vehicles && vehicles.map((vehicle, index) => (
+              <Card key={index}><VehiclesDetails  vehicle={vehicle}/></Card>
+            ))}
+          </div>
+        )
+      }
       
-      <div className='vehicles'>
-        { vehicles && vehicles.map(vehicle => (
-          <Card key={vehicle._id}><VehiclesDetails  vehicle={vehicle}/></Card>
-        ))}
-      </div>
     </div>
   )
 }

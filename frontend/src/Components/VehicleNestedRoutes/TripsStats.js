@@ -3,11 +3,13 @@ import { useParams } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { parseMillisecondsIntoReadableTime } from '../../utils/utils'
 import Card from '../Card/Card'
+import Loader from '../Loader/Loader'
 
 export const TripsStats = () => {
   const { id } = useParams()
   const {user} = useAuthContext()
   const [ error , setError ] = useState('')
+  const [ isLoading, setIsLoading ] = useState(true)
   const [ data, setData ] = useState({
     sum: 0,
     count: 0
@@ -25,7 +27,7 @@ export const TripsStats = () => {
       if (json.success) {
 
         // filter data grouped by vehicle id
-        const filteredData = json.stats.filter(item => item._id == id)[0]
+        const filteredData = json.stats.filter(item => item._id === id)[0]
        
         setData(prev => ({
           ...prev, 
@@ -34,7 +36,7 @@ export const TripsStats = () => {
           averageTripDistance: filteredData.averageTripDistance,
           duration: parseMillisecondsIntoReadableTime(filteredData.duration)
         }))
-
+        setIsLoading(false)
         console.log('tyrip stats', json.stats)
       }else{
          setError(json.error)
@@ -44,30 +46,35 @@ export const TripsStats = () => {
 
     if (user) {
       fetchTrips()
+      
     }
-  }, [])
+  }, [id, user])
 
   return (
-    <div>
-      {
-        error ? (
-          <h3>{error}</h3>
-        ):(
-          <>
-          <Card>
-            <span>Total Distance: <span className='bold'>{data.sum}</span></span>
-            <br/>
-            <span>Trips: <span className='bold'>{data.count}</span></span>
-          </Card>
-          <Card>
-            <span>Total Duration: <span className='bold'>{data.duration}</span></span>
-            <br/>
-            <span>Average Trip Distance: <span className='bold'>{data.averageTripDistance}</span></span>
-          </Card>
-          
-          </>  
+    isLoading ?
+      <Loader/> 
+      : (
+          <div>
+            {
+              error ? (
+                <h3>{error}</h3>
+              ):(
+                <>
+                <Card>
+                  <span>Total Distance: <span className='bold'>{data.sum}</span></span>
+                  <br/>
+                  <span>Trips: <span className='bold'>{data.count}</span></span>
+                </Card>
+                <Card>
+                  <span>Total Duration: <span className='bold'>{data.duration}</span></span>
+                  <br/>
+                  <span>Average Trip Distance: <span className='bold'>{data.averageTripDistance}</span></span>
+                </Card>
+                
+                </>  
+              )
+            }
+          </div>
         )
-      }
-    </div>
   )
 }

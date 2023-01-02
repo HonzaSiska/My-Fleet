@@ -12,6 +12,7 @@ import CloseIcon from '../../assets/close-icon.svg'
 import './Trips.css'
 import Modal from '../modal/Modal'
 import { parseMillisecondsIntoReadableTime } from '../../utils/utils'
+import Loader from '../Loader/Loader'
 
 
 export const AllTrips = () => {
@@ -95,7 +96,7 @@ export const AllTrips = () => {
         <div className='trips-wrapper'>
             { error && <div className='error'>{error}</div> }
             <div className='trips'>
-                {trips && (
+                {trips ? (
                     trips.map((trip) => <Card key={trip._id}>
                         <div>
                             <span className='card-title bold '>{trip.from} - {trip.to}</span>
@@ -119,6 +120,8 @@ export const AllTrips = () => {
                         </div>
                         
                     </Card>)
+                ) : (
+                    <Loader/>
                 )}
                 
                 {

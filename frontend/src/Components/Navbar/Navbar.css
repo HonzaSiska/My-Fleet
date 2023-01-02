@@ -20,7 +20,7 @@
     font-weight: bold;
     font-style: italic;
     text-decoration: underline;
-    font-size: 30px;
+    font-size: 20px;
 }
 
 .navigation-mobile{
@@ -96,7 +96,7 @@ cursor: pointer;
         align-items: center;
         padding: 25px 20px;
         color: white;
-        border-bottom: 3px solid var(--dark-theme);
+        /* border-bottom: 3px solid var(--dark-theme); */
     }
     .navigation-mobile{
         display: none;

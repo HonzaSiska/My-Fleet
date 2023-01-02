@@ -18,7 +18,7 @@ function Navbar() {
     {isOpenMenu}
         <div className='menu'>
           <img onClick={()=>dispatch({type: 'OPEN_MENU'})} className='menu-icon' src={MenuIcon} alt='menu-icon'/>
-          <span className='logo'>My<sub>Fleet</sub></span>
+          <span className='logo'>My<sup>Fleet</sup></span>
         </div>
 
         <nav className={isOpenMenu ? 'navigation-mobile open-menu' : 'navigation-mobile close-menu'}>

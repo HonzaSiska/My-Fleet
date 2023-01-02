@@ -8,19 +8,16 @@ import { parseMillisecondsIntoReadableTime } from '../../utils/utils'
 import EditIcon from '../../assets/edit.svg'
 
 import FoundTrips from './FoundTrips'
+import Loader from '../Loader/Loader'
 
 const TripSearch = () => {
 
   const [ canFetch, setCanFetch] = useState( false )
-//   const [ startDate, setStartDate ] = useState('')
-//   const [ endDate, setEndDate ] = useState('')
   const [ keyword, setKeyword ] = useState('')
   const [ page, setPage ] = useState(0)
-  const [ recordsLeft,  setRecordsLeft ] = useState(0)
-  const [ results, setResults ] = useState(0)
   const [ foundTrips, setFoundTrips ] = useState([])
-
-
+  const [ isLoading, setIsLoading ] = useState(false)
+  const [ results, setResults ] = useState(0)
   const { user } = useAuthContext()
   const {dispatch, trips } = useVehiclesContext()
   const { id } = useParams()
@@ -35,7 +32,7 @@ const TripSearch = () => {
 
 
   const fetchTrips = async () => {
-    
+    setIsLoading(true)
     const response = await fetch(`/api/trip/search/${id}?page=${page}&keyword=${keyword}`, {
         headers: { 'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json' },
         method: 'POST',
@@ -51,6 +48,7 @@ const TripSearch = () => {
         })
         
         setFoundTrips(updatedTrips)
+        setIsLoading(false)
     }
 }
 
@@ -63,32 +61,7 @@ const TripSearch = () => {
   return (
     <div className='trips-wrapper'>
         <div className='search-forms'>
-            {/* search by date */}
-
-            {/* <form className='date-search-form'>
-                <div>
-                    <div className='input-group'>
-                        <label>Start date</label>
-                        <input 
-                            type='datetime-local' 
-                            onChange={(e)=> setStartDate(e.target.value)}
-                            value={startDate}
-                        />
-                    </div>
-                    <div className='input-group'>
-                        <label>End Date</label>
-                        <input 
-                            type='datetime-local'
-                            onChange={(e)=> setEndDate(e.target.value)}
-                            value={endDate}
-                        />
-                    </div>
-                </div>
-                <img className='lupa' onClick={submitDateSearch} src={SearchIcon} alt='SearchIcon'/>
-            </form> */}
-
-            {/* search by keyword */}
-
+            
             <form className='trip-search-form'>
                 <div className='input-group'>
                     <label>Search by place</label>
@@ -100,12 +73,15 @@ const TripSearch = () => {
                 </div>    
             </form>
         </div>
-        {/* <div>
-            { results > 0 ??<span>Found: <span className='bold'>{results}</span></span>}
-        </div> */}
-        <div className='results-group'>
-            <FoundTrips trips={foundTrips} id={id}/>
-        </div>
+        {
+            isLoading ? (
+                <Loader/>
+            ) : (
+                <div className='results-group'>
+                    <FoundTrips trips={foundTrips} id={id}/>
+                </div>
+            )
+        }
     </div>
   )
 }

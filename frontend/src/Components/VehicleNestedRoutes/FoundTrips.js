@@ -11,18 +11,21 @@ const FoundTrips = ({trips, id}) => {
     <div>
         {
                 trips && trips.map((trip, index)=> (<div key={index} className='found-trip'>
-                    <div>
+                    <div className='found-trip-item'>
                         <span className='bold'>{trip.from + ' - '}</span>
                         <span className='bold'>{trip.to}</span>
                     </div>
-                    <div>
+                    <div className='found-trip-item'>
                         <span className='duration'>{` ${trip.date}`}</span>
                     </div>
-                    {
-                        trip.completed 
-                        ? <img src={CheckedIcon} alt={ CheckedIcon }/>
-                        : <span style={{color: 'red', fontSize:'11px' }}>still open </span>
-                    }
+                    <div className='found-trip-item'>
+                        {
+                            trip.completed 
+                            ? <img src={CheckedIcon} alt={ CheckedIcon }/>
+                            : <span style={{color: 'red', fontSize:'11px' }}>still open </span>
+                        }
+                    </div>
+                    
                     <NavLink  onClick={()=>dispatch({type: 'CLOSE_MENU'})}  to={`/vehicle/${id}/trips/update/${trip._id}`}><img src={EditIcon} alt='edit'/></NavLink>
                     
                 </div>))

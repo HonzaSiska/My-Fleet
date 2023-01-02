@@ -62,8 +62,6 @@ const UpdateFuel = () => {
   
         setError('')
 
-        console.log('formatted date',formatDate(newDate))
-
 
         //set all validfators to true to et rid of validation messages
         // for (let key in validator) {
@@ -88,7 +86,7 @@ const UpdateFuel = () => {
       fetchFuel()
     }
 
-  }, [user])
+  }, [user, fuelId])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -103,9 +101,9 @@ const UpdateFuel = () => {
       return
     }
 
-    const fuel = { vehicle_id: id, date, amount, price, location, units }
+    const fuel = { _id: fuelId, date, amount, price, location, units }
 
-    const response = await fetch('/api/fuel/create', {
+    const response = await fetch('/api/fuel/update', {
       method: 'POST',
       body: JSON.stringify(fuel),
       headers: {
@@ -219,7 +217,7 @@ const UpdateFuel = () => {
             value={amount}
           />
           <div className='validator'>
-            <span>{(!validator.amount) && <span>{`* Required`}</span>}</span>
+            <span>{(!validator.amount) && <span>{`* Required, must be a number !!`}</span>}</span>
           </div>
           <label>Price</label>
           <br />
@@ -229,7 +227,7 @@ const UpdateFuel = () => {
             value={price}
           />
           <div className='validator'>
-            <span>{(!validator.price) && <span>{`* Required`}</span>}</span>
+            <span>{(!validator.price) && <span>{`* Required, must be u number !!`}</span>}</span>
           </div>
           <label>Units</label>
           <br />

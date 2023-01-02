@@ -7,6 +7,7 @@ import { NavLink, useParams } from 'react-router-dom'
 import { parseMillisecondsIntoReadableTime } from '../../utils/utils'
 import EditIcon from '../../assets/edit.svg'
 import FoundTrips from './FoundTrips'
+import Loader from '../Loader/Loader'
 
 
 export const DateSearch = () => {
@@ -14,13 +15,16 @@ export const DateSearch = () => {
   const [ startDate, setStartDate ] = useState('')
   const [ endDate, setEndDate ] = useState('')
   const [ foundTrips, setFoundTrips ] = useState([])
+  const [ isLoading, setIsLoading ] = useState(false)
   const [ results, setResults ] = useState(0)
   const { user } = useAuthContext()
   const {dispatch, trips } = useVehiclesContext()
   const { id } = useParams()
 
   const fetchTrips = async () => {
-    
+
+    if(!startDate || !endDate) return
+    setIsLoading(true)
     const response = await fetch(`/api/trip/dates/${id}?start=${startDate}&end=${endDate}`, {
         headers: { 'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json' },
         method: 'POST',
@@ -37,6 +41,7 @@ export const DateSearch = () => {
         })
         
         setFoundTrips(updatedTrips)
+        setIsLoading(false)
     }
 }
 
@@ -70,14 +75,17 @@ return (
                 </div>
                 <img className='lupa' onClick={fetchTrips} src={SearchIcon} alt='SearchIcon'/>
             </form>
-
         </div>
-        {/* <div>
-            { results > 0 ??<span>Found: <span className='bold'>{results}</span></span>}
-        </div> */}
-        <div className='results-group'>
-            <FoundTrips trips={foundTrips} id={id}/>
-        </div>
+        {
+            isLoading ? (
+                <Loader/>
+            ) : (
+                <div className='results-group'>
+                    <FoundTrips trips={foundTrips} id={id}/>
+                </div>
+            )
+        }
+        
     </div>
   )
 

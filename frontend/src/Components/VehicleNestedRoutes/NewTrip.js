@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import Loader from '../Loader/Loader'
 // import { useVehiclesContext } from '../../hooks/useVehiclesContext'
 
 
@@ -17,6 +18,7 @@ export const NewTrip = () => {
     const [finish, setFinish] = useState('')
     const [error, setError] = useState(null)
     const [isChecked, setIsChecked] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const { user } = useAuthContext()
 
     const [validator, setValidator] = useState({
@@ -57,15 +59,11 @@ export const NewTrip = () => {
         if (
             validator.from === false ||
             validator.to === false
-            // validator.departure=== false ||
-            // validator.arrival=== false ||
-            // validator.start=== false ||
-            // validator.finish === false
-
         ) { return }
 
         const trip = { vehicle_id: id, from, to, departure, arrival, start, finish, completed: isChecked }
 
+        setIsLoading(true)
         const response = await fetch('/api/trip/create', {
             method: 'POST',
             body: JSON.stringify(trip),
@@ -90,6 +88,7 @@ export const NewTrip = () => {
             setFinish('')
             setIsChecked(false)
             setError('New trip was added')
+            setIsLoading(false)
             setTimeout(() => {
                 setError('')
             }, 2000);
@@ -137,7 +136,7 @@ export const NewTrip = () => {
         } else {
             setValidator(prev => ({ ...prev, to: false }))
         }
-        
+
     }
     const handleUnitsChange = (value) => {
         setUnits(value)
@@ -170,121 +169,121 @@ export const NewTrip = () => {
 
     return (
         <div>
-            <div className='form-wrapper'>
-                <form onSubmit={handleSubmit} className='form-content'>
-                    {error &&
-                        (
-                            <div className='error'>
-                                <span>{error}</span>
-                            </div>
-                        )
-                    }
-                    <label>Departure Time & Date</label>
-                    <br />
-                    <input
-                        type='datetime-local'
-                        onChange={((e) => { handleDepartureChange(e.target.value) })}
-                        value={departure}
-                    />
-                    {/* <div className='validator'>
-                    <span>{(!validator.departure ) && <span>{`* Required`}</span>}</span>
-                </div> */}
-                    <label>Arrival Time & Date</label>
-                    <br />
-                    <input
-                        type='datetime-local'
-                        onChange={((e) => { handleArrivalChange(e.target.value) })}
-                        value={arrival}
-                    />
-                    {/* <div className='validator'>
-                    <span>{(!validator.date ) && <span>{`* Required`}</span>}</span>
-                </div> */}
-                    <label>From</label>
-                    <br />
-                    <input
-                        type='text'
-                        onChange={((e) => { handleFromChange(e.target.value) })}
-                        value={from}
-                    />
-                    <div className='validator'>
-                        <span>{(!validator.from) && <span>{`* Required`}</span>}</span>
-                    </div>
-
-
-                    <label>To</label>
-                    <br />
-                    <div className='input-wrapper'>
-                        <input
-                            type='text'
-                            onChange={((e) => { handleToChange(e.target.value) })}
-                            value={to}
-                        />
-                    </div>
-                    <div className='validator'>
-                        <span>{(!validator.to) && <span>{`* Required`}</span>}</span>
-                    </div>
-                    <label>Units</label>
-                    <br />
-                    <div className='input-wrapper'>
-                        <select style={{ width: '200px' }} onChange={(e) => handleUnitsChange(e.target.value)} value={units}>
-
-                            <option>km</option>
-                            <option>miles</option>
-
-                        </select>
-                    </div>
-
-                    <label>Odometer Start</label>
-                    <br />
-                    <div className='input-wrapper'>
-                        <input
-                            type='text'
-                            onChange={((e) => { handleStartChange(e.target.value) })}
-                            value={start}
-                        />
-                    </div>
-                    <div className='validator'>
-                        <span>{(!validator.start) && <span>{`* Required, must be a number`}</span>}</span>
-                    </div>
-                    <label>Odometer Finish</label>
-                    <br />
-                    <div className='input-wrapper'>
-                        <input
-                            type='text'
-                            onChange={((e) => { handleFinishChange(e.target.value) })}
-                            value={finish}
-                        />
-                    </div>
-                    <div className='validator'>
-                        <span>{(!validator.finish) && <span>{`* Required, must be a number`}</span>}</span>
-                    </div>
-                    <div className='input-wrapper checkbox-wrapper'>
-                        <label style={{ fontSize: "11px", color: isChecked ? 'green' : 'red' }}>{isChecked ? 'Completed' : 'Mark as completed'}</label>
-                        <input type='checkbox' className='checkbox' onChange={() => setIsChecked(!isChecked)} value={isChecked} />
-
-
-                    </div>
-
-                    <button 
-                        className='submit-button' 
-                        type='submit' disabled=
-                        {
-                            (
-                                validator.from === false ||
-                                validator.to === false ? true : false
-                            )
-                        }
-                        style={{ opacity: 
+            {
+                isLoading ? (
+                    <Loader />
+                ) : (
+                    <div className='form-wrapper'>
+                        <form onSubmit={handleSubmit} className='form-content'>
+                            {error &&
                                 (
-                                    validator.from === false ||
-                                    validator.to === false 
-                                    ? '0.1' : '1'
+                                    <div className='error'>
+                                        <span>{error}</span>
+                                    </div>
                                 )
-                            
-                        }}
-                    >Submit</button>
-                </form>
-            </div>
+                            }
+                            <label>Departure Time & Date</label>
+                            <br />
+                            <input
+                                type='datetime-local'
+                                onChange={((e) => { handleDepartureChange(e.target.value) })}
+                                value={departure}
+                            />
+                            <label>Arrival Time & Date</label>
+                            <br />
+                            <input
+                                type='datetime-local'
+                                onChange={((e) => { handleArrivalChange(e.target.value) })}
+                                value={arrival}
+                            />
+                            <label>From</label>
+                            <br />
+                            <input
+                                type='text'
+                                onChange={((e) => { handleFromChange(e.target.value) })}
+                                value={from}
+                            />
+                            <div className='validator'>
+                                <span>{(!validator.from) && <span>{`* Required`}</span>}</span>
+                            </div>
+                            <label>To</label>
+                            <br />
+                            <div className='input-wrapper'>
+                                <input
+                                    type='text'
+                                    onChange={((e) => { handleToChange(e.target.value) })}
+                                    value={to}
+                                />
+                            </div>
+                            <div className='validator'>
+                                <span>{(!validator.to) && <span>{`* Required`}</span>}</span>
+                            </div>
+                            <label>Units</label>
+                            <br />
+                            <div className='input-wrapper'>
+                                <select style={{ width: '200px' }} onChange={(e) => handleUnitsChange(e.target.value)} value={units}>
+
+                                    <option>km</option>
+                                    <option>miles</option>
+
+                                </select>
+                            </div>
+
+                            <label>Odometer Start</label>
+                            <br />
+                            <div className='input-wrapper'>
+                                <input
+                                    type='text'
+                                    onChange={((e) => { handleStartChange(e.target.value) })}
+                                    value={start}
+                                />
+                            </div>
+                            <div className='validator'>
+                                <span>{(!validator.start) && <span>{`* Required, must be a number`}</span>}</span>
+                            </div>
+                            <label>Odometer Finish</label>
+                            <br />
+                            <div className='input-wrapper'>
+                                <input
+                                    type='text'
+                                    onChange={((e) => { handleFinishChange(e.target.value) })}
+                                    value={finish}
+                                />
+                            </div>
+                            <div className='validator'>
+                                <span>{(!validator.finish) && <span>{`* Required, must be a number`}</span>}</span>
+                            </div>
+                            <div className='input-wrapper checkbox-wrapper'>
+                                <label style={{ fontSize: "11px", color: isChecked ? 'green' : 'red' }}>{isChecked ? 'Completed' : 'Mark as completed'}</label>
+                                <input type='checkbox' className='checkbox' onChange={() => setIsChecked(!isChecked)} value={isChecked} />
+
+
+                            </div>
+
+                            <button
+                                className='submit-button'
+                                type='submit' disabled=
+                                {
+                                    (
+                                        validator.from === false ||
+                                            validator.to === false ? true : false
+                                    )
+                                }
+                                style={{
+                                    opacity:
+                                        (
+                                            validator.from === false ||
+                                                validator.to === false
+                                                ? '0.1' : '1'
+                                        )
+
+                                }}
+                            >Submit</button>
+                        </form>
+                    </div>
+                )
+            }
+
         </div>
     )
 }

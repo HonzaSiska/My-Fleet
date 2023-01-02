@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { useAuthContext } from './hooks/useAuthContext';
-import './App.css';
-import { useEffect } from 'react';
-import { useVehiclesContext } from './hooks/useVehiclesContext';
+import { useAuthContext } from './hooks/useAuthContext'
+import './App.css'
+import { useEffect } from 'react'
+import { useVehiclesContext } from './hooks/useVehiclesContext'
 
 // pages & components
 import Home from './pages/Home'
@@ -17,18 +17,18 @@ import Vehicle from './pages/Vehicle'
 import Trips from './Components/VehicleNestedRoutes/Trips'
 import Fuel from './Components/VehicleNestedRoutes/fuel/Fuel'
 import Maintenance from './Components/VehicleNestedRoutes/Maintenance'
-import { NewTrip } from './Components/VehicleNestedRoutes/NewTrip';
-import { AllTrips } from './Components/VehicleNestedRoutes/AllTrips';
-import { TripsStats } from './Components/VehicleNestedRoutes/TripsStats';
-import { UpdateTrip } from './Components/VehicleNestedRoutes/UpdateTrip';
-import TripSearch from './Components/VehicleNestedRoutes/TripSearch';
-import { DateSearch } from './Components/VehicleNestedRoutes/DateSearch';
-import NewFuel from './Components/VehicleNestedRoutes/fuel/NewFuel';
-import AllFuels from './Components/VehicleNestedRoutes/fuel/AllFuels';
-import UpdateFuel from './Components/VehicleNestedRoutes/fuel/UpdateFuel';
-
-
-
+import { NewTrip } from './Components/VehicleNestedRoutes/NewTrip'
+import { AllTrips } from './Components/VehicleNestedRoutes/AllTrips'
+import { TripsStats } from './Components/VehicleNestedRoutes/TripsStats'
+import { UpdateTrip } from './Components/VehicleNestedRoutes/UpdateTrip'
+import TripSearch from './Components/VehicleNestedRoutes/TripSearch'
+import { DateSearch } from './Components/VehicleNestedRoutes/DateSearch'
+import NewFuel from './Components/VehicleNestedRoutes/fuel/NewFuel'
+import AllFuels from './Components/VehicleNestedRoutes/fuel/AllFuels'
+import UpdateFuel from './Components/VehicleNestedRoutes/fuel/UpdateFuel'
+import FuelStats from './Components/VehicleNestedRoutes/fuel/FuelStats'
+import FuelSearch from './Components/VehicleNestedRoutes/fuel/FuelSearch'
+import FuelDateSearch from './Components/VehicleNestedRoutes/fuel/DateSearch'
 
 
 function App() {
@@ -100,7 +100,10 @@ function App() {
                   <Route path='fuel' element={<Fuel/> } >
                     <Route path='new' element={<NewFuel/> } />
                     <Route path='all' element={<AllFuels/>} />
+                    <Route path='stats' element={<FuelStats/> } />
                     <Route path='update/:fuelId' element={<UpdateFuel/>} />
+                    <Route path='search' element={<FuelSearch/>} />
+                    <Route path='dates' element={<FuelDateSearch/>} />
                   </Route>
                   <Route path='maintenance' element={<Maintenance/> } />
               </Route>
@@ -114,7 +117,7 @@ function App() {
         
       </BrowserRouter>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

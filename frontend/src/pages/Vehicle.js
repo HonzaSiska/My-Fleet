@@ -10,6 +10,7 @@ import './Vehicle.css'
 import EditIcon from '../assets/edit.svg'
 import CloseIcon from '../assets/close-icon-dark.svg'
 import Modal from '../Components/modal/Modal'
+import Loader from '../Components/Loader/Loader'
 
 
 const Vehicle = () => {
@@ -23,9 +24,9 @@ const Vehicle = () => {
     const [purchaseMilage, setPurchaseMilage] = useState('')
     const [error, setError] = useState(null)
     const [isEdit, setIsEdit] = useState(false)
-    const [isActive, setIsActive] = useState(false)
     const [ toBeDeleted , setToBeDeleted ] = useState('')
     const [ modalIsOpen, setModalIsOpen ] = useState(false)
+    const [ isLoading, setIsLoading ] = useState(true)
 
     // const { dispatch, vehicles, car} = useVehiclesContext()
     const { user } = useAuthContext()
@@ -79,6 +80,8 @@ const Vehicle = () => {
 
         console.log('updated veh', updatedVehicle)
 
+        setIsLoading(true)
+
         const response = await fetch(`/api/vehicle/update/${id}`, {
             method: 'POST',
             body: JSON.stringify(updatedVehicle),
@@ -104,6 +107,8 @@ const Vehicle = () => {
             setPurchaseMilage(json.vehicle.purchaseMilage)
             setError('')
             setIsEdit(false)
+            setIsLoading(false)
+            
 
             //set all validfators to true to et rid of validation messages
             for (let key in validator) {
@@ -204,6 +209,7 @@ const Vehicle = () => {
                 setPrice(json.vehicle.price)
                 setPurchaseMilage(json.vehicle.purchaseMilage)
                 setError('')
+                setIsLoading(false)
                 //set all validfators to true to et rid of validation messages
                 for (let key in validator) {
                     validator[key] = true
@@ -222,7 +228,7 @@ const Vehicle = () => {
             fetchVehicle()
         }
 
-    }, [])
+    }, [id, user])
 
 
     return (
@@ -237,167 +243,174 @@ const Vehicle = () => {
                 )}
 
             </div>
-            <div className='form-wrapper'>
-                <form onSubmit={handleSubmit} className='form-content'>
-                    {error &&
-                        (
-                            <div className='error'>
-                                <span>{error}</span>
-                            </div>
-                        )
-                    }
 
+            {
+                isLoading ? <Loader/> : (
 
-                    {
-                        isEdit && (
-                            <>
-                                <label>Make</label>
-                                <br />
-                                <input
-                                    type='text'
-                                    onChange={((e) => { handleMakeChange(e.target.value) })}
-                                    value={make}
-                                />
-                                <div className='validator'>
-                                    <span>{(!validator.make) && <span>{`* Required`}</span>}</span>
-                                </div>
-                            </>
-                        )
-                    }
-
-
-                    {
-                        isEdit && (
-                            <>
-                                <label>Model</label>
-                                <br />
-                                <div className='input-wrapper'>
-                                    <input
-                                        type='text'
-                                        onChange={((e) => { handleModelChange(e.target.value) })}
-                                        value={model}
-                                    />
-                                </div>
-                                <div className='validator'>
-                                    <span>{(!validator.model) && <span>{`* Required`}</span>}</span>
-                                </div>
-                            </>
-                        )
-                    }
-
-
-                    {
-                        isEdit && (
-                            <>
-                                <label>Year</label>
-                                <br />
-                                <div className='input-wrapper'>
-                                    <select style={{ width: '200px' }} onChange={(e) => handleYearChange(e.target.value)} value={year}>
-                                        <option>-- Select Year --</option>
-                                        {
-                                            YEARS.map((y) => (
-                                                <option key={y} style={{ color: 'black' }} >{y}</option>
-                                            ))
-                                        }
-                                    </select>
-                                </div>
-                                <div className='validator'>
-                                    <span>{(!validator.year) && <span>{`* Select Year`}</span>}</span>
-                                </div>
-                            </>
-                        )
-                    }
-
-
-                    {
-                        isEdit && (
-                            <>
-                                <label>Purchase Milage</label>
-                                <br />
-                                <div className='input-wrapper'>
-                                    <input
-                                        type='text'
-                                        onChange={((e) => { handlePurchaseMilageChange(e.target.value) })}
-                                        value={purchaseMilage}
-                                    />
-                                </div>
-                                <div className='validator'>
-                                    <span>{(!validator.purchaseMilage) && <span>{`* Required, must be a number`}</span>}</span>
-                                </div>
-                            </>
-                        )
-                    }
-
-                    {
-                        isEdit && (
-                            <>
-                                <label>Price</label>
-                                <br />
-                                <div className='input-wrapper'>
-                                    <input
-                                        type='text'
-                                        onChange={((e) => { handlePriceChange(e.target.value) })}
-                                        value={price}
-                                    />
-                                </div>
-                                <div className='validator'>
-                                    <span>{(!validator.price) && <span>{`* Required, must be a number`}</span>}</span>
-                                </div>
-
-
-                                <button className='submit-button' type='submit' disabled=
-                                    {
-                                        (validator.make === false ||
-                                            validator.model === false ||
-                                            validator.year === false ||
-                                            validator.purchaseMilage === false ||
-                                            validator.price === false) ? true : false
-                                    }
-                                >Submit</button>
-                            </>
-                        )
-                    }
-
-
-                    {
-                        !isEdit && (
-                            <div  className='vehicle-info-content'>
-                                <div>
-                                    <div>
-                                        <span>Make: <span>{make}</span> </span>
+                    <div className='form-wrapper'>
+                        <form onSubmit={handleSubmit} className='form-content'>
+                            {error &&
+                                (
+                                    <div className='error'>
+                                        <span>{error}</span>
                                     </div>
-                                    <div>
-                                        <span>Model: <span>{model}</span> </span>
-                                    </div>
-                                    <div>
-                                        <span>Year: <span>{year}</span> </span>
-                                    </div>
-                                    <div>
-                                        <span>Purchase Milage: <span>{purchaseMilage}</span> </span>
-                                    </div>
-                                    <div>
-                                        <span>Price: <span>{price}</span> </span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button onClick={()=>openModal(id)} className='details-btn'>Delete</button>
-                                </div>
-                            </div>
-                        )
-                    }
-                </form>
+                                )
+                            }
 
-                <nav className='nested-routes-wrapper'>
-                    <Link className='sub-link nested-menu-active' to='trips/all' onClick={handleIsActive}>Trips</Link>
-                    <Link className='sub-link' to='fuel/all' onClick={handleIsActive}>Fuel</Link>
-                    <Link className='sub-link' to='Maintenance' onClick={handleIsActive}>Maintenance</Link>
-                </nav>
 
-                <div className='outlet'>
-                    <Outlet />
-                </div>
+                            {
+                                isEdit && (
+                                    <>
+                                        <label>Make</label>
+                                        <br />
+                                        <input
+                                            type='text'
+                                            onChange={((e) => { handleMakeChange(e.target.value) })}
+                                            value={make}
+                                        />
+                                        <div className='validator'>
+                                            <span>{(!validator.make) && <span>{`* Required`}</span>}</span>
+                                        </div>
+                                    </>
+                                )
+                            }
 
-            </div>
+
+                            {
+                                isEdit && (
+                                    <>
+                                        <label>Model</label>
+                                        <br />
+                                        <div className='input-wrapper'>
+                                            <input
+                                                type='text'
+                                                onChange={((e) => { handleModelChange(e.target.value) })}
+                                                value={model}
+                                            />
+                                        </div>
+                                        <div className='validator'>
+                                            <span>{(!validator.model) && <span>{`* Required`}</span>}</span>
+                                        </div>
+                                    </>
+                                )
+                            }
+
+
+                            {
+                                isEdit && (
+                                    <>
+                                        <label>Year</label>
+                                        <br />
+                                        <div className='input-wrapper'>
+                                            <select style={{ width: '200px' }} onChange={(e) => handleYearChange(e.target.value)} value={year}>
+                                                <option>-- Select Year --</option>
+                                                {
+                                                    YEARS.map((y) => (
+                                                        <option key={y} style={{ color: 'black' }} >{y}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                        <div className='validator'>
+                                            <span>{(!validator.year) && <span>{`* Select Year`}</span>}</span>
+                                        </div>
+                                    </>
+                                )
+                            }
+
+
+                            {
+                                isEdit && (
+                                    <>
+                                        <label>Purchase Milage</label>
+                                        <br />
+                                        <div className='input-wrapper'>
+                                            <input
+                                                type='text'
+                                                onChange={((e) => { handlePurchaseMilageChange(e.target.value) })}
+                                                value={purchaseMilage}
+                                            />
+                                        </div>
+                                        <div className='validator'>
+                                            <span>{(!validator.purchaseMilage) && <span>{`* Required, must be a number`}</span>}</span>
+                                        </div>
+                                    </>
+                                )
+                            }
+
+                            {
+                                isEdit && (
+                                    <>
+                                        <label>Price</label>
+                                        <br />
+                                        <div className='input-wrapper'>
+                                            <input
+                                                type='text'
+                                                onChange={((e) => { handlePriceChange(e.target.value) })}
+                                                value={price}
+                                            />
+                                        </div>
+                                        <div className='validator'>
+                                            <span>{(!validator.price) && <span>{`* Required, must be a number`}</span>}</span>
+                                        </div>
+
+
+                                        <button className='submit-button' type='submit' disabled=
+                                            {
+                                                (validator.make === false ||
+                                                    validator.model === false ||
+                                                    validator.year === false ||
+                                                    validator.purchaseMilage === false ||
+                                                    validator.price === false) ? true : false
+                                            }
+                                        >Submit</button>
+                                    </>
+                                )
+                            }
+
+
+                            {   
+                                
+                                !isEdit && (
+                                    <div  className='vehicle-info-content'>
+                                        <div>
+                                            <div>
+                                                <span>Make: <span>{make}</span> </span>
+                                            </div>
+                                            <div>
+                                                <span>Model: <span>{model}</span> </span>
+                                            </div>
+                                            <div>
+                                                <span>Year: <span>{year}</span> </span>
+                                            </div>
+                                            <div>
+                                                <span>Purchase Milage: <span>{purchaseMilage}</span> </span>
+                                            </div>
+                                            <div>
+                                                <span>Price: <span>{price}</span> </span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button onClick={()=>openModal(id)} className='details-btn'>Delete</button>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        </form>
+
+                        <nav className='nested-routes-wrapper'>
+                            <Link className='sub-link nested-menu-active' to='trips/all' onClick={handleIsActive}>Trips</Link>
+                            <Link className='sub-link' to='fuel/all' onClick={handleIsActive}>Fuel</Link>
+                            <Link className='sub-link' to='Maintenance' onClick={handleIsActive}>Maintenance</Link>
+                        </nav>
+
+                        <div className='outlet'>
+                            <Outlet />
+                        </div>
+
+                    </div> 
+                )
+            }
             {
                     modalIsOpen && 
                     <Modal>

@@ -49,6 +49,13 @@
     justify-content: space-between;
     border-bottom: 1px dotted var(--secondary-theme);
 }
+.found-trip-item{
+    width: 20%;
+}
+.found-trip-item:first-child{
+    width: 40%;
+}
+
 
 
 @media screen and (min-width: 850px) {

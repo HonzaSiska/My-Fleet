@@ -30,8 +30,8 @@
 }
 .error{
     padding:10px;
-    color:  var(--error-text);
-    background:  var(--error-back);
+    color:  var(--dark-theme);
+    background:  var(--secondary-theme);
 }
 .link{
     cursor: pointer;

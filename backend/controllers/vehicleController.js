@@ -1,6 +1,7 @@
 const Vehicle = require('../models/vehicleModel')
 const Trip = require('../models/tripModel')
 const mongoose = require('mongoose')
+const Fuel = require('../models/fuelModel')
 
 const getVehicles = async( req, res ) => {
     const user_id = req.user._id
@@ -41,9 +42,10 @@ const createVehicle = async( req, res ) => {
 
 const deleteVehicle = async( req, res ) => {
     const { id } = req.params
-    console.log('delete vehicle', id)
+    
     try {
         const deletedTrips = await Trip.deleteMany({ vehicle_id: id }).exec()
+        const deletedFuels = await Fuel.deleteMany({ vehicle_id: id }).exec()
         try {
             const deletedVehicle = await Vehicle.deleteOne({_id:id}).exec()
             res.status(200).json({success: true})
@@ -63,8 +65,7 @@ const updateVehicle = async( req, res ) => {
 
     try {
         const updatedVehicle = await Vehicle.findOneAndUpdate({_id: vehicleId },{...vehicle}, {new: true})
-        
-        console.log('updatedVehicle', updatedVehicle)
+    
         res.status(200).json({success: true, vehicle: updatedVehicle})
     } catch (error) {
         res.status(400).json({ success: false, error: error.message})

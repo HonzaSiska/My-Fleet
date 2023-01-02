@@ -10,7 +10,9 @@ import CheckedIcon from '../../../assets/checked.svg'
 import CloseIcon from '../../../assets/close-icon.svg'
 import './../Trips.css'
 import Modal from '../../modal/Modal'
-import { parseMillisecondsIntoReadableTime } from '../../../utils/utils'
+import './Fuel.css'
+import Loader from '../../Loader/Loader'
+
 
 const AllFuels = () => {
     const [page, setPage] = useState(0)
@@ -22,10 +24,12 @@ const AllFuels = () => {
     const { id } = useParams()
     const [toBeDeleted, setToBeDeleted] = useState('')
     const [error, setError] = useState('')
+    const [ isLoading, setIsLoading ] = useState(false)
 
     const resultsPerPage = 5
 
     const fetchFuels = async () => {
+        setIsLoading(true)
         const response = await fetch(`/api/fuel/all/${id}?page=${page}`, {
             headers: { 'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json' },
             method: 'POST',
@@ -40,7 +44,9 @@ const AllFuels = () => {
             // calculate records left
             const left = results - ((page + 1) * 5)
             setRecordsLeft(left)
+            setIsLoading(false)
             dispatch({ type: 'SET_FUELS', payload: json.fuels })
+
             
         }
     }
@@ -79,21 +85,21 @@ const AllFuels = () => {
             fetchFuels()
         }
 
-    }, [page, results, recordsLeft])
+    }, [page, results, recordsLeft, user])
 
 
     return (
         <div className='trips-wrapper'>
             {error && <div className='error'>{error}</div>}
             <div className='trips'>
-                {fuels && (
+                {fuels ? (
                     fuels.map((fuel) => <Card key={fuel._id}>
                         <div>
                             <span className='card-title bold '>{fuel.location}</span>
                             {fuel.date && <span>{fuel.dateFormatted}</span>}
 
                         </div>
-                        <div className='card-block-bottom'>
+                        <div className='card-block-bottom-fuel'>
                             <div>
                                 <span className='distance'>{`${fuel.amount} ${fuel.units}`}</span>
                                 <span className='duration'>{' / price: ' +fuel.price}</span>
@@ -105,6 +111,9 @@ const AllFuels = () => {
                         </div>
 
                     </Card>)
+                ) : ( 
+                
+                    <Loader/>
                 )}
 
                 {

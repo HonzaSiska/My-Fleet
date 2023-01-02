@@ -2,10 +2,12 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../../hooks/useAuthContext'
+import Loader from '../../Loader/Loader'
 
 const NewFuel = () => {
 
     const { id } = useParams()
+
 
     const [date, setDate] = useState('')
     const [amount, setAmount] = useState(0)
@@ -13,6 +15,7 @@ const NewFuel = () => {
     const [location, setLocation] = useState('')
     const [units, setUnits] = useState('liters')
     const [error, setError] = useState(null)
+    const [ isLoading, setIsLoading ] = useState(false)
     const { user } = useAuthContext()
 
     const [validator, setValidator] = useState({
@@ -39,7 +42,8 @@ const NewFuel = () => {
         }
 
         const fuel = { vehicle_id: id, date, amount, price, location, units }
-
+        
+        setIsLoading(true)
         const response = await fetch('/api/fuel/create', {
             method: 'POST',
             body: JSON.stringify(fuel),
@@ -62,6 +66,7 @@ const NewFuel = () => {
             setAmount('')
             setPrice('')
             setError('New fuel record was added')
+            setIsLoading(false)
             setValidator(prev => ({...prev, location: false, date: false, amount: false, price: false}) )
             setTimeout(() => {
                 setError('')
@@ -120,7 +125,10 @@ const NewFuel = () => {
 
     return (
         <div>
-            <div className='form-wrapper'>
+            { isLoading ? (
+                <Loader/>
+            ):(
+                <div className='form-wrapper'>
                 <form onSubmit={handleSubmit} className='form-content'>
                     {error &&
                         (
@@ -208,6 +216,8 @@ const NewFuel = () => {
                     >Submit</button>
                 </form>
             </div>
+            )}
+            
         </div>
     )
 
