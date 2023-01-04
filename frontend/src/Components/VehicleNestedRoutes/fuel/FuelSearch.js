@@ -18,7 +18,6 @@ const FuelSearch = () => {
     const [ isLoading, setIsLoading ] = useState(false)
     const [ results, setResults ] = useState(0)
     const { user } = useAuthContext()
-    const {dispatch, fuels } = useVehiclesContext()
     const { id } = useParams()
 
     const handleKeywordSearch = (keyword) => {

@@ -2,13 +2,9 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-
-const fuelSchema = new Schema({
+const maintenanceSchema = new Schema ({
     date: {
         type: Date
-    },
-    amount: {
-        type: Number
     },
     price: {
         type: Number
@@ -16,14 +12,14 @@ const fuelSchema = new Schema({
     location: {
         type: String
     },
-    units: {
+    description: {
         type: String
     },
     vehicle_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Vehicle"
     },
-},
-{ timestamps: true })
+},{timestamps: true})
 
-module.exports = mongoose.model('Fuel', fuelSchema )
+module.exports = mongoose.model('Maintenance', maintenanceSchema)
+
