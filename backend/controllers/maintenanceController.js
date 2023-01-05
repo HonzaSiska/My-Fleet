@@ -41,3 +41,28 @@ exports.getAll = async(req, res) => {
     }
 
 }
+
+exports.getStats = async (req, res) => {
+    const { id } = req.params
+    try {
+        const data = await Maintenance.aggregate(
+            [   
+                {
+                 $group: {
+                    _id: '$vehicle_id',
+                   "price": {$sum: '$price'},
+                   "count" : { $sum: 1},
+                }
+             }
+        ])
+
+        
+        data[0].averagePrice = parseFloat((data[0].price / data[0].count).toFixed(2))
+
+        console.log('statst data',data)
+        res.json({ success: true, stats: data })
+        
+    } catch (error) {
+        res.json({ success: false, error:error })
+    }
+}
