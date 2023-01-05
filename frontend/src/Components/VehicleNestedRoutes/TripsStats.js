@@ -29,13 +29,12 @@ export const TripsStats = () => {
         // filter data grouped by vehicle id
         const filteredData = json.stats.filter(item => item._id === id)[0]
        
-        setData(prev => ({
-          ...prev, 
+        setData({
           sum: filteredData.sum, 
           count: filteredData.count,
           averageTripDistance: filteredData.averageTripDistance,
           duration: parseMillisecondsIntoReadableTime(filteredData.duration)
-        }))
+        })
         setIsLoading(false)
         console.log('tyrip stats', json.stats)
       }else{
@@ -48,7 +47,7 @@ export const TripsStats = () => {
       fetchTrips()
       
     }
-  }, [id, user])
+  }, [])
 
   return (
     isLoading ?

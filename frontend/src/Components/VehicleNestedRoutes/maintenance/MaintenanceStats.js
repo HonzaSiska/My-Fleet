@@ -27,12 +27,11 @@ const MaintenanceStats = () => {
                 // filter data grouped by vehicle id
                 const filteredData = json.stats.filter(item => item._id === id)[0]
 
-                setData(prev => ({
-                    ...prev,
+                setData({
                     price: filteredData.price,
                     count: filteredData.count,
                     averagePrice: filteredData.averagePrice
-                }))
+                })
 
                 console.log('maintenance stats', json.stats)
                 setIsLoading(false)
@@ -45,7 +44,7 @@ const MaintenanceStats = () => {
         if (user) {
             fetchMaintenance()
         }
-    }, [id, user])
+    }, [])
 
     return (
         <div>

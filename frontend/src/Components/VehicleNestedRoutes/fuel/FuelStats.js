@@ -27,14 +27,13 @@ const FuelStats = () => {
                 // filter data grouped by vehicle id
                 const filteredData = json.stats.filter(item => item._id === id)[0]
 
-                setData(prev => ({
-                    ...prev,
+                setData({
                     amount: filteredData.amount,
                     price: filteredData.price,
                     averageAmount: filteredData.averageAmount,
                     count: filteredData.count,
                     averagePrice: filteredData.averagePrice
-                }))
+                })
 
                 console.log('fuel stats', json.stats)
                 setIsLoading(false)
@@ -47,7 +46,7 @@ const FuelStats = () => {
         if (user) {
             fetchFuel()
         }
-    }, [id, user])
+    }, [])
 
     return (
         <div>
