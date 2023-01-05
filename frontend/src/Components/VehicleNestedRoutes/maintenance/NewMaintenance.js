@@ -56,7 +56,12 @@ const NewMaintenance = () => {
 
     const handleDescriptionChange = (value) => {
         setDescription(value)
-        setValidator(prev => ({ ...prev, description: true }))
+        if(!value){
+            setValidator(prev => ({...prev, description:false}))
+        }else{
+            setValidator(prev => ({ ...prev, description: true }))
+        }
+        
     }
 
     const handleSubmit = async(e) => {
