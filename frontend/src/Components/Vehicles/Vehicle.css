@@ -4,11 +4,19 @@
 }
 
 .details-btn{
+    border: 1px solid var(--secondary-theme);
+    /* background: var(--dark-theme); */
+    border-radius: 2px;
+    padding: 3px 5px 3px;   
+    color: var(--dark-theme);
+}
+.details-btn:hover{
     border: 1px solid var(--dark-theme);
     background: var(--dark-theme);
     border-radius: 2px;
     padding: 3px 5px 3px;   
-    color: var(--main-background-theme);
+    color: var( --main-background-theme);
+    transition: all 0.2s;
 }
 .details-link {
     margin-top: 10px;

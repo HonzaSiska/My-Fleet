@@ -48,7 +48,8 @@ const Vehicle = () => {
         YEARS.push(i)
     }
 
-    const openModal = (_trip_id) => {
+    const openModal = (e, _trip_id) => {
+        e.preventDefault()
         setModalIsOpen(!modalIsOpen)
         setToBeDeleted(id)
 
@@ -228,7 +229,7 @@ const Vehicle = () => {
             fetchVehicle()
         }
 
-    }, [id, user])
+    }, [])
 
 
     return (
@@ -391,7 +392,7 @@ const Vehicle = () => {
                                             </div>
                                         </div>
                                         <div>
-                                            <button onClick={()=>openModal(id)} className='details-btn'>Delete</button>
+                                            <button onClick={(e)=>openModal(e,id)} className='details-btn'>Delete</button>
                                         </div>
                                     </div>
                                 )
