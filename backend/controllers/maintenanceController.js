@@ -66,3 +66,69 @@ exports.getStats = async (req, res) => {
         res.json({ success: false, error:error })
     }
 }
+
+exports.search = async(req,res) => {
+
+
+    const { 
+        page, 
+        keyword, 
+    }  = req.query 
+
+    const { id } = req.params
+
+    //const regex = new RegExp(('.*'+ keyword +'.*','i'))
+
+    const user_id = req.user._id
+    const vehicleId = id
+    
+    try {
+        const count = await Maintenance.find({ 
+           
+            $and:[
+                {user_id}, 
+                {vehicle_id: vehicleId} ,
+                {
+                    $or: [
+                        {location: { $regex: keyword }},
+                        {description: { $regex: keyword }},
+
+                    ]
+                }
+                
+            ]
+            
+            
+            
+        }).count()
+
+        const fetchedMaintenance = await Maintenance.find({
+           
+            $and:[
+                {user_id}, 
+                {vehicle_id: vehicleId} ,
+                {
+                    $or: [
+                        {location: { $regex: keyword }},
+                        {description: { $regex: keyword }},
+    
+                    ]
+                }
+            
+            ]
+
+        }).sort({ date: -1, })
+        const maintenance = fetchedMaintenance.map(item => {
+            return {
+                ...item._doc,
+                dateFormatted: item._doc.date ? `${item._doc.date.getDate()}-${item._doc.date.getMonth() + 1}-${item._doc.date.getFullYear()}` : '',
+                description: item.description.length > 10 ? item.description.substring(0,15) + ' ...' : item.description
+                 
+            }
+        })
+        res.status(200).json({ success: true, maintenance, count })
+    } catch (error) {
+        res.status(400).json({ success: false, error: error.message })
+    }
+
+}
