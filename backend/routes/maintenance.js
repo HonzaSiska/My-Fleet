@@ -5,7 +5,9 @@ const {
     createMaintenance,
     getAll,
     getStats,
-    search
+    search,
+    updateMaintenance,
+    getMaintenance
 } = require('../controllers/maintenanceController')
 
 const router = express.Router()
@@ -17,5 +19,7 @@ router.post('/create', createMaintenance)
 router.post('/all/:id', getAll)
 router.post('/stats/:id', getStats)
 router.post('/search/:id', search)
+router.post('/update', updateMaintenance )
+router.post('/:id', getMaintenance )
 
 module.exports = router

@@ -69,7 +69,7 @@ const UpdateFuel = () => {
         //     validator[key] = true
         // }
       
-
+        console.log('formated date', formatDate(newDate))
         fuel.date && setValidator(validator.date = true)
         fuel.amount && setValidator(validator.amount = true)
         fuel.price && setValidator(validator.price = true)

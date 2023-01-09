@@ -1,15 +1,15 @@
 export const formatDateTime = (datetime) => {
-    const day = datetime.getDate() < 10 ? '0'+ datetime.getDate() : datetime.getDate()
-    const month = datetime.getMonth() + 1
+    const day = datetime.getDate() < 10 ? '0'+ (datetime.getDate()).toString() : datetime.getDate()
+    const month = datetime.getMonth() + 1 < 9 ? '0'+ (datetime.getMonth() +1).toString() : datetime.getMonth() + 1
     const year = datetime.getFullYear()
-    const h = datetime.getHours() < 10 ? '0' + datetime.getHours() : datetime.getHours()
-    const m = datetime.getMinutes() < 10 ? '0'+ datetime.getMinutes() : datetime.getMinutes()
+    const h = datetime.getHours() < 10 ? '0' + (datetime.getHours()).toString() : datetime.getHours()
+    const m = datetime.getMinutes() < 10 ? '0'+ (datetime.getMinutes()).toString() : datetime.getMinutes()
     const convertedDate = `${year}-${month}-${day} ${h}:${m}`
     return convertedDate
 }
 export const formatDate = (date) => {
-    const day = date.getDate() < 10 ? '0'+ date.getDate() : date.getDate()
-    const month = date.getMonth() + 1
+    const day = date.getDate() < 10 ? '0'+ (date.getDate()).toString() : date.getDate()
+    const month = date.getMonth() < 9 ? '0'+ (date.getMonth() +1).toString() : date.getMonth() + 1
     const year = date.getFullYear()
     const convertedDate = `${year}-${month}-${day}`
     return convertedDate
