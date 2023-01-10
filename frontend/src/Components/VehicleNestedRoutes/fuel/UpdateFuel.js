@@ -69,7 +69,7 @@ const UpdateFuel = () => {
         //     validator[key] = true
         // }
       
-        console.log('formated date', formatDate(newDate))
+    
         fuel.date && setValidator(validator.date = true)
         fuel.amount && setValidator(validator.amount = true)
         fuel.price && setValidator(validator.price = true)
@@ -197,7 +197,7 @@ const UpdateFuel = () => {
             value={date}
           />
           <div className='validator'>
-            <span>{(!validator.date) && <span>{`* Required`}</span>}</span>
+            <span>{(validator.date == '') && <span>{`* Required`}</span>}</span>
           </div>
           <label>Location</label>
           <br />
@@ -207,7 +207,7 @@ const UpdateFuel = () => {
             value={location}
           />
           <div className='validator'>
-            <span>{(!validator.location) && <span>{`* Required`}</span>}</span>
+            <span>{(validator.location  == '') && <span>{`* Required`}</span>}</span>
           </div>
           <label>Amount</label>
           <br />
@@ -217,7 +217,7 @@ const UpdateFuel = () => {
             value={amount}
           />
           <div className='validator'>
-            <span>{(!validator.amount) && <span>{`* Required, must be a number !!`}</span>}</span>
+            <span>{(validator.amount == '') && <span>{`* Required, must be a number !!`}</span>}</span>
           </div>
           <label>Price</label>
           <br />
@@ -227,7 +227,7 @@ const UpdateFuel = () => {
             value={price}
           />
           <div className='validator'>
-            <span>{(!validator.price) && <span>{`* Required, must be u number !!`}</span>}</span>
+            <span>{(validator.price  == '') && <span>{`* Required, must be u number !!`}</span>}</span>
           </div>
           <label>Units</label>
           <br />

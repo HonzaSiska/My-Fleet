@@ -197,3 +197,47 @@ exports.getMaintenance= async (req, res) => {
         res.status(400).json({ success: false, error: error.message })
     }
 }
+
+exports.searchDate = async( req, res ) => {
+    const { 
+        start, 
+        end, 
+    }  = req.query 
+
+
+    const { id } = req.params
+
+    const startDate = new Date(start).toISOString()
+    const endDate = new Date(end).toISOString()
+
+
+    const user_id = req.user._id
+    const vehicleId = id
+    
+    try {
+       
+        const fetchedMaintenance = await Maintenance.find({
+            $and:[
+            {'vehicle_id': vehicleId},
+            {'date' : {
+                $gte: start,
+                $lte: end
+        }}]
+        }).sort({ date: -1, })
+
+        
+        
+        const maintenance = fetchedMaintenance.map(item => {
+            return {
+                ...item._doc,
+                formattedDate: item._doc.date ? `${item._doc.date.getDate()}-${item._doc.date.getMonth() + 1}-${item._doc.date.getFullYear()}` : '',
+            }
+        })
+        console.log( 'maintenance fetch', maintenance)
+        res.status(200).json({ success: true, maintenance })
+       
+    } catch (error) {
+        res.status(400).json({ success: false, error: error.message })
+    }
+
+}

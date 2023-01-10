@@ -34,6 +34,7 @@ import AllMaintenance from './Components/VehicleNestedRoutes/maintenance/AllMain
 import MaintenanceStats from './Components/VehicleNestedRoutes/maintenance/MaintenanceStats'
 import MaintenanceSearch from './Components/VehicleNestedRoutes/maintenance/MaintenanceSearch'
 import MaintenanceUpdate from './Components/VehicleNestedRoutes/maintenance/MaintenanceUpdate'
+import DateMaintenance from './Components/VehicleNestedRoutes/maintenance/DateMaintenance'
 
 
 function App() {
@@ -110,11 +111,13 @@ function App() {
                     <Route path='search' element={<FuelSearch/>} />
                     <Route path='dates' element={<FuelDateSearch/>} />
                   </Route>
+                  
                   <Route path='maintenance' element={<Maintenance/> }>
                     <Route path='new' element={<NewMaintenance/> } />
                     <Route path='all' element={<AllMaintenance/>} />
                     <Route path='stats' element={<MaintenanceStats/>} />
                     <Route path='search' element={<MaintenanceSearch/>} />
+                    <Route path='dates' element={<DateMaintenance/>} />
                     <Route path='update/:maintenanceId' element={<MaintenanceUpdate />} />
                   </Route>
               </Route>

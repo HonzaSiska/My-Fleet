@@ -38,7 +38,7 @@
   display: flex;
   align-items: center;
   /* background: var(--secondary-theme); */
-  background: lightgrey;
+  background: var(--nested-routes-back);
   padding: 0 30px;
   margin-top: 30px;
 }
@@ -48,7 +48,7 @@
   color: var(--dark-theme);
   text-decoration: none;
   /* background: var(--secondary-theme); */
-  background: lightgrey;
+  /* background: lightgrey; */
   border-bottom: 1px solid lightgrey;
   border-top: none;
   border-left: none;

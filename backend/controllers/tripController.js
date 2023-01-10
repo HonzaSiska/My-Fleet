@@ -139,9 +139,7 @@ const search = async(req,res) => {
                     { to: { $regex: keyword }}
                 ]}
                
-            ]
-            
-            
+            ]  
             
         }).count()
 
