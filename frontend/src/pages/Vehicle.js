@@ -1,7 +1,8 @@
 
 import { useState, useEffect } from 'react'
-// import { useVehiclesContext } from '../hooks/useVehiclesContext'
+import { useVehiclesContext } from '../hooks/useVehiclesContext'
 import { useAuthContext } from '../hooks/useAuthContext'
+
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom"
 
 import './Vehicle.css'
@@ -13,6 +14,7 @@ import Modal from '../Components/modal/Modal'
 import Loader from '../Components/Loader/Loader'
 
 
+
 const Vehicle = () => {
 
     const [vehicle, setVehicle] = useState({})
@@ -20,17 +22,22 @@ const Vehicle = () => {
     const [make, setMake] = useState('')
     const [model, setModel] = useState('')
     const [year, setYear] = useState('')
-    const [price, setPrice] = useState('')
-    const [purchaseMilage, setPurchaseMilage] = useState('')
+    const [salesPrice, setSalesPrice] = useState(undefined)
+    const [saleMilage, setSalesMilage ] = useState()
+    const [price, setPrice] = useState()
+    const [purchaseMilage, setPurchaseMilage] = useState()
+    const [units, setUnits] = useState('km')
+    const [volume, setVolume] = useState('liters')
     const [error, setError] = useState(null)
     const [isEdit, setIsEdit] = useState(false)
-    const [ toBeDeleted , setToBeDeleted ] = useState('')
-    const [ modalIsOpen, setModalIsOpen ] = useState(false)
-    const [ isLoading, setIsLoading ] = useState(true)
+    const [toBeDeleted, setToBeDeleted] = useState('')
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     // const { dispatch, vehicles, car} = useVehiclesContext()
     const { user } = useAuthContext()
-    const  navigate  = useNavigate()
+    const { distanceUnits, volumeUnits, dispatch } = useVehiclesContext()
+    const navigate = useNavigate()
     
     const [validator, setValidator] = useState({
         make: false,
@@ -38,6 +45,9 @@ const Vehicle = () => {
         year: false,
         purchaseMilage: false,
         price: false,
+        salesPrice: true,
+        units: true,
+        volume:true,
     })
 
     // const navigate = useNavigate();
@@ -73,11 +83,13 @@ const Vehicle = () => {
             validator.model === false ||
             validator.year === false ||
             validator.purchaseMilage === false ||
-            validator.price === false
+            validator.price === false||
+            validator.salesPrice === false 
+
 
         ) { return }
 
-        const updatedVehicle = { make, model, year, purchaseMilage, price }
+        const updatedVehicle = { make, model, year, purchaseMilage, saleMilage, price,  salesPrice, units, volume }
 
         console.log('updated veh', updatedVehicle)
 
@@ -105,19 +117,25 @@ const Vehicle = () => {
             setModel(json.vehicle.model)
             setYear(json.vehicle.year)
             setPrice(json.vehicle.price)
+            setSalesPrice(json.vehicle.salesPrice)
+            setYear(json.vehicle.year)
+            setVolume(json.vehicle.volume)
             setPurchaseMilage(json.vehicle.purchaseMilage)
             setError('')
             setIsEdit(false)
             setIsLoading(false)
+
             
 
-            //set all validfators to true to et rid of validation messages
+
+            //set all validfators to true to get rid of validation messages
             for (let key in validator) {
                 validator[key] = true
             }
 
-
-            // dispatch({ type: 'SET_CAR', payload: json.vehicle })
+            dispatch({type: 'SET_DISTANCE_UNITS', payload: json.vehicle.units})
+            dispatch({type: 'SET_VOLUME_UNITS', payload: json.vehicle.volume})
+           
 
         }
     }
@@ -159,6 +177,16 @@ const Vehicle = () => {
             setValidator(prev => ({ ...prev, price: false }))
         }
     }
+
+    const handleSalesPriceChange = (value) => {
+        setSalesPrice(value)
+
+        if (value && isNaN(value)) {
+            setValidator(prev => ({ ...prev, salePrice: false }))
+        } else {
+            setValidator(prev => ({ ...prev, salePrice: true }))
+        }
+    }
     const handlePurchaseMilageChange = (value) => {
         setPurchaseMilage(value)
 
@@ -167,6 +195,16 @@ const Vehicle = () => {
         } else {
             setValidator(prev => ({ ...prev, purchaseMilage: false }))
         }
+    }
+
+    const handleUnitsChange = (value) => {
+        setUnits(value)
+        setValidator(prev => ({ ...prev, units: true }))
+    }
+
+    const handleVolumeChange = (value) => {
+        setVolume(value)
+        setValidator(prev => ({ ...prev, volume: true }))
     }
 
     const handleDelete = (vehicleId) => {
@@ -179,11 +217,11 @@ const Vehicle = () => {
             if (json.success) {
                 setModalIsOpen(!modalIsOpen)
                 navigate(`/`)
-                
-            }else{
+
+            } else {
                 setError(json.error)
             }
-            
+
         }
 
         if (user) {
@@ -208,6 +246,10 @@ const Vehicle = () => {
                 setModel(json.vehicle.model)
                 setYear(json.vehicle.year)
                 setPrice(json.vehicle.price)
+                setSalesPrice(json.vehicle.salesPrice)
+                setVolume(json.vehicle.volume)
+                setUnits(json.vehicle.units)
+                setYear(json.vehicle.year)
                 setPurchaseMilage(json.vehicle.purchaseMilage)
                 setError('')
                 setIsLoading(false)
@@ -216,12 +258,11 @@ const Vehicle = () => {
                     validator[key] = true
                 }
 
-                console.log('valid', validator)
+                console.log('test', json.vehicle.units)
+                dispatch({type: 'SET_DISTANCE_UNITS', payload: json.vehicle.units})
+                dispatch({type: 'SET_VOLUME_UNITS', payload: json.vehicle.volume})
 
-                // console.log('test', json.vehicle)
-             
-                // dispatch({ type: 'SET_CAR', payload: json.vehicle })
-
+                console.log('dist units state', distanceUnits)
             }
         }
 
@@ -229,13 +270,13 @@ const Vehicle = () => {
             fetchVehicle()
         }
 
-    }, [])
+    }, [distanceUnits])
 
 
     return (
         <div>
             <div className='title'>
-                <h2>{`${make} ${model} ${year}`}</h2>
+                <p>{`${make} ${model} ${year}`}</p>
                 {!isEdit && (
                     <img onClick={() => setIsEdit(true)} className='edit-icon' src={EditIcon} alt='edit-icon' />
                 )}
@@ -246,7 +287,7 @@ const Vehicle = () => {
             </div>
 
             {
-                isLoading ? <Loader/> : (
+                isLoading ? <Loader /> : (
 
                     <div className='form-wrapper'>
                         <form onSubmit={handleSubmit} className='form-content'>
@@ -341,8 +382,43 @@ const Vehicle = () => {
 
                             {
                                 isEdit && (
+                                    <div >
+                                        <label>Units (distance)</label>
+                                        <br />
+                                        {units}
+                                        <div className='input-wrapper'>
+                                            <select style={{ width: '200px' }} onChange={(e) => handleUnitsChange(e.target.value)} value={units}>
+
+                                                <option>km</option>
+                                                <option>miles</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                )
+                            }
+
+                            {
+                                isEdit && (
+                                    <div >
+                                        <label>Units (volume)</label>
+                                        <br />
+                                        <div className='input-wrapper'>
+                                            <select style={{ width: '200px' }} onChange={(e) => handleVolumeChange(e.target.value)} value={volume}>
+                                                {/* { !volume && <option>-- select volume --</option>} */}
+                                                <option>liters</option>
+                                                <option>gallons</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                )
+                            }
+
+                            {
+                                isEdit && (
                                     <>
-                                        <label>Price</label>
+                                        <label>Purchase Price</label>
                                         <br />
                                         <div className='input-wrapper'>
                                             <input
@@ -355,6 +431,19 @@ const Vehicle = () => {
                                             <span>{(!validator.price) && <span>{`* Required, must be a number`}</span>}</span>
                                         </div>
 
+                                        <label>Sale Price</label>
+                                        <br />
+                                        <div className='input-wrapper'>
+                                            <input
+                                                type='text'
+                                                onChange={((e) => { handleSalesPriceChange(e.target.value) })}
+                                                value={salesPrice || ''}
+                                            />
+                                        </div>
+                                        <div className='validator'>
+                                            <span>{(!validator.salesPrice) && <span>{`* Not required, must be a number`}</span>}</span>
+                                        </div>
+
 
                                         <button className='submit-button' type='submit' disabled=
                                             {
@@ -362,41 +451,54 @@ const Vehicle = () => {
                                                     validator.model === false ||
                                                     validator.year === false ||
                                                     validator.purchaseMilage === false ||
-                                                    validator.price === false) ? true : false
+                                                    validator.price === false ||
+                                                    validator.salesPrice === false) ? true : false
                                             }
                                         >Submit</button>
                                     </>
                                 )
                             }
+                            
 
 
-                            {   
-                                
+                            {
+
                                 !isEdit && (
-                                    <div  className='vehicle-info-content'>
+                                    <div className='vehicle-info-content'>
                                         <div>
                                             <div>
-                                                <span>Make: <span>{make}</span> </span>
+                                                <span>Make: <span className='bold'>{make}</span> </span>
                                             </div>
                                             <div>
-                                                <span>Model: <span>{model}</span> </span>
+                                                <span>Model: <span className='bold'>{model}</span> </span>
                                             </div>
                                             <div>
-                                                <span>Year: <span>{year}</span> </span>
+                                                <span>Year: <span className='bold'>{year}</span> </span>
                                             </div>
                                             <div>
-                                                <span>Purchase Milage: <span>{purchaseMilage}</span> </span>
+                                                <span>Purchase Milage: <span className='bold'>{purchaseMilage}</span> </span><span>{` ${distanceUnits}`}</span>
                                             </div>
                                             <div>
-                                                <span>Price: <span>{price}</span> </span>
+                                                <span>Price: <span className='bold'>{price}</span> </span>
+                                            </div>
+                                            <div>
+                                                <span>Sale Price: <span className='bold'>{salesPrice}</span> </span>
+                                            </div>
+                                            <div>
+                                                <span>Units (distance): <span className='bold'>{units}</span> </span>
+                                            </div>
+                                            <div>
+                                                <span>Units (volume): <span className='bold'>{volume}</span> </span>
                                             </div>
                                         </div>
                                         <div>
-                                            <button onClick={(e)=>openModal(e,id)} className='details-btn'>Delete</button>
+                                            <button onClick={(e) => openModal(e, id)} className='details-btn'>Delete</button>
                                         </div>
                                     </div>
                                 )
                             }
+
+                            
                         </form>
 
                         <nav className='nested-routes-wrapper'>
@@ -409,22 +511,22 @@ const Vehicle = () => {
                             <Outlet />
                         </div>
 
-                    </div> 
+                    </div>
                 )
             }
             {
-                    modalIsOpen && 
-                    <Modal>
-                        <div>
-                            <div className='modal-top-section'>
-                                <img onClick={()=>setModalIsOpen(!modalIsOpen)} src={CloseIcon} className='close-icon-light'/>
-                            </div>
-                            <div className='modal-bottom-section'>
-                                <button onClick={()=>handleDelete(toBeDeleted)} className='confirm-btn'>Confirm</button>
-                            </div>
+                modalIsOpen &&
+                <Modal>
+                    <div>
+                        <div className='modal-top-section'>
+                            <img onClick={() => setModalIsOpen(!modalIsOpen)} src={CloseIcon} className='close-icon-light' />
                         </div>
-                    </Modal>
-                }
+                        <div className='modal-bottom-section'>
+                            <button onClick={() => handleDelete(toBeDeleted)} className='confirm-btn'>Confirm</button>
+                        </div>
+                    </div>
+                </Modal>
+            }
         </div>
     )
 }

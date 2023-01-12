@@ -23,27 +23,58 @@ export const vehiclesReducer = (state, action) => {
       }
     case 'CREATE_TRIP':
       return {
-        vehicles: action.payload, ...state.trips
+        vehicles: action.payload, ...state
       }
     case 'SET_TRIPS':
       return {
-        trips: action.payload, ...state.trips
+        trips: action.payload, 
+        vehicles: state.vehicles,
+        maintenance: state.maintenance,
+        fuels: state.fuels,
+        distanceUnits: state.distanceUnits,
+        volumeUnits: state.volumeUnits,
+        isOpenMenu: true,
       }
     case 'SET_FUELS':
       return {
-        fuels: action.payload, ...state.fuels
+        fuels: action.payload, 
+        trips: action.payload, 
+        vehicles: state.vehicles,
+        maintenance: state.maintenance,
+        distanceUnits: state.distanceUnits,
+        volumeUnits: state.volumeUnits,
+        isOpenMenu: true,
       }
     case 'SET_MAINTENANCE':
       return {
-        maintenance: action.payload, ...state.maintenance
+        maintenance: action.payload, 
+        fuels: action.payload, 
+        trips: action.payload, 
+        vehicles: state.vehicles,
+        distanceUnits: state.distanceUnits,
+        volumeUnits: state.volumeUnits,
+        isOpenMenu: true,
       }
+    case 'SET_DISTANCE_UNITS':
+      return {
+        distanceUnits: action.payload,
+        volumeUnits: state.volumeUnits,
+      }
+    case 'SET_VOLUME_UNITS':
+      return {
+        volumeUnits: action.payload,
+        distanceUnits: state.distanceUnits
+      }
+   
     case 'OPEN_MENU':
       return {
         vehicles: state.vehicles,
         trips: state.trips,
         maintenance: state.maintenance,
         fuels: state.fuels,
-        isOpenMenu: true
+        distanceUnits: state.distanceUnits,
+        volumeUnits: state.volumeUnits,
+        isOpenMenu: true,
       }
     case 'CLOSE_MENU':
       return {
@@ -51,7 +82,11 @@ export const vehiclesReducer = (state, action) => {
         trips: state.trips,
         fuels: state.fuels,
         maintenance: state.maintenance,
-        isOpenMenu: false
+        distanceUnits: state.distanceUnits,
+        volumeUnits: state.volumeUnits,
+        isOpenMenu: false,
+        
+        
       }
     default:
       return state
@@ -65,7 +100,9 @@ export const VehiclesContextProvider = ({ children }) => {
     fuels: null,
     maintenance: null,
     car: null,
-    isOpenMenu: false
+    isOpenMenu: false,
+    distanceUnits: null,
+    volumeUnits: null,test: null
   })
 
   return (

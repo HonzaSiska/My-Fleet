@@ -63,7 +63,7 @@ const deleteVehicle = async( req, res ) => {
 const updateVehicle = async( req, res ) => {
     const vehicle = req.body
     const vehicleId = req.params.id
-    
+    console.log('updateVehicle', vehicle)
 
     try {
         const updatedVehicle = await Vehicle.findOneAndUpdate({_id: vehicleId },{...vehicle}, {new: true})

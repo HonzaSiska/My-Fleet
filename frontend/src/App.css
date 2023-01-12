@@ -1,5 +1,7 @@
 .App {
   min-height: 100vh;
+  font-weight: 100;
+  background: var(--main-background-theme);
 }
 
 
@@ -23,7 +25,12 @@
 .content{
   display: block;
   /* grid-template-columns: 1fr; */
+  min-height: 100%;
   
+}
+.pages{
+  background: var(--main-background-theme);
+  min-height: 100%;
 }
 .side-bar{
   background-color: var(--dark-theme);
@@ -33,6 +40,7 @@
 .title{
   text-align: center;
   color: var(--dark-theme);
+  font-size: 25px;
 }
 .nested-routes-wrapper{
   display: flex;
@@ -47,16 +55,15 @@
   border: 1px solid var(--dark-theme);
   color: var(--dark-theme);
   text-decoration: none;
-  /* background: var(--secondary-theme); */
-  /* background: lightgrey; */
-  border-bottom: 1px solid lightgrey;
   border-top: none;
   border-left: none;
+  border-bottom: none;
+ 
 }
  .nested-menu-active{
   background: var(--main-background-theme);
   border-bottom: none;
-  border-top: 1px solid var(--secondary-theme);
+  border-top: 1px solid lightgrey;
   font-weight: bold;
 }
 
@@ -132,7 +139,7 @@
   .pages{
     height: 100%;
     overflow: auto;
-    background-color: var(--main-background-theme);
+    /* background-color: var(--main-background-theme); */
     
   }
   .nested-routes-wrapper{

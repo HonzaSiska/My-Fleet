@@ -266,15 +266,15 @@ export const NewTrip = () => {
                                 {
                                     (
                                         validator.from === false ||
-                                            validator.to === false ? true : false
+                                        validator.to === false ? true : false
                                     )
                                 }
                                 style={{
                                     opacity:
                                         (
                                             validator.from === false ||
-                                                validator.to === false
-                                                ? '0.1' : '1'
+                                            validator.to === false
+                                            ? '0.1' : '1'
                                         )
 
                                 }}

@@ -39,7 +39,7 @@ function Home() {
   return (
     <div>
       <div className='title'>
-          <h2>Dashboard</h2>
+          <p>My Fleet</p>
       </div>
       {
         isLoading ?    
@@ -52,6 +52,9 @@ function Home() {
           </div>
         )
       }
+      <div className='title'>
+          <p>Rentals</p>
+      </div>
       
     </div>
   )

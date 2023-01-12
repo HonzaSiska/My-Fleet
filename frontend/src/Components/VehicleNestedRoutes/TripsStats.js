@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { useVehiclesContext } from '../../hooks/useVehiclesContext'
 import { parseMillisecondsIntoReadableTime } from '../../utils/utils'
 import Card from '../Card/Card'
 import Loader from '../Loader/Loader'
@@ -8,6 +9,7 @@ import Loader from '../Loader/Loader'
 export const TripsStats = () => {
   const { id } = useParams()
   const {user} = useAuthContext()
+  const { distanceUnits } = useVehiclesContext()
   const [ error , setError ] = useState('')
   const [ isLoading, setIsLoading ] = useState(true)
   const [ data, setData ] = useState({
@@ -33,7 +35,8 @@ export const TripsStats = () => {
           sum: filteredData.sum, 
           count: filteredData.count,
           averageTripDistance: filteredData.averageTripDistance,
-          duration: parseMillisecondsIntoReadableTime(filteredData.duration)
+          duration: parseMillisecondsIntoReadableTime(filteredData.duration),
+          distanceUnits
         })
         setIsLoading(false)
         console.log('tyrip stats', json.stats)
@@ -60,14 +63,14 @@ export const TripsStats = () => {
               ):(
                 <>
                 <Card>
-                  <span>Total Distance: <span className='bold'>{data.sum}</span></span>
+                  <span>Total Distance: <span className='bold'>{data.sum}</span></span><span>{` ${distanceUnits}`}</span>
                   <br/>
                   <span>Trips: <span className='bold'>{data.count}</span></span>
                 </Card>
                 <Card>
                   <span>Total Duration: <span className='bold'>{data.duration}</span></span>
                   <br/>
-                  <span>Average Trip Distance: <span className='bold'>{data.averageTripDistance}</span></span>
+                  <span>Average Trip Distance: <span className='bold'>{data.averageTripDistance}</span></span><span>{` ${distanceUnits}`}</span>
                 </Card>
                 
                 </>  

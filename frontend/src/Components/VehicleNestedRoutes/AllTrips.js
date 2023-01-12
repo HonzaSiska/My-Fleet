@@ -22,10 +22,11 @@ export const AllTrips = () => {
     const [ recordsLeft, setRecordsLeft ] = useState(0)
     const [ modalIsOpen, setModalIsOpen ] = useState(false)
     const { user } = useAuthContext()
-    const { dispatch, trips } = useVehiclesContext()
+    const { dispatch, trips, distanceUnits, volumeUnits,  } = useVehiclesContext()
     const { id } = useParams()
     const [ toBeDeleted , setToBeDeleted ] = useState('')
     const [ error, setError ] = useState('')
+
 
 
     const resultsPerPage = 5
@@ -44,13 +45,13 @@ export const AllTrips = () => {
             // calculate records left
             const left = results - ((page +1) * 5 )
             setRecordsLeft(left)
-
+            console.log('distance units', distanceUnits)
             const updatedTrip = json.trips.map(trip => {
                 
-                return {...trip, duration : parseMillisecondsIntoReadableTime(trip.duration)}
+                return {...trip, duration : parseMillisecondsIntoReadableTime(trip.duration), units: distanceUnits }
                 
             })
-
+            console.log('json', json.updatedTrip)
             dispatch({ type: 'SET_TRIPS', payload: updatedTrip })
         }
     }

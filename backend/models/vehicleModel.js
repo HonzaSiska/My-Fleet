@@ -27,10 +27,21 @@ const vehicleSchema = new Schema({
     type: Number,
     required: true
   },
+  salesPrice : {
+    type: Number,
+  }, 
+  units : {
+    type: String,
+    default: 'km'
+  },
+  volume: {
+    type: String,
+    default: 'liters'
+  },
   user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-  }
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+},
 }, { timestamps: true })
 
 // vehicleSchema.pre("deleteOne", function(next) {

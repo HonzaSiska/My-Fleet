@@ -19,7 +19,7 @@ const AllFuels = () => {
     const [recordsLeft, setRecordsLeft] = useState(0)
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const { user } = useAuthContext()
-    const { dispatch, fuels } = useVehiclesContext()
+    const { dispatch, fuels, volumeUnits } = useVehiclesContext()
     const { id } = useParams()
     const [toBeDeleted, setToBeDeleted] = useState('')
     const [error, setError] = useState('')
@@ -34,6 +34,7 @@ const AllFuels = () => {
             method: 'POST',
         })
         const json = await response.json()
+      
 
         if (json.success) {
             setResults(json.count)
@@ -83,9 +84,9 @@ const AllFuels = () => {
         if (user) {
             fetchFuels()
         }
-
+        
     }, [page, results, recordsLeft, user])
-
+    
 
     return (
         <div className='trips-wrapper'>
@@ -100,7 +101,7 @@ const AllFuels = () => {
                         </div>
                         <div className='card-block-bottom-fuel'>
                             <div>
-                                <span className='distance'>{`${fuel.amount} ${fuel.units}`}</span>
+                                <span className='distance'>{`${fuel.amount} ${volumeUnits}`}</span>
                                 <span className='duration'>{' / price: ' +fuel.price}</span>
                             </div>
 
