@@ -1,21 +1,24 @@
-.close-icon-wrapper{
+.close-icon-wrapper {
     display: flex;
     padding: 10px;
     justify-content: flex-end;
 }
-.close-icon{
+
+.close-icon {
     display: block;
     width: 20px;
 }
-.menu{
+
+.menu {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
     background-color: var(--secondary-theme);
-    
+
 }
-.logo{
+
+.logo {
     color: var(--dark-theme);
     font-weight: bold;
     font-style: italic;
@@ -23,55 +26,62 @@
     font-size: 20px;
 }
 
-.navigation-mobile{
-    display:block;
+.navigation-mobile {
+    display: block;
     position: absolute;
     left: -800px;
     background-color: var(--dark-theme);
     min-height: 100vh;
-    min-width: 100%;
+    min-width: 220px;
     z-index: 20000;
     /* opacity: 0; */
+    box-shadow: 10px 16px 24px -3px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 10px 16px 24px -3px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 16px 24px -3px rgba(0, 0, 0, 0.75);
 }
 
-.navigation-mobile a{
+.navigation-mobile a {
     text-decoration: none;
     padding-left: 10px;
     color: var(--main-background-theme);
-    
+
 }
 
-.open-menu{
+.open-menu {
     animation: slide-in 0.3s forwards;
 }
+
 /* .close-menu{
     animation: slide-out 0.1s forwards;
 } */
-.close-menu{
+.close-menu {
     left: -800px;
 }
-.logout{
-cursor: pointer;
-   
+
+.logout {
+    cursor: pointer;
+
 }
 
-.alink{
+.alink {
     display: block;
     width: 100%;
 }
 
 @keyframes slide-in {
-    0% { 
+    0% {
         /* opacity: 0; */
         left: -800px;
-        
+
     }
-    100% { 
+
+    100% {
         /* opacity: 1; */
         left: 0;
     }
-    
+
 }
+
 /* @keyframes slide-out{
     0% { 
       
@@ -85,12 +95,13 @@ cursor: pointer;
     }
     
 } */
- 
+
 @media screen and (min-width: 650px) {
-    .menu-icon{
+    .menu-icon {
         display: none;
     }
-    .menu{
+
+    .menu {
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -98,14 +109,11 @@ cursor: pointer;
         color: white;
         /* border-bottom: 3px solid var(--dark-theme); */
     }
-    .navigation-mobile{
+
+    .navigation-mobile {
         display: none;
         position: absolute;
         background-color: var(--dark-theme);
-     }
-    
+    }
+
 }
-
-
-
-

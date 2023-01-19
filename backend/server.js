@@ -8,6 +8,7 @@ const vehicleRoutes = require('./routes/vehicle')
 const tripRoutes = require('./routes/trip')
 const fuelRoutes = require('./routes/fuel')
 const maintenanceRoutes = require('./routes/maintenance')
+const statsRoutes = require('./routes/stats')
 
 // express app
 const app = express()
@@ -28,6 +29,7 @@ app.use('/api/vehicle', vehicleRoutes)
 app.use('/api/trip', tripRoutes)
 app.use('/api/fuel', fuelRoutes)
 app.use('/api/maintenance', maintenanceRoutes)
+app.use('/api/stats', statsRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)

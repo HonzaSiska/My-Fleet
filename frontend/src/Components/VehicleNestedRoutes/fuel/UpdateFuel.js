@@ -12,7 +12,6 @@ const UpdateFuel = () => {
   const [amount, setAmount] = useState(0)
   const [price, setPrice] = useState(0)
   const [location, setLocation] = useState('')
-  const [units, setUnits] = useState('liters')
   const [error, setError] = useState(null)
   const { user } = useAuthContext()
 
@@ -20,8 +19,7 @@ const UpdateFuel = () => {
     date: false,
     amount: false,
     location: false,
-    price: false,
-    units: true,
+    price: false
 
   })
   const navigate = useNavigate()
@@ -57,7 +55,6 @@ const UpdateFuel = () => {
         fuel.date && setDate(formatDate(newDate))
         fuel.amount && setAmount(fuel.amount)
         fuel.price && setPrice(fuel.price)
-        fuel.units && setUnits(fuel.units)
         fuel.location && setLocation(fuel.location)
   
         setError('')
@@ -73,7 +70,6 @@ const UpdateFuel = () => {
         fuel.date && setValidator(validator.date = true)
         fuel.amount && setValidator(validator.amount = true)
         fuel.price && setValidator(validator.price = true)
-        fuel.units && setValidator(validator.units = true)
         fuel.location && setValidator(validator.location = true)
 
         console.log('validator after fetch', validator)
@@ -95,13 +91,12 @@ const UpdateFuel = () => {
       validator.date === false ||
       validator.amount === false ||
       validator.price === false ||
-      validator.location === false ||
-      validator.units === false
+      validator.location === false 
     ) {
       return
     }
 
-    const fuel = { _id: fuelId, date, amount, price, location, units }
+    const fuel = { _id: fuelId, date, amount, price, location}
 
     const response = await fetch('/api/fuel/update', {
       method: 'POST',
@@ -173,10 +168,6 @@ const UpdateFuel = () => {
 
   }
 
-  const handleUnitsChange = (value) => {
-    setUnits(value)
-    setValidator(prev => ({ ...prev, units: true }))
-  }
 
   return (
     <div>
@@ -229,17 +220,6 @@ const UpdateFuel = () => {
           <div className='validator'>
             <span>{(validator.price  == '') && <span>{`* Required, must be u number !!`}</span>}</span>
           </div>
-          <label>Units</label>
-          <br />
-          <div className='input-wrapper'>
-            <select style={{ width: '200px' }} onChange={(e) => handleUnitsChange(e.target.value)} value={units}>
-
-              <option>Liters</option>
-              <option>Gallons</option>
-
-            </select>
-          </div>
-
 
 
           <button

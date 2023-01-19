@@ -13,7 +13,6 @@ const NewFuel = () => {
     const [amount, setAmount] = useState(0)
     const [price, setPrice] = useState(0)
     const [location, setLocation] = useState('')
-    const [units, setUnits] = useState('liters')
     const [error, setError] = useState(null)
     const [ isLoading, setIsLoading ] = useState(false)
     const { user } = useAuthContext()
@@ -22,8 +21,7 @@ const NewFuel = () => {
         date: false,
         amount: false,
         location: false,
-        price: false,
-        units: true,
+        price: false
 
     })
     const navigate = useNavigate()
@@ -35,13 +33,12 @@ const NewFuel = () => {
             validator.date === false ||
             validator.amount === false ||
             validator.price === false ||
-            validator.location === false ||
-            validator.units === false
+            validator.location === false 
         ) {
             return
         }
 
-        const fuel = { vehicle_id: id, date, amount, price, location, units }
+        const fuel = { vehicle_id: id, date, amount, price, location}
         
         setIsLoading(true)
         const response = await fetch('/api/fuel/create', {
@@ -118,10 +115,6 @@ const NewFuel = () => {
 
     }
 
-    const handleUnitsChange = (value) => {
-        setUnits(value)
-        setValidator(prev => ({ ...prev, units: true }))
-    }
 
     return (
         <div>
@@ -177,18 +170,6 @@ const NewFuel = () => {
                     <div className='validator'>
                         <span>{(!validator.price) && <span>{`* Required`}</span>}</span>
                     </div>
-                    <label>Units</label>
-                    <br />
-                    <div className='input-wrapper'>
-                        <select style={{ width: '200px' }} onChange={(e) => handleUnitsChange(e.target.value)} value={units}>
-
-                            <option>Liters</option>
-                            <option>Gallons</option>
-
-                        </select>
-                    </div>
-
-                    
 
                     <button 
                         className='submit-button' 

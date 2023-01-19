@@ -35,11 +35,12 @@ import MaintenanceStats from './Components/VehicleNestedRoutes/maintenance/Maint
 import MaintenanceSearch from './Components/VehicleNestedRoutes/maintenance/MaintenanceSearch'
 import MaintenanceUpdate from './Components/VehicleNestedRoutes/maintenance/MaintenanceUpdate'
 import DateMaintenance from './Components/VehicleNestedRoutes/maintenance/DateMaintenance'
+import VehicleStats from './Components/VehicleNestedRoutes/VehicleStats/VehicleStats'
 
 
 function App() {
 
-  const { user,lang, dispatch } = useAuthContext()
+  const { user, lang, dispatch } = useAuthContext()
   const { dispatch: vehicleDispatch, isOpenMenu } = useVehiclesContext()
 
   useEffect(() => {
@@ -49,86 +50,94 @@ function App() {
     // IF LANGUAGE IS SET IN LOCAL STORAGE , LOAD THE LANGUAGE
     // OTHERWISE SET LANGUAGE TO ENGLISH
 
-    if(!language)localStorage.setItem('language', 'english')
-    if(language) dispatch({type: 'CHANGE_LANGUAGE', payload: language})
-   
-    if(lang === undefined){
-      dispatch({type: 'CHANGE_LANGUAGE', payload: 'english'})
+    if (!language) localStorage.setItem('language', 'english')
+    if (language) dispatch({ type: 'CHANGE_LANGUAGE', payload: language })
+
+    if (lang === undefined) {
+      dispatch({ type: 'CHANGE_LANGUAGE', payload: 'english' })
     }
 
-  },[lang])
+  }, [lang])
 
   return (
     <div className="App">
-      <BrowserRouter>    
-        <Navbar/>   
+      <BrowserRouter>
+        <Navbar />
         <div className='content'>
           <div className='side-bar'>
-            <Sidebar/>
-          </div> 
+            <Sidebar />
+          </div>
           <div className="pages">
             <Routes>
-              
-              <Route 
-                path="/login" 
-                element={!user ? <Login /> : <Navigate to='/'/>} 
+
+              <Route
+                path="/login"
+                element={!user ? <Login /> : <Navigate to='/' />}
               />
-              <Route 
-                path="/signup" 
-                element={!user ? <Signup /> : <Navigate to='/'/>  } 
+              <Route
+                path="/signup"
+                element={!user ? <Signup /> : <Navigate to='/' />}
               />
-              <Route 
-                path="/reset" 
-                element={!user ? <Reset/> : <Navigate to='/'/>  } 
+              <Route
+                path="/reset"
+                element={!user ? <Reset /> : <Navigate to='/' />}
               />
-              <Route 
-                path="/change-password/:token" 
-                element={<ChangePassword/> } 
+              <Route
+                path="/change-password/:token"
+                element={<ChangePassword />}
               />
-              <Route 
-                path="/new-vehicle" 
-                element={ user ? <NewVehicle/> : <Navigate to='/'/>}
+              <Route
+                path="/new-vehicle"
+                element={user ? <NewVehicle /> : <Navigate to='/' />}
               />
 
-              <Route 
-                path="/vehicle/:id" 
-                element={ user ? <Vehicle/> : <Navigate to='/'/>}
+              <Route
+                path="/vehicle/:id"
+                element={user ? <Vehicle /> : <Navigate to='/' />}
               >
-                  <Route path='trips' element={<Trips/> } >
-                      <Route path='new' element={<NewTrip/> } />
-                      <Route path='all' element={<AllTrips/> } />
-                      <Route path='stats' element={<TripsStats/> } />
-                      <Route path='update/:tripId' element={<UpdateTrip/>} />
-                      <Route path='search' element={<TripSearch/>} />
-                      <Route path='dates' element={<DateSearch/>} />
-                  </Route>
+                <Route path='trips' element={<Trips />} >
+                  <Route path='new' element={<NewTrip />} />
+                  <Route path='all' element={<AllTrips />} />
+                  <Route path='stats' element={<TripsStats />} />
+                  <Route path='update/:tripId' element={<UpdateTrip />} />
+                  <Route path='search' element={<TripSearch />} />
+                  <Route path='dates' element={<DateSearch />} />
+                </Route>
 
-                  <Route path='fuel' element={<Fuel/> } >
-                    <Route path='new' element={<NewFuel/> } />
-                    <Route path='all' element={<AllFuels/>} />
-                    <Route path='stats' element={<FuelStats/> } />
-                    <Route path='update/:fuelId' element={<UpdateFuel/>} />
-                    <Route path='search' element={<FuelSearch/>} />
-                    <Route path='dates' element={<FuelDateSearch/>} />
-                  </Route>
-                  
-                  <Route path='maintenance' element={<Maintenance/> }>
-                    <Route path='new' element={<NewMaintenance/> } />
-                    <Route path='all' element={<AllMaintenance/>} />
-                    <Route path='stats' element={<MaintenanceStats/>} />
-                    <Route path='search' element={<MaintenanceSearch/>} />
-                    <Route path='dates' element={<DateMaintenance/>} />
-                    <Route path='update/:maintenanceId' element={<MaintenanceUpdate />} />
-                  </Route>
+                <Route path='fuel' element={<Fuel />} >
+                  <Route path='new' element={<NewFuel />} />
+                  <Route path='all' element={<AllFuels />} />
+                  <Route path='stats' element={<FuelStats />} />
+                  <Route path='update/:fuelId' element={<UpdateFuel />} />
+                  <Route path='search' element={<FuelSearch />} />
+                  <Route path='dates' element={<FuelDateSearch />} />
+                </Route>
+
+                <Route path='maintenance' element={<Maintenance />}>
+                  <Route path='new' element={<NewMaintenance />} />
+                  <Route path='all' element={<AllMaintenance />} />
+                  <Route path='stats' element={<MaintenanceStats />} />
+                  <Route path='search' element={<MaintenanceSearch />} />
+                  <Route path='dates' element={<DateMaintenance />} />
+                  <Route path='update/:maintenanceId' element={<MaintenanceUpdate />} />
+                </Route>
+
+                <Route
+                  path="stats"
+                  element={user ? <VehicleStats /> : <Navigate to='/' />}
+                >
+                </Route>
               </Route>
 
-              <Route 
-                path="/" 
-                element={<Home /> }  />
+
+
+              <Route
+                path="/"
+                element={<Home />} />
             </Routes>
           </div>
         </div>
-        
+
       </BrowserRouter>
     </div>
   )

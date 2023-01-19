@@ -9,8 +9,6 @@ const getTrips = async (req, res) => {
     const limit = 5
     const skip = req.query.page * limit
 
-    console.log('trips query', req.query)
-
     try {
         const count = await Trip.find({ user_id, vehicle_id: vehicleId }).count()
         const fetchedTrips = await Trip.find({ user_id, vehicle_id: vehicleId }).skip(skip).limit(limit).sort({ completed: 1, departure: -1, })
@@ -20,7 +18,6 @@ const getTrips = async (req, res) => {
                   date: trip._doc.departure ? `${trip._doc.departure.getDate()}-${trip._doc.departure.getMonth() + 1}-${trip._doc.departure.getFullYear()}` : ''
             }
         })
-        console.log('returned trips', trips)
         res.status(200).json({ success: true, trips, count })
     } catch (error) {
         res.status(400).json({ success: false, error: error.message })
@@ -81,7 +78,7 @@ const getStats = async (req, res) => {
         res.json({ success: true, stats: data })
         
     } catch (error) {
-        res.json({ success: false, error:error })
+        res.json({ success: false, error })
     }
 }
 

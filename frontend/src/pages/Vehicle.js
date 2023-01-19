@@ -135,7 +135,8 @@ const Vehicle = () => {
 
             dispatch({type: 'SET_DISTANCE_UNITS', payload: json.vehicle.units})
             dispatch({type: 'SET_VOLUME_UNITS', payload: json.vehicle.volume})
-           
+            
+            navigate(`/vehicle/${id}/trips/all`)
 
         }
     }
@@ -257,12 +258,10 @@ const Vehicle = () => {
                 for (let key in validator) {
                     validator[key] = true
                 }
-
-                console.log('test', json.vehicle.units)
                 dispatch({type: 'SET_DISTANCE_UNITS', payload: json.vehicle.units})
                 dispatch({type: 'SET_VOLUME_UNITS', payload: json.vehicle.volume})
 
-                console.log('dist units state', distanceUnits)
+        
             }
         }
 
@@ -385,7 +384,6 @@ const Vehicle = () => {
                                     <div >
                                         <label>Units (distance)</label>
                                         <br />
-                                        {units}
                                         <div className='input-wrapper'>
                                             <select style={{ width: '200px' }} onChange={(e) => handleUnitsChange(e.target.value)} value={units}>
 
@@ -505,6 +503,7 @@ const Vehicle = () => {
                             <Link className='sub-link nested-menu-active' to='trips/all' onClick={handleIsActive}>Trips</Link>
                             <Link className='sub-link' to='fuel/all' onClick={handleIsActive}>Fuel</Link>
                             <Link className='sub-link' to='maintenance/all' onClick={handleIsActive}>Maintenance</Link>
+                            <Link className='sub-link' to='stats' onClick={handleIsActive}>Stats</Link>
                         </nav>
 
                         <div className='outlet'>

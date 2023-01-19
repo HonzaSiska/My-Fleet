@@ -33,7 +33,7 @@ export const vehiclesReducer = (state, action) => {
         fuels: state.fuels,
         distanceUnits: state.distanceUnits,
         volumeUnits: state.volumeUnits,
-        isOpenMenu: true,
+        // isOpenMenu: true,
       }
     case 'SET_FUELS':
       return {
@@ -43,7 +43,7 @@ export const vehiclesReducer = (state, action) => {
         maintenance: state.maintenance,
         distanceUnits: state.distanceUnits,
         volumeUnits: state.volumeUnits,
-        isOpenMenu: true,
+        // isOpenMenu: true,
       }
     case 'SET_MAINTENANCE':
       return {
@@ -53,7 +53,7 @@ export const vehiclesReducer = (state, action) => {
         vehicles: state.vehicles,
         distanceUnits: state.distanceUnits,
         volumeUnits: state.volumeUnits,
-        isOpenMenu: true,
+        // isOpenMenu: true,
       }
     case 'SET_DISTANCE_UNITS':
       return {

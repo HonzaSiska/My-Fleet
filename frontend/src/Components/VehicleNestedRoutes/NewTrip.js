@@ -13,7 +13,6 @@ export const NewTrip = () => {
     const [arrival, setArrival] = useState('')
     const [from, setFrom] = useState('')
     const [to, setTo] = useState('')
-    const [units, setUnits] = useState('km')
     const [start, setStart] = useState('')
     const [finish, setFinish] = useState('')
     const [error, setError] = useState(null)
@@ -28,7 +27,6 @@ export const NewTrip = () => {
         arrival: false,
         start: false,
         finish: true,
-        units: true,
 
     })
 
@@ -93,10 +91,6 @@ export const NewTrip = () => {
                 setError('')
             }, 2000);
 
-            // dispatch({type: 'CREATE_TRIP', payload: json})
-
-            // navigate(`/vehicle/${id}/trips/all`)
-
 
         }
 
@@ -107,11 +101,11 @@ export const NewTrip = () => {
     const handleDepartureChange = (value) => {
         setDeparture(value)
         setValidator(prev => ({ ...prev, departure: true }))
-        //    if(value.length  > 0){
-        //     setValidator(prev => ({...prev, make:true}))
-        //    }else{
-        //     setValidator(prev => ({...prev, make:false}))
-        //    }
+           if(value.length  > 0){
+            setValidator(prev => ({...prev, departure:true}))
+           }else{
+            setValidator(prev => ({...prev, departure:false}))
+           }
     }
     const handleArrivalChange = (value) => {
         setArrival(value)
@@ -138,10 +132,7 @@ export const NewTrip = () => {
         }
 
     }
-    const handleUnitsChange = (value) => {
-        setUnits(value)
-        setValidator(prev => ({ ...prev, units: true }))
-    }
+  
     const handleStartChange = (value) => {
         setStart(value)
 
@@ -218,7 +209,7 @@ export const NewTrip = () => {
                             <div className='validator'>
                                 <span>{(!validator.to) && <span>{`* Required`}</span>}</span>
                             </div>
-                            <label>Units</label>
+                            {/* <label>Units</label>
                             <br />
                             <div className='input-wrapper'>
                                 <select style={{ width: '200px' }} onChange={(e) => handleUnitsChange(e.target.value)} value={units}>
@@ -227,7 +218,7 @@ export const NewTrip = () => {
                                     <option>miles</option>
 
                                 </select>
-                            </div>
+                            </div> */}
 
                             <label>Odometer Start</label>
                             <br />

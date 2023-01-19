@@ -17,7 +17,6 @@ export const UpdateTrip = () => {
     const [arrival, setArrival] = useState('')
     const [from, setFrom] = useState('')
     const [to, setTo] = useState('')
-    const [units, setUnits] = useState('')
     const [start, setStart] = useState(0)
     const [finish, setFinish] = useState(0)
     const [error, setError] = useState(null)
@@ -33,8 +32,7 @@ export const UpdateTrip = () => {
         departure: false,
         arrival: false,
         start: false,
-        finish: false,
-        units: true
+        finish: false
     })
 
     const navigate = useNavigate()
@@ -74,10 +72,10 @@ export const UpdateTrip = () => {
                 trip.arrival && setArrival(formatDateTime(newArrival))
                 trip.from && setFrom(trip.from)
                 trip.to && setTo(trip.to)
-                trip.units && setUnits(trip.units)
                 trip.start && setStart(trip.start)
                 trip.finish && setFinish(trip.finish)
                 setIsChecked(trip.completed)
+                setCompleted(trip.completed)
                 setError('')
                 setIsLoading(false)
 
@@ -91,7 +89,6 @@ export const UpdateTrip = () => {
                 trip.arrival && setValidator(validator.arrival = true)
                 trip.from && setValidator(validator.from = true)
                 trip.to && setValidator(validator.to = true)
-                trip.units && setValidator(validator.units = true)
                 trip.start && setValidator(validator.start = true)
                 trip.finish && setValidator(validator.finish = true)
                 trip.completed && setValidator(validator.completed = true)
@@ -201,11 +198,6 @@ export const UpdateTrip = () => {
         }
     }
 
-    const handleUnitsChange = (value) => {
-        setUnits(value)
-        setValidator(prev => ({ ...prev, units: true }))
-    }
-
     const handleStartChange = (value) => {
         setStart(value)
 
@@ -285,17 +277,7 @@ export const UpdateTrip = () => {
                             <div className='validator'>
                                 <span>{(validator.to == '') && <span>{`* Required`}</span>}</span>
                             </div>
-                            <label>Units</label>
-                            <br />
-                            <div className='input-wrapper'>
-                                <select style={{ width: '200px' }} onChange={(e) => handleUnitsChange(e.target.value)} value={units}>
-
-                                    <option>km</option>
-                                    <option>miles</option>
-
-                                </select>
-                            </div>
-
+                            
                             <label>Odometer Start</label>
                             <br />
                             <div className='input-wrapper'>
@@ -323,8 +305,7 @@ export const UpdateTrip = () => {
 
                             <div className='input-wrapper checkbox-wrapper'>
                                 <label style={{ fontSize: "11px", color: isChecked ? 'green' : 'red' }}>{isChecked ? 'Completed' : 'Mark as completed'}</label>
-                                <input type='checkbox' className='checkbox' onChange={() => setIsChecked(!isChecked)} value={isChecked} />
-
+                                <input type='checkbox' className='checkbox' onChange={() => setIsChecked(!isChecked)} checked={isChecked} />
 
                             </div>
                             <button className='submit-button' type='submit'
