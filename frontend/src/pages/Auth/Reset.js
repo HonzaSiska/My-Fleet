@@ -25,6 +25,8 @@ function Reset() {
           })
           const json = await response.json()
           console.log('email', json.message)
+          setError('Reset-password link  has been sent to your email')
+          setEmail('')
         
     }
 

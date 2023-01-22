@@ -17,12 +17,15 @@ const VehicleStats = () => {
         costPerMinute: null,
         totalCost: null,
         totalPrice: null,
-        totalCostAndPrice: null
+        totalCostAndPrice: null,
+        pricePerDistance: null,
+        totalDistance: null
 
     })
 
 
     const { user } = useAuthContext()
+    const { distanceUnits } = useVehiclesContext()
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const { id } = useParams()
@@ -50,7 +53,9 @@ const VehicleStats = () => {
                     costPerMinute: json.stats._pricePerMinute,
                     totalCost: json.stats._totalCost,
                     totalPrice: json.stats._totalPrice,
-                    totalCostAndPrice:json.stats._totalCostAndPrice
+                    totalCostAndPrice:json.stats._totalCostAndPrice,
+                    pricePerDistance: json.stats._pricePerDistance,
+                    totalDistance: json.stats._totalDistance
                 }))
 
                 console.log(' stats', json.stats)
@@ -83,6 +88,8 @@ const VehicleStats = () => {
                                 <br />
                                 <span>Total Minutes: <span className='bold'>{data.totalMinutes}</span></span>
                                 <br />
+                                <span>Total Distance: <span className='bold'>{data.totalDistance}</span>{` ${distanceUnits}`}</span>
+                                <br />
                             </Card>
                             <Card>
                                 <span>Cost per day: <span className='bold'>{data.costPerDay}</span></span>
@@ -91,10 +98,13 @@ const VehicleStats = () => {
                                 <br />
                                 <span>Cost per minute: <span className='bold'>{data.costPerMinute}</span></span>
                                 <br />
+                                <span>Cost per {` ${distanceUnits}`}: <span className='bold'>{data.pricePerDistance}</span></span>
+                                <br />
                             </Card>
                             <Card>
                                 <span>Total Cost: <span className='bold'>{data.totalCostAndPrice}</span></span>
                                 <br />
+                                
                             </Card>
                         </>)
                         : null

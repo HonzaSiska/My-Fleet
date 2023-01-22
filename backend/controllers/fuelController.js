@@ -36,6 +36,7 @@ const getFuel = async (req, res) => {
 
 const createFuel = async(req, res) => {
     const fuel = req.body
+    fuel.user_id = req.user._id
 
     if(fuel){
         try {
@@ -92,11 +93,21 @@ const getStats = async (req, res) => {
              }
         ])
 
-        data[0].averageAmount = parseFloat((data[0].amount / data[0].count).toFixed(2))
-        data[0].averagePrice = parseFloat((data[0].price / data[0].count).toFixed(2))
+      
 
-        console.log('statst data',data)
-        res.json({ success: true, stats: data })
+
+        // data[0].averageAmount = parseFloat((data[0].amount / data[0].count).toFixed(2))
+        // data[0].averagePrice = parseFloat((data[0].price / data[0].count).toFixed(2))
+
+        // console.log('statst data',data)
+
+        const filteredData = data.filter(item => item._id == id)
+        filteredData[0].averageAmount = parseFloat((filteredData[0].amount / filteredData[0].count).toFixed(2))
+        filteredData[0].averagePrice = parseFloat((filteredData[0].price / filteredData[0].count).toFixed(2))
+
+
+
+        res.json({ success: true, stats: filteredData})
         
     } catch (error) {
         res.json({ success: false, error:error })

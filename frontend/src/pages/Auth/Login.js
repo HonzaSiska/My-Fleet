@@ -3,6 +3,7 @@ import { useLogin } from '../../hooks/useLogin'
 import './Auth.css'
 import { isEmail } from '../../utils/regex.js'
 import Eye from '../../assets/eye.png'
+import { Link } from 'react-router-dom'
 
 function Login() {
 
@@ -99,6 +100,7 @@ function Login() {
                 }
                 
                 >Submit</button>
+                <div className='link'><Link to='/reset'>Forgot password?</Link></div>
             </form>
         </div>
     </div>

@@ -42,7 +42,12 @@ const tripSchema = new Schema({
   duration: {
     type: Number,
     default: 0
-  }
+  },
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+},
+  
   
 }, 
 { toJson:{virtuals: true} },

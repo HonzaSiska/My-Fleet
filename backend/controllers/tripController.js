@@ -36,6 +36,7 @@ const getTrip = async (req, res) => {
 
 const createTrip = async (req, res) => {
     const trip = req.body
+    trip.user_id = req.user._id
  
     if(trip.finish < trip.start || (trip.finish<0 || trip.start<0))  return res.json({success: false, message: 'Incorrect values !! '} )
    
@@ -72,10 +73,11 @@ const getStats = async (req, res) => {
              }
         ])
 
-        data[0].averageTripDistance = parseFloat((data[0].sum / data[0].count).toFixed(2))
-
-        console.log('statst data',data)
-        res.json({ success: true, stats: data })
+        // data[0].averageTripDistance = parseFloat((data[0].sum / data[0].count).toFixed(2))
+        const filteredData = data.filter(item => item._id == id)
+        filteredData[0].averageTripDistance = parseFloat((filteredData[0].sum / filteredData[0].count).toFixed(2))
+        console.log('statst data',filteredData)
+        res.json({ success: true, stats: filteredData })
         
     } catch (error) {
         res.json({ success: false, error })

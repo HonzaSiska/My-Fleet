@@ -1,0 +1,11 @@
+.charts-container{
+    display: flex;
+    justify-content: center;
+}
+
+/* @media screen and (min-width: 650px) {
+    .charts-container{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+} */

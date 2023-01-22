@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 exports.createMaintenance = async (req, res) => {
     const maintenance = req.body
-
+    maintenance.user_id = req.user._id
     if(maintenance){
         try {
             const newMaintenance = await Maintenance.create(maintenance)
@@ -57,10 +57,11 @@ exports.getStats = async (req, res) => {
         ])
 
         
-        data[0].averagePrice = parseFloat((data[0].price / data[0].count).toFixed(2))
-
-        console.log('statst data',data)
-        res.json({ success: true, stats: data })
+        // data[0].averagePrice = parseFloat((data[0].price / data[0].count).toFixed(2))
+        const filteredData = data.filter(item => item._id == id)
+        filteredData[0].averagePrice = parseFloat((filteredData[0].price / filteredData[0].count).toFixed(2))
+   
+        res.json({ success: true, stats: filteredData })
         
     } catch (error) {
         res.json({ success: false, error:error })
