@@ -27,10 +27,10 @@ const vehicleSchema = new Schema({
     type: Number,
     required: true
   },
-  salesPrice : {
+  salesPrice: {
     type: Number,
-  }, 
-  units : {
+  },
+  units: {
     type: String,
     default: 'km'
   },
@@ -41,8 +41,35 @@ const vehicleSchema = new Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
+  },
 },
-}, { timestamps: true })
+
+  {
+    // toJson: { virtuals: true },
+    timestamps: true,
+    toObject: {
+      virtuals: true,
+    },
+  })
+
+
+vehicleSchema.virtual("fuels", {
+  ref: "Fuel",
+  foreignField: "vehicle_id",
+  localField: "_id"
+})
+
+vehicleSchema.virtual("trip", {
+  ref: "Trip",
+  foreignField: "vehicle_id",
+  localField: "_id"
+})
+vehicleSchema.virtual("maintenance", {
+  ref: "Maintenance",
+  foreignField: "vehicle_id",
+  localField: "_id"
+})
+
 
 // vehicleSchema.pre("deleteOne", function(next) {
 //   // 'this' is the user being removed. Provide callbacks here if you want
@@ -52,4 +79,4 @@ const vehicleSchema = new Schema({
 //   next();
 // });
 
-module.exports = mongoose.model('Vehicle',  vehicleSchema)
+module.exports = mongoose.model('Vehicle', vehicleSchema)

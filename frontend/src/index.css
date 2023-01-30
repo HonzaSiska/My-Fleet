@@ -22,8 +22,8 @@ code {
   --main-background-theme: #f9f9f8;
   --modal-dark-back:rgb(49, 93, 195, 0.7);
   --modal-light-back: rgb(49, 93, 195, 0.7);
-  --nested-routes-back: rgb(52, 52, 52)
-
+  --nested-routes-back: rgb(52, 52, 52);
+  --chart-back-theme:#f5f4f4;
 }
 html {
   box-sizing: border-box;

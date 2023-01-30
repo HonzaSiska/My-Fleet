@@ -28,6 +28,12 @@ const fuelSchema = new Schema({
         ref: "User"
     },
 },
-{ timestamps: true })
+{
+    toJson: { virtuals: true },
+    timestamps: true,
+    toObject: {
+        virtuals: true,
+    },
+})
 
-module.exports = mongoose.model('Fuel', fuelSchema )
+module.exports = mongoose.model('Fuel', fuelSchema)

@@ -23,7 +23,14 @@ const maintenanceSchema = new Schema ({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-},{timestamps: true})
+},
+{
+    toJson: { virtuals: true },
+    timestamps: true,
+    toObject: {
+        virtuals: true,
+    },
+})
 
 module.exports = mongoose.model('Maintenance', maintenanceSchema)
 

@@ -7,6 +7,7 @@ import Card from '../Components/Card/Card'
 import { useState } from 'react'
 import Loader from '../Components/Loader/Loader'
 import Example from '../Components/Charts/Donut'
+import MyBarChart from '../Components/Charts/BarChart'
 
 
 function Home() {
@@ -18,8 +19,19 @@ function Home() {
   const [stats, setStats] = useState({
     maintenance: null,
     fuel: null,
+    vehicles: []
 
   })
+
+  // makes bar chart responsive
+
+  const [windowWidth, setWindowWidth]  = useState (window.innerWidth > 643 ?  window.innerWidth - 200 : window.innerWidth * 0.9 )
+
+  const handleResize = () => setWindowWidth(window.innerWidth > 643?  window.innerWidth - 200 : window.innerWidth * 0.9 )
+
+  window.addEventListener('resize', handleResize)
+
+  
 
   useEffect(() => {
 
@@ -62,10 +74,12 @@ function Home() {
           ...prev,
           maintenance: json.stats.maintenance[0].price,
           fuel: json.stats.fuel[0].price,
+          vehicles: [...json.stats.allVehicles]
 
 
         }))
         setStatsIsLoading(false)
+
       }
     }
 
@@ -90,30 +104,39 @@ function Home() {
                 <Card key={index}><VehiclesDetails vehicle={vehicle} /></Card>
               ))}
             </div>
-          ): null
+          ) : null
       }
       {
         isStatsLoading ?
           <Loader />
-          : 
-            stats ? (
-            <Card>
-              <div className='charts-container'>
-                <Example data={[
-                  { name: 'maintenance', value: stats.maintenance },
-                  { name: 'fuel', value: stats.fuel }
-                ]} />
+          :
+          stats ? (
+            <>
+              <Card>
+                <div className='charts-container'>
+                  <Example data={[
+                    { name: 'maintenance', value: stats.maintenance },
+                    { name: 'fuel', value: stats.fuel }
+                  ]} />
+                </div>
+              </Card>
+     
+                <div style={{background: '#f5f4f4'}} className='charts-container'>
+                  <MyBarChart windowWidth={windowWidth} data={
+                    stats.vehicles.map(stat => {
+                      return {
+                        name: stat.make + ' ' + stat.model,
+                        fuel: stat.fuelPrice,
+                        maintenance: stat.maintenancePrice
+                      }
+                    })
+                  }/>
+                </div>
+            
+            </>
+          ) : null
 
-              </div>
-            </Card>
-          ): null
-          
-          
       }
-
-
-
-
 
     </div>
   )

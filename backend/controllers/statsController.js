@@ -144,7 +144,7 @@ exports.getAllStats = async (req, res) => {
                     }
                 }
             ])
-            const fuel = fuelData.filter(item => item._id.toString()  === userId.toString() )
+        const fuel = fuelData.filter(item => item._id.toString()  === userId.toString() )
 
             
             
@@ -159,9 +159,47 @@ exports.getAllStats = async (req, res) => {
                     }
                 }
             ])
-            const maintenance = maintenanceData.filter(item => item._id.toString()  == userId.toString() )
+        const maintenance = maintenanceData.filter(item => item._id.toString()  == userId.toString() )
         
- 
+        const allVehicles = await Vehicle.find({user_id: userId})
+            .populate('fuels') 
+            .populate('maintenance')   
+            .exec()
+
+         const newVehicleArray = []
+        
+         allVehicles.forEach(vehicle => {
+            const newObj = {}
+           
+            newObj.make = vehicle.make
+            newObj.model = vehicle.model
+            newObj.units = vehicle.units
+            newObj.volume = vehicle.volume
+            newObj.fuelPrice = vehicle.fuels.reduce((acc,obj)=> {
+                return acc + obj.price
+            },0)
+            newObj.amount = vehicle.fuels.reduce((acc,obj)=> {
+                return acc + obj.amount
+            },0)
+            newObj.maintenancePrice = vehicle.maintenance.reduce((acc,obj)=> {
+                return acc + obj.price
+            },0)
+            newVehicleArray.push(newObj)
+            
+        })
+        
+       
+          console.log('test',newVehicleArray)
+          console.log('all vehs',allVehicles)
+
+       
+
+
+
+
+
+        // const allFuels = await Fuel.find({user_id: userId}).populate('vehicle_id').exec()
+        //  console.log('all vehicles', allFuels)
 
         // const totalCost = maintenance[0].price + fuel[0].price
         // const totalPrice = (vehicle.salesPrice === 0 || vehicle.salesPrice === '') ? vehicle.price : vehicle.price - vehicle.salesPrice
@@ -178,15 +216,15 @@ exports.getAllStats = async (req, res) => {
 
         // const pricePerDistance =  (totalCost + totalPrice)/ trip[0].sum 
 
-
-3
-
+        
         res.json({
             success: true, 
             stats: {
                 trip,
                 fuel,
-                maintenance
+                maintenance,
+                allVehicles: newVehicleArray
+                
             }
         })
 
