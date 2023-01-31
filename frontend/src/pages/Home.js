@@ -25,13 +25,13 @@ function Home() {
 
   // makes bar chart responsive
 
-  const [windowWidth, setWindowWidth]  = useState (window.innerWidth > 643 ?  window.innerWidth - 200 : window.innerWidth * 0.9 )
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth > 635 ? window.innerWidth * 0.8 : window.innerWidth)
 
-  const handleResize = () => setWindowWidth(window.innerWidth > 643?  window.innerWidth - 200 : window.innerWidth * 0.9 )
+  const handleResize = () => setWindowWidth(window.innerWidth > 635 ? window.innerWidth * 0.8 : window.innerWidth)
 
   window.addEventListener('resize', handleResize)
 
-  
+
 
   useEffect(() => {
 
@@ -72,9 +72,9 @@ function Home() {
       if (json.success) {
         setStats(prev => ({
           ...prev,
-          maintenance: json.stats.maintenance[0].price,
-          fuel: json.stats.fuel[0].price,
-          vehicles: [...json.stats.allVehicles]
+          maintenance: json.stats.maintenance.length > 0 ? json.stats.maintenance[0].price : null,
+          fuel: json.stats.fuel.length > 0 ? json.stats.fuel[0].price : null,
+          vehicles: json.stats.allVehicles.length > 0 ? [...json.stats.allVehicles] : null
 
 
         }))
@@ -100,28 +100,32 @@ function Home() {
           <Loader />
           : vehicles ? (
             <div className='vehicles'>
-              {vehicles && vehicles.map((vehicle, index) => (
+              {vehicles.map((vehicle, index) => (
                 <Card key={index}><VehiclesDetails vehicle={vehicle} /></Card>
               ))}
             </div>
           ) : null
       }
+
+
       {
         isStatsLoading ?
           <Loader />
           :
           stats ? (
             <>
-              <Card>
-                <div className='charts-container'>
-                  <Example data={[
-                    { name: 'maintenance', value: stats.maintenance },
-                    { name: 'fuel', value: stats.fuel }
-                  ]} />
-                </div>
-              </Card>
-     
-                <div style={{background: '#f5f4f4'}} className='charts-container'>
+              {(stats.maintenance && stats.fuel) ?
+                <Card>
+                  <div className='charts-container'>
+                    <Example data={[
+                      { name: 'maintenance', value: stats.maintenance },
+                      { name: 'fuel', value: stats.fuel }
+                    ]} />
+                  </div>
+                </Card> : null
+              }
+              <div style={{ background: '#f5f4f4' }} className='charts-container'>
+                {stats.vehicles?
                   <MyBarChart windowWidth={windowWidth} data={
                     stats.vehicles.map(stat => {
                       return {
@@ -130,9 +134,10 @@ function Home() {
                         maintenance: stat.maintenancePrice
                       }
                     })
-                  }/>
-                </div>
-            
+                  } /> : null
+                }
+              </div>
+
             </>
           ) : null
 
