@@ -35,7 +35,7 @@ app.use('/api/stats', statsRoutes)
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     // listen for requests
-    app.listen(process.env.PORT, () => {
+    app.listen(process.env.PORT || 4000, () => {
       console.log('connected to db & listening on port', process.env.PORT)
     })
   })
@@ -43,14 +43,14 @@ mongoose.connect(process.env.MONGO_URI)
     console.log(error)
   })
 
-  if (process.env.NODE_ENV === "production") {
-    const path = require("path");
-    app.use(express.static(path.resolve(__dirname, 'frontend', 'build')));
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'),function (err) {
-            if(err) {
-                res.status(500).send(err)
-            }
-        });
-    })
-}
+//   if (process.env.NODE_ENV === "production") {
+//     const path = require("path");
+//     app.use(express.static(path.resolve(__dirname, 'frontend', 'build')));
+//     app.get("*", (req, res) => {
+//         res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'),function (err) {
+//             if(err) {
+//                 res.status(500).send(err)
+//             }
+//         });
+//     })
+// }
