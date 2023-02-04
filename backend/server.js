@@ -31,7 +31,17 @@ app.use('/api/fuel', fuelRoutes)
 app.use('/api/maintenance', maintenanceRoutes)
 app.use('/api/stats', statsRoutes)
 
-
+if (process.env.NODE_ENV === "production") {
+  const path = require("path");
+  app.use(express.static(path.resolve(__dirname, 'frontend', 'build')));
+  app.get("*", (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'),function (err) {
+          if(err) {
+              res.status(500).send(err)
+          }
+      });
+  })
+}
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
@@ -40,17 +50,7 @@ mongoose.connect(process.env.MONGO_URI)
     app.listen(process.env.PORT || 4000, () => {
       console.log('connected to db & listening on port', process.env.PORT)
     })
-    // if (process.env.NODE_ENV === "production") {
-    //   const path = require("path");
-    //   app.use(express.static(path.resolve(__dirname, 'frontend', 'build')));
-    //   app.get("*", (req, res) => {
-    //       res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'),function (err) {
-    //           if(err) {
-    //               res.status(500).send(err)
-    //           }
-    //       });
-    //   })
-    // }
+    
   })
   .catch((error) => {
     console.log(error)
