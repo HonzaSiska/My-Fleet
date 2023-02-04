@@ -15,7 +15,9 @@ const app = express()
 
 // middleware
 app.use(express.json())
-app.use(cors())
+app.use(cors(
+  {origin: '*', credentials: true}
+))
 
 app.use((req, res, next) => {
   console.log(req.path, req.method)
