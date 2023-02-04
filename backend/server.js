@@ -41,12 +41,22 @@ mongoose.connect(process.env.MONGO_URI)
     // listen for requests
     app.listen(process.env.PORT || 4000, () => {
       console.log('connected to db & listening on port', process.env.PORT)
+
+      // serve statis assests
       if (process.env.NODE_ENV === "production") {
-        console.log('ditname', __dirname)
         const path = require("path");
         app.use(express.static(path.resolve(__dirname, '../frontend', 'build')));
+        // app.get("*", (req, res) => {
+        //     res.sendFile(path.resolve(__dirname, '../frontend', 'build', 'index.html'),function (err) {
+        //         if(err) {
+        //             res.status(500).send(err)
+        //         }
+        //     });
+        // })
+
+        app.use(express.static('frontend/build'));
         app.get("*", (req, res) => {
-            res.sendFile(path.resolve(__dirname, '../frontend', 'build', 'index.html'),function (err) {
+            res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'),function (err) {
                 if(err) {
                     res.status(500).send(err)
                 }
