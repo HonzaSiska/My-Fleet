@@ -91,7 +91,9 @@ function Home() {
 
 
   return (
+    
     <div>
+    { user ? (<>
       <div className='title'>
         <p>My Fleet</p>
       </div>
@@ -140,9 +142,9 @@ function Home() {
 
             </>
           ) : null
-
+ 
       }
-
+      </>) : null }
     </div>
   )
 }
