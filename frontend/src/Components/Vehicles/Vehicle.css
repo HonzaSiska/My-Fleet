@@ -9,7 +9,6 @@
     border-radius: 2px;
     padding: 3px 5px 3px;   
     color: var(--dark-theme);
-    font-weight: 100;
 }
 .details-btn:hover{
     border: 1px solid var(--dark-theme);

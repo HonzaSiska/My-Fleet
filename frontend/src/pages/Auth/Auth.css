@@ -18,7 +18,8 @@
     padding: 5px;
 }
 .validator{
-    color: var(--secondary-theme)
+    color: var(--secondary-theme);
+    font-weight: bolder;
 }
 .input-wrapper{
     display: flex;

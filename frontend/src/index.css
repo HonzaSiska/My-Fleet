@@ -63,7 +63,7 @@ textarea:focus {
 label{
   color: var(--dark-theme);
   font-size: smaller;
-  ;
+  font-weight: bolder;
 }
 button:hover{
   cursor: pointer;
